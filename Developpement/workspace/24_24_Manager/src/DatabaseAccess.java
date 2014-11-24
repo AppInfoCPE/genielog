@@ -11,7 +11,10 @@ import java.util.ArrayList;
  */
 public class DatabaseAccess {
 
-	private static String dbURLServer = "jdbc:derby://localhost:1527/Manager_Database;create=true;user=root;password=root";
+	private static String dbClass = "com.mysql.jdbc.Driver";
+	private static String dbUrl = "jdbc:mysql://db4free.net:3306/managerappinfo";
+	private static String dbLogin = "julien";
+	private static String dbMdp = "skateboard1";
 	private static Connection conn = null;
 	private static Statement stmt = null;
 	private static ResultSet results = null;
@@ -22,10 +25,10 @@ public class DatabaseAccess {
 	/*	
 	 * Use for Select SQL Query
 	 */
-	public static ArrayList<String[]> derbyExecuteQuery(String requete) {
+	public static ArrayList<String[]> jdbcExecuteQuery(String requete) {
 		ArrayList<String[]> tmp = new ArrayList<String[]>();
 
-		createConnection();
+		//createConnection();
 
 		try {
 			stmt = conn.createStatement();
@@ -45,7 +48,7 @@ public class DatabaseAccess {
 			System.out.println("Execute Query Refused: Connection not established.\n");
 		}
 
-		shutdown();
+		//shutdown();
 
 		return tmp;
 	}
@@ -53,29 +56,30 @@ public class DatabaseAccess {
 	/*	
 	 * Use for Insert, Update and Delete SQL Query
 	 */
-	public synchronized static void derbyExecute(String requete) {
-		createConnection();
+	public synchronized static void jdbcExecute(String requete) {
+		//createConnection();
 
 		try {
 			stmt = conn.createStatement();
-			stmt.execute(requete);
+			stmt.executeUpdate(requete);
 		} catch (Exception sqlExcept) {
 			sqlExcept.printStackTrace();
 			System.out.println("Execute Query Refused: Connection not established.\n");
 		}
 
-		shutdown();
+		//shutdown();
 	}
 
 	private static void createConnection() {
 		try {
 			// Get a connection
-			Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-			conn = DriverManager.getConnection(dbURLServer);
+			Class.forName(dbClass).newInstance();
+			conn = DriverManager.getConnection(dbUrl, dbLogin, dbMdp);
 			// conn.setAutoCommit(false);
 		} catch (Exception except) {
-			System.out.println("Connection Refused : Server may be not launched.\n");
+			System.out.println(except);
 		}
+
 	}
 
 	private static void shutdown() {
@@ -90,5 +94,9 @@ public class DatabaseAccess {
 		} catch (SQLException sqlExcept) {
 			sqlExcept.printStackTrace();
 		}
+	}
+
+	public static void initialisation() {
+		createConnection();
 	}
 }
