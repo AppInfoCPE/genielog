@@ -14,8 +14,51 @@ public class Utilisateur {
         this.nom = nom;
         this.prenom = prenom;
     }
+	
+	
+    public String getLogin() {
+		return login;
+	}
 
-    @Override
+    public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getMotDePasse() {
+		return motDePasse;
+	}
+
+	public void setMotDePasse(String motDePasse) {
+		this.motDePasse = motDePasse;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public String getPrenom() {
+		return prenom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+
+
+	@Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -51,3 +94,4 @@ public class Utilisateur {
             return false;
         return true;
     }
+}
