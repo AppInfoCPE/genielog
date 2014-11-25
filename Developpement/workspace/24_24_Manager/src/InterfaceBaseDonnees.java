@@ -1,6 +1,7 @@
 
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class InterfaceBaseDonnees {
 	
@@ -16,6 +17,14 @@ public class InterfaceBaseDonnees {
 		}
 		
 		return listUtilisateurs;
+	}
+	
+	public  Hashtable<Integer,TypeProduit> recupererStockFrigo() {
+		Hashtable<Integer,TypeProduit> stockFrigo = new Hashtable<Integer,TypeProduit>();
+		ArrayList<String[]> requeteLot = DatabaseAccess.jdbcExecuteQuery("SELECT * FROM managerappinfo.LOT");
+		ArrayList<Utilisateur> listUtilisateurs = new ArrayList<Utilisateur>();
+	
+		return stockFrigo;
 	}
 
 }

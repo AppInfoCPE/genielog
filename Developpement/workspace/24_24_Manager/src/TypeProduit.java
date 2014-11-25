@@ -8,6 +8,12 @@ public class TypeProduit {
 	private int qtéMinimumHS; // HS : heure standart
 	private int qtéMinimumHP; // HP : heure de pointe
 	
+	public TypeProduit(String nomType, int qtéMinimumHS) {
+		super();
+		this.nomType = nomType;
+		this.qtéMinimumHS = qtéMinimumHS;
+	}
+	
 	public String getNomType() {
 		return nomType;
 	}
