@@ -22,7 +22,12 @@ public class Commande {
         this.DateCmd = DateCmd;
         this.listCmd = new ArrayList<Produit>();
     }
-
+    Commande(Commande cmd) {
+        this.idCmd=cmd.getIdCmd();
+        this.DateCmd=cmd.getDateCmd();
+        this.listCmd=cmd.getListCmd();
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     public int getIdCmd() {
         return idCmd;
     }
