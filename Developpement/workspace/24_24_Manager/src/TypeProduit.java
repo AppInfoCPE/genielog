@@ -7,11 +7,11 @@ public class TypeProduit {
 	private float tempsCuisson;
 	private int qtéMinimumHS; // HS : heure standart
 	private int qtéMinimumHP; // HP : heure de pointe
-	
-	public TypeProduit(String nomType, int qtéMinimumHS) {
+	public TypeProduit(String nomType, int qtéMinimumHS,String cheminImage) {
 		super();
 		this.nomType = nomType;
 		this.qtéMinimumHS = qtéMinimumHS;
+		this.cheminImage=cheminImage;
 	}
 	
 	public String getNomType() {
