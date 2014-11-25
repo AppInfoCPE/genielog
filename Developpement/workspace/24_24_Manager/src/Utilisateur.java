@@ -7,13 +7,20 @@ public class Utilisateur {
 	private String prenom;
 	
 	public Utilisateur(String login, String motDePasse, String role, String nom, String prenom) {
-        super();
         this.login = login;
         this.motDePasse = motDePasse;
         this.role = role;
         this.nom = nom;
         this.prenom = prenom;
     }
+	
+	public Utilisateur(String login, String motDePasse, String role) {
+        this.login = login;
+        this.motDePasse = motDePasse;
+        this.role = role;
+        this.nom = "";
+        this.prenom = "";
+    }	
 	
 	
     public String getLogin() {
