@@ -1,51 +1,78 @@
 import java.util.Date;
 
 
-public class Commande {
- private String id;
- static String id_bis="0"; 
- private Date dateCmd;
- private Lot lot;
- 
- 	Commande(Date dateCmd,String typeLot,int quantite, int numLot){
- 		
- 	 int i_bis = Integer.parseInt(id_bis);
- 	 int i = i_bis;
- 	 id = Integer.toString(i);
- 	 i_bis ++; 
-     id_bis=Integer.toString(i_bis);
- 
-	 this.dateCmd=dateCmd;
-	 
-	 this.lot=new Lot(typeLot,quantite,numLot);
-	 
- 	}
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	public Date getDateCmd() {
-		return dateCmd;
-	}
-	
-	public void setDateCmd(Date dateCmd) {
-		this.dateCmd = dateCmd;
-	}
-	
-	public Lot getLot() {
-		return lot;
-	}
-	
-	public void setLot(Lot lot) {
-		this.lot = lot;
-	}
- 
- 
- 
- 
+/**
+ *
+ * @author PC
+ */
+public class Commande {
+    private int idCmd;
+    static int idBis=0;
+    private Date DateCmd;
+    ArrayList<Produit> listCmd;
+
+    public Commande(Date DateCmd) {
+        this.idCmd=idBis;
+        idBis++;
+        this.idCmd = idCmd;
+        this.DateCmd = DateCmd;
+        this.listCmd = new ArrayList<Produit>();
+    }
+
+    public int getIdCmd() {
+        return idCmd;
+    }
+
+    public void setIdCmd(int idCmd) {
+        this.idCmd = idCmd;
+    }
+
+
+    public Date getDateCmd() {
+        return DateCmd;
+    }
+
+    public void setDateCmd(Date DateCmd) {
+        this.DateCmd = DateCmd;
+    }
+
+    public ArrayList<Produit> getListCmd() {
+        return listCmd;
+    }
+    public String AffichageProduitCmd(){
+        String s="";
+        Iterator it = listCmd.iterator();
+        
+        while (it.hasNext()){
+
+// itération de la liste
+
+             Produit p = (Produit) it.next();
+             s=s+"---"+p.toString();
+      //récupération de l'objet se trouvant à l'index courant de la liste
+
+            }
+        s=s+"\n";
+        return s;
+    }
+    public String toString(){
+        
+        
+        return this.getIdCmd()+" "+this.getDateCmd()+"\n"+AffichageProduitCmd();
+        
+    }
+    
+    public void addProduit(Produit p){
+        this.listCmd.add(p);
+    }
+    
+    public void delProduit(Produit p){
+        this.listCmd.remove(p);
+    }
+    
+    
 }
