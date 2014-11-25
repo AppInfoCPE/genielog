@@ -9,6 +9,7 @@ import java.util.Iterator;
  *
  * @author PC
  */
+//
 public class Commande {
     private int idCmd;
     static int idBis=0;
