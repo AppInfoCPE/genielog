@@ -1,13 +1,13 @@
 public class Utilisateur {
 
-	private String login;
+	private String identifiant;
 	private String motDePasse;
 	private String role;
 	private String nom;
 	private String prenom;
 	
 	public Utilisateur(String login, String motDePasse, String role, String nom, String prenom) {
-        this.login = login;
+        this.identifiant = login;
         this.motDePasse = motDePasse;
         this.role = role;
         this.nom = nom;
@@ -15,7 +15,7 @@ public class Utilisateur {
     }
 	
 	public Utilisateur(String login, String motDePasse, String role) {
-        this.login = login;
+        this.identifiant = login;
         this.motDePasse = motDePasse;
         this.role = role;
         this.nom = "";
@@ -24,11 +24,11 @@ public class Utilisateur {
 	
 	
     public String getLogin() {
-		return login;
+		return identifiant;
 	}
 
     public void setLogin(String login) {
-		this.login = login;
+		this.identifiant = login;
 	}
 
 	public String getMotDePasse() {
@@ -69,7 +69,7 @@ public class Utilisateur {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((login == null) ? 0 : login.hashCode());
+        result = prime * result + ((identifiant == null) ? 0 : identifiant.hashCode());
         result = prime * result
                 + ((motDePasse == null) ? 0 : motDePasse.hashCode());
         result = prime * result + ((role == null) ? 0 : role.hashCode());
@@ -84,10 +84,10 @@ public class Utilisateur {
         if (getClass() != obj.getClass())
             return false;
         Utilisateur other = (Utilisateur) obj;
-        if (login == null) {
-            if (other.login != null)
+        if (identifiant == null) {
+            if (other.identifiant != null)
                 return false;
-        } else if (!login.equals(other.login))
+        } else if (!identifiant.equals(other.identifiant))
             return false;
         if (motDePasse == null) {
             if (other.motDePasse != null)
