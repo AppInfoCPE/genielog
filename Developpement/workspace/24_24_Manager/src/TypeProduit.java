@@ -1,82 +1,57 @@
-public class TypeProduit {// pain au chocolat ou croissant ou coca
-    private Categorie cat;
 
-    public Categorie getCat() {
-        return cat;
-    }
-
-    public void setCat(Categorie cat) {
-        this.cat = cat;
-    }
-    private String nomType;
-    private float prix;
-    private int qteMiniHeurePleine;
-    private int qteMiniHeureStandard;
-    private int tempCuisson;
-    
-    public TypeProduit(Categorie cat,String nomType, float prix, int qteMiniHeurePleine, int qteMiniHeureStandard, int tempCuisson) {
-        this.cat=new Categorie(cat);
-        this.nomType = nomType;
-        this.prix = prix;
-        this.qteMiniHeurePleine = qteMiniHeurePleine;
-        this.qteMiniHeureStandard = qteMiniHeureStandard;
-        this.tempCuisson = tempCuisson;
-    }
-
-    TypeProduit(TypeProduit type) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        this.cat=new Categorie(type.getCat());
-        this.nomType = type.getNomType();
-        this.prix = type.getPrix();
-        this.qteMiniHeurePleine = type.getQteMiniHeurePleine();
-        this.qteMiniHeureStandard = type.getQteMiniHeureStandard();
-        this.tempCuisson = type.getTempCuisson();
-    }
-
-    public String getNomType() {
-        return nomType;
-    }
-
-    public void setNomType(String nomType) {
-        this.nomType = nomType;
-    }
-
-    public float getPrix() {
-        return prix;
-    }
-
-    public void setPrix(float prix) {
-        this.prix = prix;
-    }
-
-    public int getQteMiniHeurePleine() {
-        return qteMiniHeurePleine;
-    }
-
-    public void setQteMiniHeurePleine(int qteMiniHeurePleine) {
-        this.qteMiniHeurePleine = qteMiniHeurePleine;
-    }
-
-    public int getQteMiniHeureStandard() {
-        return qteMiniHeureStandard;
-    }
-
-    public void setQteMiniHeureStandard(int qteMiniHeureStandard) {
-        this.qteMiniHeureStandard = qteMiniHeureStandard;
-    }
-
-    public int getTempCuisson() {
-        return tempCuisson;
-    }
-
-    public void setTempCuisson(int tempCuisson) {
-        this.tempCuisson = tempCuisson;
-    }
-    
-    public String toString(){
-        return this.getCat()+" "+this.getNomType()+" "+Float.toString(this.getPrix())+" "+Integer.toString(this.getQteMiniHeurePleine())+" "+Integer.toString(this.getQteMiniHeureStandard())+" "+Integer.toString(this.getTempCuisson())+"\n";
-        
-    }
-    
-    
+public class TypeProduit {
+	
+	private String nomType;
+	private float prixType;
+	private String cheminImage;
+	private float tempsCuisson;
+	private int qtéMinimumHS; // HS : heure standart
+	private int qtéMinimumHP; // HP : heure de pointe
+	
+	public TypeProduit(String nomType, int qtéMinimumHS) {
+		super();
+		this.nomType = nomType;
+		this.qtéMinimumHS = qtéMinimumHS;
+	}
+	
+	public String getNomType() {
+		return nomType;
+	}
+	public void setNomType(String nomType) {
+		this.nomType = nomType;
+	}
+	public float getPrixType() {
+		return prixType;
+	}
+	public void setPrixType(float prixType) {
+		this.prixType = prixType;
+	}
+	public String getCheminImage() {
+		return cheminImage;
+	}
+	public void setCheminImage(String cheminImage) {
+		this.cheminImage = cheminImage;
+	}
+	public float getTempsCuisson() {
+		return tempsCuisson;
+	}
+	public void setTempsCuisson(float tempsCuisson) {
+		this.tempsCuisson = tempsCuisson;
+	}
+	public int getQtéMinimumHS() {
+		return qtéMinimumHS;
+	}
+	public void setQtéMinimumHS(int qtéMinimumHS) {
+		this.qtéMinimumHS = qtéMinimumHS;
+	}
+	public int getQtéMinimumHP() {
+		return qtéMinimumHP;
+	}
+	public void setQtéMinimumHP(int qtéMinimumHP) {
+		this.qtéMinimumHP = qtéMinimumHP;
+	}
+	
+	
+	
+	
 }

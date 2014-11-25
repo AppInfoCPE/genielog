@@ -1,19 +1,27 @@
-import java.util.Hashtable;
+import java.util.*;
 
 public class LogicielManager {//Classe qui gere les fonctions de l'utilisateur Manager
     
-    Hashtable tableStockFrigo = new Hashtable();
+    Hashtable<Integer,TypeProduit> tableStockFrigo = new Hashtable<Integer,TypeProduit>();
+   // Table dans laquelle seront stockés les quantités et le type de produit pour l'affichage
+    InterfaceBaseDonnees interfaceBDD;
+    
     
     public LogicielManager(){
-        //CONSTRUCTEUR : 
-        //base de donnee?
-        //initialisation ? 
-        
+    	interfaceBDD = new InterfaceBaseDonnees();
+		initialisation();    	       
     }
-    public Hashtable affichageStockFrigo(){
-        
+    
+    private void initialisation() {
+    	tableStockFrigo = interfaceBDD.recupererStockFrigo();
+		
+	}
+	public Hashtable affichageStockFrigo(){
+        tableStockFrigo.put(10,new TypeProduit("PainChocolat", 18));
         return tableStockFrigo;//Renvoie les stocks par type de produit
     }
+    
+    
     
     
 }

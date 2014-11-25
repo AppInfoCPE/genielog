@@ -25,15 +25,15 @@ public class DatabaseAccess {
 	/*	
 	 * Use for Select SQL Query
 	 */
-	public static ArrayList<String[]> jdbcExecuteQuery(String requete) {
-		ArrayList<String[]> tmp = new ArrayList<String[]>();
+	public static ResultSet jdbcExecuteQuery(String requete) {
+		//ArrayList<String[]> tmp = new ArrayList<String[]>();
 
 		//createConnection();
 
 		try {
 			stmt = conn.createStatement();
 			results = stmt.executeQuery(requete);
-			String[] line;
+			/*String[] line;
 			while (results.next()) {
 				line = new String[results.getMetaData().getColumnCount()];
 
@@ -42,15 +42,16 @@ public class DatabaseAccess {
 				}
 				tmp.add(line);
 			}
-			results.close();
+			results.close();*/
 		} catch (Exception sqlExcept) {
 			sqlExcept.printStackTrace();
 			System.out.println("Execute Query Refused: Connection not established.\n");
 		}
+		return results;
 
 		//shutdown();
 
-		return tmp;
+		//return tmp;
 	}
 
 	/*	
