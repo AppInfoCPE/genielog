@@ -6,8 +6,7 @@ public class TypeProduit {// pain au chocolat ou croissant ou coca
 	    private int qteMiniHeurePleine;
 	    private int qteMiniHeureStandard;
 	    private int tempCuisson;
-	
-	
+
    
     public TypeProduit(Categorie cat,String nomType, float prix, int qteMiniHeurePleine, int qteMiniHeureStandard, int tempCuisson) {
         this.cat=new Categorie(cat);
@@ -23,7 +22,8 @@ public class TypeProduit {// pain au chocolat ou croissant ou coca
     public TypeProduit(String nomType) {
 		super();
 		this.nomType = nomType;
-	}
+    }
+
 
 
 
