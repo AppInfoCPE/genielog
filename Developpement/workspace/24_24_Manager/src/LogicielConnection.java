@@ -17,7 +17,7 @@ public class LogicielConnection {
 	}
 
 	public Utilisateur seConnecter(String id, String mdp, String role) {
-		Utilisateur tempUtilisateur = new Utilisateur(-1, id, mdp, role);
+		Utilisateur tempUtilisateur = new Utilisateur(id, mdp, role);
 		for (int i = 0; i < listUtilisateurs.size(); i++) {
 			if (listUtilisateurs.get(i).equals(tempUtilisateur))
 				return listUtilisateurs.get(i);
