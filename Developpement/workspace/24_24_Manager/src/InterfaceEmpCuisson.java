@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -13,6 +14,7 @@ import javax.swing.JTable;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -27,7 +29,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
-import test.PopUp;
 
 
 
@@ -62,11 +63,15 @@ public class InterfaceEmpCuisson extends JFrame {
 
 		JPanel panelHaut = new JPanel();
 		panelHaut.setBackground(new Color(241, 246, 190));
-		panelHaut.setLayout(new GridBagLayout());
-		JButton boutonAide = new JButton("?");
-		panelHaut.add(boutonAide, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 5, 5, 5), 0, 0));
-		JButton boutonDeco = new JButton("o");
-		panelHaut.add(boutonDeco, new GridBagConstraints(1, 0, 1, 1, 0, 1, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 5, 5, 5), 0, 0));
+		panelHaut.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		JButton boutonAide = new JButton(new ImageIcon("images/aide.png"));
+		boutonAide.setContentAreaFilled(false);
+		boutonAide.setBorder(new EmptyBorder(0, 0, 0, 0));
+		panelHaut.add(boutonAide);
+		JButton boutonDeco = new JButton(new ImageIcon("images/deconnexion.png"));
+		boutonDeco.setContentAreaFilled(false);
+		boutonDeco.setBorder(new EmptyBorder(0, 0, 0, 0));
+		panelHaut.add(boutonDeco);
 		
 		boutonDeco.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -191,7 +196,6 @@ public class InterfaceEmpCuisson extends JFrame {
 		/************************************************************************************************************************/
 
 		JPanel panelFour = new JPanel();
-		panelCentre.add(panelFour, new GridBagConstraints(0, 1, 2, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH,  new Insets(5, 5, 5, 5), 0, 0));		
 		panelFour.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		panelFour.setMinimumSize(new Dimension(500, getHeight()/2-20));
 		panelFour.setLayout(new GridBagLayout());
@@ -218,7 +222,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		scrollPane = new JScrollPane(tableFour);
 		panelFour.add(scrollPane, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
 		
-		panelCentre.add(panelCuire, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH,  new Insets(0, 5, 5, 5), 0, 0));
+		panelCentre.add(panelFour, new GridBagConstraints(0, 1, 2, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH,  new Insets(5, 5, 0, 5), 0, 0));		
 
 		/************************************************************************************************************************/
 		/********************************************** PANEL VENTE ************************************************************/
@@ -286,6 +290,7 @@ public class InterfaceEmpCuisson extends JFrame {
 	public void miseAJourTableCuire(){
 		Object [][] donnees = lec.afficherProduitACuire();
 		DefaultTableModel model = (DefaultTableModel) tableCuire.getModel();
+
 		for (int i = 0; i < donnees.length; i++) {
 			Boolean present = false;
 			for (int j = 0; j < model.getRowCount(); j++) {
@@ -341,7 +346,7 @@ public class InterfaceEmpCuisson extends JFrame {
 			public void run() {
 				try {
 					InterfaceEmpCuisson frame = new InterfaceEmpCuisson(new LogicielEmpCuisson(new Utilisateur("dezf", "fezf", "fezf")));
-					frame.setVisible(true);
+					//frame.setVisible(true);
 					frame.miseAJourTableCuire();
 					frame.miseAJourTableRayon();
 					frame.miseAJourTableFour();
@@ -355,16 +360,20 @@ public class InterfaceEmpCuisson extends JFrame {
 	}
 
 	public void validerCuisson(int row) {
-		int res = PopUp.showMessage();
-		/*LogicielEmpCuisson.validerCuisson(tableFour.getValueAt(row, 0).toString(), tableFour.getValueAt(row, 1).toString());
-		DefaultTableModel model = (DefaultTableModel) tableFour.getModel();
-		model.removeRow(row);*/
-		System.out.println("test ok "+res);
+		int res = PopUp.afficherConfirmation();
+		if (res == 0) {
+			LogicielEmpCuisson.validerCuisson(tableFour.getValueAt(row, 0).toString(), tableFour.getValueAt(row, 1).toString());
+			DefaultTableModel model = (DefaultTableModel) tableFour.getModel();
+			model.removeRow(row);
+		}
 	}
 
 	public void rejeterCuisson(int row) {
-		LogicielEmpCuisson.rejeterCuisson(tableFour.getValueAt(row, 0).toString(), tableFour.getValueAt(row, 1).toString());
-		DefaultTableModel model = (DefaultTableModel) tableFour.getModel();
-		model.removeRow(row);		
+		int res = PopUp.afficherConfirmation();
+		if (res == 0) {		
+			LogicielEmpCuisson.rejeterCuisson(tableFour.getValueAt(row, 0).toString(), tableFour.getValueAt(row, 1).toString());
+			DefaultTableModel model = (DefaultTableModel) tableFour.getModel();
+			model.removeRow(row);
+		}
 	}
 }

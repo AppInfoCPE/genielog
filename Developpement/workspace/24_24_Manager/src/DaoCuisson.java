@@ -24,9 +24,9 @@ public class DaoCuisson {
 		}
 		ResultSet requete;
 		if (hp)
-			requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, qtecuireheurepleine FROM TYPEPRODUIT T WHERE qteminiheurepleine > (SELECT count(*) FROM PRODUIT where (status='vente' or status='four') and numlot in (SELECT id FROM LOT L where typeproduit = T.nomtype)) and tempscuisson is not NULL and qtecuireheurepleine <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype ) ");
+			requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, qtecuireheurepleine FROM TYPEPRODUIT T WHERE qteminiheurepleine > (SELECT count(*) FROM PRODUIT where (status='vente' or status='four') and numlot in (SELECT id FROM LOT L where typeproduit = T.nomtype)) and (tempscuisson is not NULL and tempscuisson!=0) and qtecuireheurepleine <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype ) ");
 		else
-			requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, qtecuireheurestandard FROM TYPEPRODUIT T WHERE qteminiheurestandard > (SELECT count(*) FROM PRODUIT where (status='vente' or status='four') and numlot in (SELECT id FROM LOT L where typeproduit = T.nomtype)) and tempscuisson is not NULL and qtecuireheurestandard <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype )");
+			requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, qtecuireheurestandard FROM TYPEPRODUIT T WHERE qteminiheurestandard > (SELECT count(*) FROM PRODUIT where (status='vente' or status='four') and numlot in (SELECT id FROM LOT L where typeproduit = T.nomtype)) and (tempscuisson is not NULL and tempscuisson!=0)  and qtecuireheurestandard <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype )");
 		try {
 			requete.last();
 			produitACuire = new Object[requete.getRow()][2];
@@ -42,7 +42,6 @@ public class DaoCuisson {
 			sqlExcept.printStackTrace();
 			System.out.println("Erreur execution requete: Recuperer produit a cuire.\n");
 		}
-		
 		return produitACuire;
 	}
 
@@ -62,9 +61,9 @@ public class DaoCuisson {
 		}
 		ResultSet requete;
 		if (hp)
-			requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, qtecuireheurepleine FROM TYPEPRODUIT T WHERE qteminiheurepleine > (SELECT count(*) FROM PRODUIT where status='vente' and numlot in (SELECT id FROM LOT L where typeproduit = T.nomtype)) and tempscuisson is NULL and qtecuireheurepleine <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype )");
+			requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, qtecuireheurepleine FROM TYPEPRODUIT T WHERE qteminiheurepleine > (SELECT count(*) FROM PRODUIT where status='vente' and numlot in (SELECT id FROM LOT L where typeproduit = T.nomtype)) and (tempscuisson is NULL or tempscuisson=0) and qtecuireheurepleine <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype )");
 		else
-			requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, qtecuireheurestandard FROM TYPEPRODUIT T WHERE qteminiheurestandard > (SELECT count(*) FROM PRODUIT where status='vente' and numlot in (SELECT id FROM LOT L where typeproduit = T.nomtype)) and tempscuisson is NULL and qtecuireheurestandard <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype )");
+			requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, qtecuireheurestandard FROM TYPEPRODUIT T WHERE qteminiheurestandard > (SELECT count(*) FROM PRODUIT where status='vente' and numlot in (SELECT id FROM LOT L where typeproduit = T.nomtype)) and (tempscuisson is NULL or tempscuisson=0) and qtecuireheurestandard <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype )");
 		try {
 			requete.last();
 			produitAMettreRayon = new Object[requete.getRow()][2];
