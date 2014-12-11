@@ -10,6 +10,10 @@ public class LogicielEmpCuisson {
 		utilisateurActif = actif;
 	}
 	
+	public String  getPrenomNomUtilisateur(){
+		return utilisateurActif.getPrenom()+" "+utilisateurActif.getNom();
+	}
+	
 	public Object [][] afficherProduitACuire(){
 		return dc.recupererProduitACuire();
 	}

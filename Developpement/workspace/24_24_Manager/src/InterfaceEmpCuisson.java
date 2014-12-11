@@ -24,6 +24,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.text.DateFormat;
+import java.util.Date;
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -43,6 +45,11 @@ public class InterfaceEmpCuisson extends JFrame {
 	private JTable tableRayon;
 	private JTable tableFour;
 	private MiseAJourStockThread mt;
+
+	private JLabel utilisateurInfo;
+
+	private JLabel dateCourante;
+
 	
 	public InterfaceEmpCuisson(LogicielEmpCuisson lec) {
 		this.lec = lec;
@@ -60,26 +67,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		/************************************************************************************************************************/
 		/********************************************** PANEL HAUT ************************************************************/
 		/************************************************************************************************************************/
-
-		JPanel panelHaut = new JPanel();
-		panelHaut.setBackground(new Color(241, 246, 190));
-		panelHaut.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		JButton boutonAide = new JButton(new ImageIcon("images/aide.png"));
-		boutonAide.setContentAreaFilled(false);
-		boutonAide.setBorder(new EmptyBorder(0, 0, 0, 0));
-		panelHaut.add(boutonAide);
-		JButton boutonDeco = new JButton(new ImageIcon("images/deconnexion.png"));
-		boutonDeco.setContentAreaFilled(false);
-		boutonDeco.setBorder(new EmptyBorder(0, 0, 0, 0));
-		panelHaut.add(boutonDeco);
-		
-		boutonDeco.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new InterfaceConnection(new LogicielConnection());
-				dispose();
-			}
-		});
-		
+		JPanel panelHaut = new PanelInformation(this);
 		contentPane.add(panelHaut, BorderLayout.NORTH);
 
 		/************************************************************************************************************************/
@@ -214,10 +202,10 @@ public class InterfaceEmpCuisson extends JFrame {
 		tableFour.getColumnModel().getColumn(1).setPreferredWidth(150);
 		tableFour.getColumnModel().getColumn(2).setPreferredWidth(25);
 		tableFour.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
-		tableFour.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor(new JCheckBox(), this));
+		tableFour.getColumnModel().getColumn(2).setCellEditor(new ButtonEditorFour(new JCheckBox(), this));
 		tableFour.getColumnModel().getColumn(3).setPreferredWidth(25);
 		tableFour.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
-		tableFour.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox(), this));		
+		tableFour.getColumnModel().getColumn(3).setCellEditor(new ButtonEditorFour(new JCheckBox(), this));		
 		
 		scrollPane = new JScrollPane(tableFour);
 		panelFour.add(scrollPane, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
@@ -251,7 +239,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		panelStockVente.add(scrollPane, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
 		contentPane.add(panelStockVente, BorderLayout.EAST);
 
-        mt = new MiseAJourStockThread(this);
+		mt = new MiseAJourStockThread(this);
         mt.start();
 		
         addWindowListener(new WindowListener() {
@@ -345,7 +333,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InterfaceEmpCuisson frame = new InterfaceEmpCuisson(new LogicielEmpCuisson(new Utilisateur("dezf", "fezf", "fezf")));
+					InterfaceEmpCuisson frame = new InterfaceEmpCuisson(new LogicielEmpCuisson(new Utilisateur("dezf", "fezf", "Employé de Cuisson", "Briot", "Julien")));
 					//frame.setVisible(true);
 					frame.miseAJourTableCuire();
 					frame.miseAJourTableRayon();
@@ -375,5 +363,9 @@ public class InterfaceEmpCuisson extends JFrame {
 			DefaultTableModel model = (DefaultTableModel) tableFour.getModel();
 			model.removeRow(row);
 		}
+	}
+	
+	public LogicielEmpCuisson getLogicielEmpCuisson() {
+		return this.lec;
 	}
 }
