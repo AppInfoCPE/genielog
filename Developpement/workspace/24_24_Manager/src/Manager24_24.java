@@ -1,11 +1,27 @@
+import java.awt.Color;
+
+import javax.swing.UIManager;
+
 
 
 public class Manager24_24 {
 	
 	public static void main(String[] args) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+        } catch (InstantiationException ex) {
+        } catch (IllegalAccessException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        }
+        
 		LogicielConnection lc = new LogicielConnection();
-		// ICI c'est simplement le main, il faut réfléchier à mettre un niveau supplémentaire, 
-		// donc un Controlleur pere des autres en gros pour faciliter le passage entre les différentes fenetres
+	
 		InterfaceConnection ic = new InterfaceConnection(lc);
 	}
 }

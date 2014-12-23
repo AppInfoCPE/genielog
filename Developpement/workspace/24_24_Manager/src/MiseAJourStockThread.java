@@ -18,13 +18,16 @@ public class MiseAJourStockThread extends Thread {
 
     public void run() {
         while (running) {
-            try {
+            
+            fenetre.miseAJourTableCuire();
+            fenetre.miseAJourTableRayon();
+            fenetre.miseAJourTableVente();
+			fenetre.miseAJourTableFrigo();
+			try {
                 sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            fenetre.miseAJourTableVente();
-			fenetre.miseAJourTableFrigo();
-        }
+		}
     }
 }

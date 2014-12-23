@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class InterfaceConnection extends JFrame {
 	LogicielConnection lc;
@@ -54,46 +56,46 @@ public class InterfaceConnection extends JFrame {
 				if (champIdentifiant.getText().length()!=0 && champMotDePasse.getText().length()!=0 && comboBoxRole.getSelectedItem().toString().length()!=0) {
 					seConnecter();
 				} else {
-					labelErreur.setText("Erreur : Champ non remplis");
+					labelErreur.setText("Erreur : Champ(s) non remplis");
 				}
 			}
 		});
 
 		contentPane = new JPanel();
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setLayout(null);
+		contentPane.setBackground(new Color(241, 246, 190));
 		setContentPane(contentPane);
-	
-		panel = new JPanel();
-		panel.setBackground(new Color(241, 246, 190));
-		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
+
 		
-		labelErreur.setBounds(130, 20, 300, 14);
-		panel.add(labelErreur);
+		labelErreur.setBounds(160, 20, 300, 14);
+		contentPane.add(labelErreur);
 		
 		labelIdentifiant.setBounds(40, 50, 100, 14);
-		panel.add(labelIdentifiant);
-		champIdentifiant.setBounds(130, 50, 200, 20);
-		panel.add(champIdentifiant);
+		labelIdentifiant.setHorizontalAlignment(SwingConstants.TRAILING);
+		contentPane.add(labelIdentifiant);
+		champIdentifiant.setBounds(160, 45, 200, 25);
+		contentPane.add(champIdentifiant);
 		
 		labelMotDePasse.setBounds(40, 80, 100, 14);
-		panel.add(labelMotDePasse);
-		champMotDePasse.setBounds(130, 80, 200, 20);
-		panel.add(champMotDePasse);
+		labelMotDePasse.setHorizontalAlignment(SwingConstants.TRAILING);
+		contentPane.add(labelMotDePasse);
+		champMotDePasse.setBounds(160, 75, 200, 25);
+		contentPane.add(champMotDePasse);
 		
 		labelRole.setBounds(40, 110, 100, 14);
-		panel.add(labelRole);
-		comboBoxRole.setBounds(130, 110, 200, 20);
-		panel.add(comboBoxRole);
+		labelRole.setHorizontalAlignment(SwingConstants.TRAILING);
+		contentPane.add(labelRole);
+		comboBoxRole.setBounds(160, 105, 200, 25);
+		contentPane.add(comboBoxRole);
 		
-		boutonConnexion.setBounds(130, 150, 100, 20);
-		panel.add(boutonConnexion);	
+		boutonConnexion.setBounds(160, 150, 100, 30);
+		contentPane.add(boutonConnexion);	
 
-		logo.setBounds(0, 160, 405, 150);
+		logo.setBounds(10, 200, 380, 150);
 		logo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		contentPane.add(logo, BorderLayout.SOUTH);
+		contentPane.add(logo);
 
-		setSize(390, 370);
+		setSize(410, 390);
 		setResizable(false);
 	}
 
@@ -102,20 +104,20 @@ public class InterfaceConnection extends JFrame {
 		if (actif != null){
 			switch (comboBoxRole.getSelectedItem().toString()) {
 			case "Manager":
-				new InterfaceManager(new LogicielManager());
+				//new InterfaceManager(new LogicielManager(actif));
 				break;
 			case "Cuisson":
-				new InterfaceEmpCuisson(new LogicielEmpCuisson());
+				new InterfaceEmpCuisson(new LogicielEmpCuisson(actif));
 				break;
 			case "Vendeur":
-				new InterfaceVendeur(new LogicielVendeur());
+				//new InterfaceVendeur(new LogicielVendeur(actif));
 				break;
 			default:
 				break;
 			}
 			this.dispose();
 		} else {
-			labelErreur.setText("Erreur : Champ non correct");
+			labelErreur.setText("Erreur : Champ(s) non correct");
 		}
 	}
 }

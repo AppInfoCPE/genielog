@@ -15,7 +15,7 @@ public class PopUp {
 		Object color = UIManager.get("Button.background");
 		
 		UIManager.put("OptionPane.background", new Color(241, 246, 190));
-		UIManager.put("Panel.background", new Color(241, 246, 190));
+		UIManager.put("control", new Color(241, 246, 190));
 		UIManager.put("OptionPane.messageFont", new Font("Tahoma", Font.PLAIN, 14));
 		UIManager.put("OptionPane.messageAreaBorder", new EmptyBorder(20, 20, 20, 20));
 		UIManager.put("OptionPane.okIcon", new ImageIcon("images/valider.png"));
@@ -37,7 +37,7 @@ public class PopUp {
 		Object color = UIManager.get("Button.background");
 		
 		UIManager.put("OptionPane.background", new Color(241, 246, 190));
-		UIManager.put("Panel.background", new Color(241, 246, 190));
+		UIManager.put("control", new Color(241, 246, 190));
 		UIManager.put("OptionPane.messageFont", new Font("Tahoma", Font.PLAIN, 14));
 		UIManager.put("OptionPane.messageAreaBorder", new EmptyBorder(20, 20, 20, 20));
 		UIManager.put("OptionPane.okIcon", new ImageIcon("images/valider.png"));
@@ -53,6 +53,19 @@ public class PopUp {
 	}	
 
 	public static void main(String[] args) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+        } catch (InstantiationException ex) {
+        } catch (IllegalAccessException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        }
+        		
 		PopUp.afficherConfirmation();
 		ArrayList<String> l = new ArrayList<String>();
 		l.add("Coca : 2");

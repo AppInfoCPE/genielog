@@ -1,5 +1,7 @@
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -8,25 +10,24 @@ public class DaoCuisson {
 		DatabaseAccess.initialisation();
 	}
 
-	public Object [][] recupererProduitACuire() {
-		Object [][] produitACuire = null;
-		Boolean hp = false;
+	public boolean heurePleine(){
 		Date maDate = new Date();	
 		ResultSet requeteHeure = DatabaseAccess.jdbcExecuteQuery("SELECT debut, fin FROM HEURES_POINTES");
 		try {
 			while (requeteHeure.next()){
-				if (requeteHeure.getInt(1) <= maDate.getHours() && maDate.getHours() < requeteHeure.getInt(2)) hp = true;
+				if (requeteHeure.getInt(1) <= maDate.getHours() && maDate.getHours() < requeteHeure.getInt(2)) return true;
 			}
 			requeteHeure.close();
 		} catch (Exception sqlExcept) {
-			sqlExcept.printStackTrace();
 			System.out.println("Erreur execution requete: Recuperer heures pointes.\n");
-		}
-		ResultSet requete;
-		if (hp)
-			requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, qtecuireheurepleine FROM TYPEPRODUIT T WHERE qteminiheurepleine > (SELECT count(*) FROM PRODUIT where (status='vente' or status='four') and typeproduit = T.nomtype) and (tempscuisson is not NULL and tempscuisson!=0) and qtecuireheurepleine <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype ) ");
-		else
-			requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, qtecuireheurestandard FROM TYPEPRODUIT T WHERE qteminiheurestandard > (SELECT count(*) FROM PRODUIT where (status='vente' or status='four') and typeproduit = T.nomtype ) and (tempscuisson is not NULL and tempscuisson!=0)  and qtecuireheurestandard <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype )");
+		}	
+		return false;
+	}
+	
+	public Object [][] recupererProduitACuire(String optionHeure) {
+		Object [][] produitACuire = null;
+		
+		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, "+optionHeure+" FROM TYPEPRODUIT T WHERE qteminiheurestandard > (SELECT count(*) FROM PRODUIT where (status='envente' or status='four') and typeproduit = T.nomtype ) and (tempscuisson is not NULL and tempscuisson!=0)  and qtecuireheurestandard <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype and statutlivraison=1)");
 		try {
 			requete.last();
 			produitACuire = new Object[requete.getRow()][2];
@@ -39,31 +40,15 @@ public class DaoCuisson {
 			}
 			requete.close();
 		} catch (Exception sqlExcept) {
-			sqlExcept.printStackTrace();
 			System.out.println("Erreur execution requete: Recuperer produit a cuire.\n");
 		}
 		return produitACuire;
 	}
 
-	public Object[][] recupererProduitAMettreRayon() {
+	public Object[][] recupererProduitAMettreRayon(String optionHeure) {
 		Object [][] produitAMettreRayon = null;
-		Boolean hp = false;
-		Date maDate = new Date();	
-		ResultSet requeteHeure = DatabaseAccess.jdbcExecuteQuery("SELECT debut, fin FROM HEURES_POINTES");
-		try {
-			while (requeteHeure.next()){
-				if (requeteHeure.getInt(1) <= maDate.getHours() && maDate.getHours() < requeteHeure.getInt(2)) hp = true;
-			}
-			requeteHeure.close();
-		} catch (Exception sqlExcept) {
-			sqlExcept.printStackTrace();
-			System.out.println("Erreur execution requete: Recuperer heures pointes.\n");
-		}
-		ResultSet requete;
-		if (hp)
-			requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, qtecuireheurepleine FROM TYPEPRODUIT T WHERE qteminiheurepleine > (SELECT count(*) FROM PRODUIT where status='vente' and typeproduit = T.nomtype) and (tempscuisson is NULL or tempscuisson=0) and qtecuireheurepleine <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype )");
-		else
-			requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, qtecuireheurestandard FROM TYPEPRODUIT T WHERE qteminiheurestandard > (SELECT count(*) FROM PRODUIT where status='vente' and typeproduit = T.nomtype) and (tempscuisson is NULL or tempscuisson=0) and qtecuireheurestandard <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype )");
+
+		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, "+optionHeure+" FROM TYPEPRODUIT T WHERE qteminiheurestandard > (SELECT count(*) FROM PRODUIT where status='envente' and typeproduit = T.nomtype) and (tempscuisson is NULL or tempscuisson=0) and qtecuireheurestandard <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype and statutlivraison=1)");
 		try {
 			requete.last();
 			produitAMettreRayon = new Object[requete.getRow()][2];
@@ -76,7 +61,6 @@ public class DaoCuisson {
 			}
 			requete.close();
 		} catch (Exception sqlExcept) {
-			sqlExcept.printStackTrace();
 			System.out.println("Erreur execution requete: Recuperer produit a mettre en rayon.\n");
 		}
 		
@@ -100,7 +84,6 @@ public class DaoCuisson {
 			}
 			requete.close();
 		} catch (Exception sqlExcept) {
-			sqlExcept.printStackTrace();
 			System.out.println("Erreur execution requete: Recuperer produit au four.\n");
 		}
 
@@ -112,7 +95,7 @@ public class DaoCuisson {
 		Object [][] produitVente = null;
 
 		ResultSet requete;
-		requete = DatabaseAccess.jdbcExecuteQuery("SELECT typeproduit, count(*) FROM PRODUIT WHERE status='vente' GROUP BY typeproduit ");
+		requete = DatabaseAccess.jdbcExecuteQuery("SELECT typeproduit, count(*) FROM PRODUIT WHERE status='envente' GROUP BY typeproduit ");
 		try {
 			produitVente = new Object[nomTypeProduit.size()][2];
 			for (int i = 0; i < nomTypeProduit.size(); i++) {
@@ -127,7 +110,6 @@ public class DaoCuisson {
 			}
 			requete.close();
 		} catch (Exception sqlExcept) {
-			sqlExcept.printStackTrace();
 			System.out.println("Erreur execution requete: Recuperer produit en vente.\n");
 		}
 		
@@ -140,7 +122,7 @@ public class DaoCuisson {
 		Object [][] produitFrigo = null;
 
 		ResultSet requete;
-		requete = DatabaseAccess.jdbcExecuteQuery("SELECT typeproduit, sum(quantite) FROM LOT GROUP BY typeproduit ");
+		requete = DatabaseAccess.jdbcExecuteQuery("SELECT typeproduit, sum(quantite) FROM LOT WHERE statutlivraison=1 GROUP BY typeproduit ");
 		try {
 			produitFrigo = new Object[nomTypeProduit.size()][2];
 			for (int i = 0; i < nomTypeProduit.size(); i++) {
@@ -152,11 +134,10 @@ public class DaoCuisson {
 					if (produitFrigo[j][0].equals(requete.getString(1)))
 						produitFrigo[j][1] = requete.getString(2);
 				}
-			}			
+			}
 			
 			requete.close();
 		} catch (Exception sqlExcept) {
-			sqlExcept.printStackTrace();
 			System.out.println("Erreur execution requete: Recuperer produit au frigo.\n");
 		}
 		
@@ -175,18 +156,49 @@ public class DaoCuisson {
 			}
 			requete.close();
 		} catch (Exception sqlExcept) {
-			sqlExcept.printStackTrace();
 			System.out.println("Erreur execution requete: Recuperer nom typeproduit.\n");
 		}
 		
 		return nomTypeProduit;
 	}
 
-	public static void validerCuisson(String typeProduit, String nombre) {
-		DatabaseAccess.jdbcExecute("UPDATE PRODUIT SET status=\"vente\" WHERE status=\"four\" and numlot in (SELECT id FROM LOT WHERE typeproduit=\""+typeProduit+"\")");
+	public void validerCuisson(String datePeremption, String typeProduit, String nombre) {
+		DatabaseAccess.jdbcExecute("UPDATE PRODUIT SET dateperemption=\""+datePeremption+"\",status=\"envente\" WHERE status=\"four\" and typeproduit=\""+typeProduit+"\"");
 	}
 
-	public static void rejeterCuisson(String typeProduit, String nombre) {
-		DatabaseAccess.jdbcExecute("UPDATE PRODUIT SET status=\"jeté\" WHERE status=\"four\" and numlot in (SELECT id FROM LOT WHERE typeproduit=\""+typeProduit+"\")");
+	public void rejeterCuisson(String typeProduit, String nombre) {
+		DatabaseAccess.jdbcExecute("UPDATE PRODUIT SET status=\"jete\" WHERE status=\"four\" and typeproduit=\""+typeProduit+"\"");
+	}
+
+	public int[] minQteLotParTypeproduit(String typeProduit) {
+		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT id, min(quantite) FROM LOT WHERE typeproduit=\""+typeProduit+"\" and quantite!=0");
+		try {
+			if (requete.next()) {
+				return new int[]{requete.getInt(1), requete.getInt(2)};
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new int[]{-1, -1} ;
+	}
+
+	public void decrementerQteLot(int id, int nouvelleQuantite) {
+		DatabaseAccess.jdbcExecute("UPDATE LOT SET quantite="+nouvelleQuantite+" WHERE id="+id);
+	}
+
+	public void creerProduit(String datePeremption, String status, String typeProduit) {
+		DatabaseAccess.jdbcExecute("INSERT INTO PRODUIT(dateperemption, status, typeproduit) VALUES ("+datePeremption+", \""+status+"\",\""+typeProduit+"\")");
+	}
+
+	public int recupererTempsValide(String typeProduit) {
+		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT tempsvalide FROM TYPEPRODUIT WHERE nomtype=\""+typeProduit+"\"");
+		try {
+			if (requete.next()) {
+				return requete.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 }
