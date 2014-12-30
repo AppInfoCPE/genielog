@@ -10,7 +10,9 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JProgressBar;
 import javax.swing.JTable;
+import javax.swing.Timer;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -47,6 +49,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		this.lec = lec;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setMinimumSize(new Dimension(1200, 500));
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Interface employé de cuisson");
 		setVisible(true);
 		initialisation();
@@ -86,7 +89,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		tableStockVente.setEnabled(false);
 		tableStockVente.setBackground(new Color(218, 202, 251));
 		tableStockVente.setShowGrid(false);
-		tableStockVente.setModel(new DefaultTableModel(new String[] {"Produit :", "Quantité :"}, 0));
+		tableStockVente.setModel(new DefaultTableModel(new String[] {"Produit", "Quantité"}, 0));
 		tableStockVente.getColumnModel().getColumn(0).setPreferredWidth(150);
 		tableStockVente.getColumnModel().getColumn(1).setPreferredWidth(75);
 		JScrollPane scrollPane = new JScrollPane(tableStockVente);
@@ -111,7 +114,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		tableStockFrigo.setEnabled(false);
 		tableStockFrigo.setBackground(new Color(218, 202, 251));
 		tableStockFrigo.setShowGrid(false);
-		tableStockFrigo.setModel(new DefaultTableModel(new String[] {"Produit :", "Quantité :"},0));
+		tableStockFrigo.setModel(new DefaultTableModel(new String[] {"Produit", "Quantité"},0));
 		tableStockFrigo.getColumnModel().getColumn(0).setPreferredWidth(150);
 		tableStockFrigo.getColumnModel().getColumn(1).setPreferredWidth(75);
 		JScrollPane scrollPane = new JScrollPane(tableStockFrigo);
@@ -120,7 +123,7 @@ public class InterfaceEmpCuisson extends JFrame {
 
 		contentPane.add(panelStockFrigo, BorderLayout.WEST);
 	}
-	
+
 	private void initialisationPanelCentre() {
 		panelCentre = new JPanel();
 		panelCentre.setBackground(new Color(241, 246, 190));
@@ -145,24 +148,25 @@ public class InterfaceEmpCuisson extends JFrame {
 		lblFour.setForeground(Color.RED);
 		panelFour.add(lblFour, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		tableFour = new JTable();
-		//tableCuire.setEnabled(false);
 		tableFour.setShowGrid(false);
 		tableFour.setBackground(new Color(238, 238, 238));
-		tableFour.setModel(new DefaultTableModel(new String[] {"Produit :", "Quantité :", "", ""}, 0){
+		tableFour.setModel(new DefaultTableModel(new String[] {"Produit", "Quantité", "Progression", "", ""}, 0){
 			public boolean isCellEditable(int row, int col){
-				if(col == 2 || col == 3)
+				if(col == 3 || col == 4)
 					return true;
 				return false; 
 			}
 		});
-		tableFour.getColumnModel().getColumn(0).setPreferredWidth(300);
-		tableFour.getColumnModel().getColumn(1).setPreferredWidth(150);
-		tableFour.getColumnModel().getColumn(2).setPreferredWidth(25);
-		tableFour.getColumnModel().getColumn(2).setCellRenderer(new ButtonRendererFour());
-		tableFour.getColumnModel().getColumn(2).setCellEditor(new ButtonEditorFour(new JCheckBox(), this));
-		tableFour.getColumnModel().getColumn(3).setPreferredWidth(25);
+		tableFour.getColumnModel().getColumn(0).setPreferredWidth(150);
+		tableFour.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tableFour.getColumnModel().getColumn(2).setPreferredWidth(50);
+		tableFour.getColumnModel().getColumn(2).setCellRenderer(new ProgressBarRenderer());
+		tableFour.getColumnModel().getColumn(3).setPreferredWidth(40);
 		tableFour.getColumnModel().getColumn(3).setCellRenderer(new ButtonRendererFour());
-		tableFour.getColumnModel().getColumn(3).setCellEditor(new ButtonEditorFour(new JCheckBox(), this));		
+		tableFour.getColumnModel().getColumn(3).setCellEditor(new ButtonEditorFour(new JCheckBox(), this));
+		tableFour.getColumnModel().getColumn(4).setPreferredWidth(40);
+		tableFour.getColumnModel().getColumn(4).setCellRenderer(new ButtonRendererFour());
+		tableFour.getColumnModel().getColumn(4).setCellEditor(new ButtonEditorFour(new JCheckBox(), this));		
 
 		JScrollPane scrollPane = new JScrollPane(tableFour);
 		scrollPane.getViewport().setBackground(new Color(238, 238, 238));	
@@ -187,7 +191,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		tableRayon = new JTable();
 		tableRayon.setBackground(new Color(201, 241, 253));
 		tableRayon.setShowGrid(false);
-		tableRayon.setModel(new DefaultTableModel(new String[] {"Produit :", "Quantité :", "Date", "Péremption", ""}, 0){
+		tableRayon.setModel(new DefaultTableModel(new String[] {"Produit", "Quantité", "Date", "Péremption", ""}, 0){
 			public boolean isCellEditable(int row, int col){
 				if(col == 2 || col == 3 || col == 4)
 					return true;
@@ -205,7 +209,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		}
 		tableRayon.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(new JComboBox<Integer>(listeAnnee)));
 		tableRayon.getColumnModel().getColumn(4).setMaxWidth(20);
-		tableRayon.getColumnModel().getColumn(4).setCellRenderer(new MyCellRenderer());
+		tableRayon.getColumnModel().getColumn(4).setCellRenderer(new CheckBoxRenderer());
 		tableRayon.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(new JCheckBox()));
 
 		JScrollPane scrollPane = new JScrollPane(tableRayon);
@@ -244,7 +248,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		tableCuire = new JTable();
 		tableCuire.setBackground(new Color(201, 241, 253));
 		tableCuire.setShowGrid(false);
-		tableCuire.setModel(new DefaultTableModel(new String[] {"Produit :", "Quantité :", ""}, 0){
+		tableCuire.setModel(new DefaultTableModel(new String[] {"Produit", "Quantité", ""}, 0){
 			public boolean isCellEditable(int row, int col){
 				if(col == 2)
 					return true;
@@ -254,7 +258,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		tableCuire.getColumnModel().getColumn(0).setPreferredWidth(175);
 		tableCuire.getColumnModel().getColumn(1).setPreferredWidth(75);
 		tableCuire.getColumnModel().getColumn(2).setMaxWidth(20);
-		tableCuire.getColumnModel().getColumn(2).setCellRenderer(new MyCellRenderer());
+		tableCuire.getColumnModel().getColumn(2).setCellRenderer(new CheckBoxRenderer());
 		tableCuire.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JCheckBox()));
 
 		JScrollPane scrollPane = new JScrollPane(tableCuire);
@@ -295,25 +299,6 @@ public class InterfaceEmpCuisson extends JFrame {
 			public void windowActivated(WindowEvent e) {}
 		});				
 	}
-
-	public class MyCellRenderer extends DefaultTableCellRenderer {
-
-		private static final long serialVersionUID = 1L;
-
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
-			Component cell = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
-
-			if (value instanceof Boolean) {
-				JCheckBox cb = new JCheckBox();
-				cb.setSelected(((Boolean) value).booleanValue());
-				//cb.setBackground(new Color(201, 241, 253));
-				return cb;
-			}
-			return cell;
-		}
-	}	
 
 	public void miseAJourTableVente(){
 		Object [][] donnees = lec.afficherProduitVente();
@@ -367,7 +352,9 @@ public class InterfaceEmpCuisson extends JFrame {
 		DefaultTableModel model = (DefaultTableModel) tableFour.getModel();
 		model.setRowCount(0);
 		for (int i = 0; i < donnees.length; i++) {
-			model.addRow(new Object[] {donnees[i][0].toString(), donnees[i][1].toString(), "v", "x"});
+			model.addRow(new Object[] {donnees[i][0].toString(), donnees[i][1].toString(), 0, "Valider", "Jeter"});
+			Timer t = new Timer(1000, new UpdateProgressBar(model, i, 2, 5, 10));
+			t.start();
 		}
 	}
 
@@ -425,5 +412,52 @@ public class InterfaceEmpCuisson extends JFrame {
 				}
 			}
 		});
+	}
+	
+	public class CheckBoxRenderer extends DefaultTableCellRenderer {
+
+		private static final long serialVersionUID = 1L;
+
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column) {
+			JCheckBox cb = new JCheckBox();
+			cb.setSelected(((Boolean) value).booleanValue());
+			return cb;
+		}
 	}	
+
+	public class ProgressBarRenderer extends DefaultTableCellRenderer {
+
+		private static final long serialVersionUID = 1L;
+		
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column) {
+			JProgressBar bar = new JProgressBar();
+			bar.setMaximum(10000);
+			bar.setValue((int)value);
+			return bar;
+		}
+	}
+	
+	public class UpdateProgressBar implements ActionListener{
+		private int row, col, debut, duree;
+		private DefaultTableModel model;
+		
+		public UpdateProgressBar(DefaultTableModel m, int r, int c, int de, int du) {
+			model = m;
+			row = r;
+			col = c;
+			debut = de;
+			duree = du;
+			model.setValueAt(10000/(duree/debut), row, col);
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			model.setValueAt(((int)model.getValueAt(row, col)+(10000/(duree))), row, col);
+		}
+		
+	}
 }

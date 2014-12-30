@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 
+
 public class PanelInformation extends JPanel{
 	private InterfaceEmpCuisson iec;
 	private InterfaceVente iv;
@@ -27,7 +28,7 @@ public class PanelInformation extends JPanel{
 		
 		setBackground(new Color(241, 246, 190));
 		setLayout((LayoutManager) new FlowLayout(FlowLayout.RIGHT));
-
+		
 		utilisateurInfo = new JLabel(iec.getLogicielEmpCuisson().getPrenomNomUtilisateur()+"     |   ");
 		add(utilisateurInfo);
 		

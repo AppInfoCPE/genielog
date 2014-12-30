@@ -48,7 +48,7 @@ public class InterfaceConnection extends JFrame {
 		comboBoxRole = new JComboBox();
 		comboBoxRole.setModel(new DefaultComboBoxModel(new String[] {"Manager", "Cuisson", "Vendeur"}));
 		boutonConnexion = new JButton("Connexion");
-		logo = new JLabel(new ImageIcon("logo.jpg"));
+		logo = new JLabel(new ImageIcon("images/logo.jpg"));
 
 
 		boutonConnexion.addActionListener(new ActionListener() {
