@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -22,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Calendar;
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -46,15 +48,13 @@ public class InterfaceEmpCuisson extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setMinimumSize(new Dimension(1200, 500));
 		setTitle("Interface employé de cuisson");
-
+		setVisible(true);
 		initialisation();
 		initialisationPanelHaut();
 		initialisationPanelFrigo();
 		initialisationPanelVente();		
 		initialisationPanelCentre();
-		initialisationThread();
-
-		setVisible(true);
+		initialisationThread();	
 	}
 
 	private void initialisation() {
@@ -185,21 +185,28 @@ public class InterfaceEmpCuisson extends JFrame {
 		panelRayon.add(lblRayon, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 
 		tableRayon = new JTable();
-		//tableRayon.setEnabled(false);
 		tableRayon.setBackground(new Color(201, 241, 253));
 		tableRayon.setShowGrid(false);
-		tableRayon.setModel(new DefaultTableModel(new String[] {"Produit :", "Quantité :", ""}, 0){
+		tableRayon.setModel(new DefaultTableModel(new String[] {"Produit :", "Quantité :", "Date", "Péremption", ""}, 0){
 			public boolean isCellEditable(int row, int col){
-				if(col == 2)
+				if(col == 2 || col == 3 || col == 4)
 					return true;
 				return false; 
 			}
 		});
-		tableRayon.getColumnModel().getColumn(0).setPreferredWidth(150);
-		tableRayon.getColumnModel().getColumn(1).setPreferredWidth(75);
-		tableRayon.getColumnModel().getColumn(2).setPreferredWidth(25);
-		tableRayon.getColumnModel().getColumn(2).setCellRenderer(new MyCellRenderer());
-		tableRayon.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JCheckBox()));
+		tableRayon.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tableRayon.getColumnModel().getColumn(1).setPreferredWidth(60);
+		tableRayon.getColumnModel().getColumn(2).setPreferredWidth(40);
+		tableRayon.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JComboBox<Integer>(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12})));
+		tableRayon.getColumnModel().getColumn(3).setPreferredWidth(60);
+		Integer [] listeAnnee = new Integer[10];
+		for (int i = 0; i < listeAnnee.length; i++) {
+			listeAnnee[i] = Calendar.getInstance().get(Calendar.YEAR) + i;
+		}
+		tableRayon.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(new JComboBox<Integer>(listeAnnee)));
+		tableRayon.getColumnModel().getColumn(4).setMaxWidth(20);
+		tableRayon.getColumnModel().getColumn(4).setCellRenderer(new MyCellRenderer());
+		tableRayon.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(new JCheckBox()));
 
 		JScrollPane scrollPane = new JScrollPane(tableRayon);
 		scrollPane.getViewport().setBackground(new Color(201, 241, 253));
@@ -209,8 +216,8 @@ public class InterfaceEmpCuisson extends JFrame {
 		boutonValider_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				for (int i = 0; i < tableRayon.getRowCount(); i++) {
-					if (tableRayon.getValueAt(i, 2).toString().equals("true")) {
-						mettreEnRayon(tableRayon.getValueAt(i, 0).toString(), tableRayon.getValueAt(i, 1).toString());
+					if (tableRayon.getValueAt(i, 4).toString().equals("true")) {
+						mettreEnRayon(tableRayon.getValueAt(i, 0).toString(), tableRayon.getValueAt(i, 1).toString(), tableRayon.getValueAt(i, 2).toString(), tableRayon.getValueAt(i, 3).toString());
 						DefaultTableModel model = (DefaultTableModel) tableRayon.getModel();
 						model.removeRow(i);
 					}
@@ -244,9 +251,9 @@ public class InterfaceEmpCuisson extends JFrame {
 				return false; 
 			}
 		});
-		tableCuire.getColumnModel().getColumn(0).setPreferredWidth(150);
+		tableCuire.getColumnModel().getColumn(0).setPreferredWidth(175);
 		tableCuire.getColumnModel().getColumn(1).setPreferredWidth(75);
-		tableCuire.getColumnModel().getColumn(2).setPreferredWidth(25);
+		tableCuire.getColumnModel().getColumn(2).setMaxWidth(20);
 		tableCuire.getColumnModel().getColumn(2).setCellRenderer(new MyCellRenderer());
 		tableCuire.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JCheckBox()));
 
@@ -268,7 +275,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		});
 		panelCuire.add(boutonValider, new GridBagConstraints(0, 2, 1, 1, 1, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 
-		panelCentre.add(panelCuire, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH,  new Insets(0, 5, 5, 5), 0, 0));
+		panelCentre.add(panelCuire, new GridBagConstraints(0, 0, 1, 1, 0, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH,  new Insets(0, 5, 5, 5), 0, 0));
 	}
 
 	private void initialisationThread() {
@@ -331,13 +338,13 @@ public class InterfaceEmpCuisson extends JFrame {
 		DefaultTableModel model = (DefaultTableModel) tableCuire.getModel();
 
 		for (int i = 0; i < donnees.length; i++) {
-			int colonne = -1;
+			int row = -1;
 			for (int j = 0; j < model.getRowCount(); j++) {
 				if (model.getValueAt(j, 0).equals(donnees[i][0].toString()))
-					colonne = j;
+					row = j;
 			}
-			if (colonne == -1) model.addRow(new Object[] {donnees[i][0].toString(), donnees[i][1].toString(), Boolean.FALSE});
-			else model.setValueAt(donnees[i][1].toString(), colonne, 1);
+			if (row == -1) model.addRow(new Object[] {donnees[i][0].toString(), donnees[i][1].toString(), Boolean.FALSE});
+			else model.setValueAt(donnees[i][1].toString(), row, 1);
 		}
 	}
 
@@ -345,13 +352,13 @@ public class InterfaceEmpCuisson extends JFrame {
 		Object [][] donnees = lec.afficherProduitAMettreRayon();
 		DefaultTableModel model = (DefaultTableModel) tableRayon.getModel();
 		for (int i = 0; i < donnees.length; i++) {
-			int colonne = -1;
+			int row = -1;
 			for (int j = 0; j < model.getRowCount(); j++) {
 				if (model.getValueAt(j, 0).equals(donnees[i][0].toString()))
-					colonne = j;
+					row = j;
 			}
-			if (colonne == -1) model.addRow(new Object[] {donnees[i][0].toString(), donnees[i][1].toString(), Boolean.FALSE});
-			else model.setValueAt(donnees[i][1].toString(), colonne, 1);
+			if (row == -1) model.addRow(new Object[] {donnees[i][0].toString(), donnees[i][1].toString(), "1", Calendar.getInstance().get(Calendar.YEAR), Boolean.FALSE});
+			else model.setValueAt(donnees[i][1].toString(), row, 1);
 		}
 	}
 
@@ -387,8 +394,8 @@ public class InterfaceEmpCuisson extends JFrame {
 		miseAJourTableFour();
 	}	
 
-	private void mettreEnRayon(String typeProduit, String nombre) {
-		lec.mettreEnRayon(typeProduit, nombre);
+	private void mettreEnRayon(String typeProduit, String nombre, String mois, String annee) {
+		lec.mettreEnRayon(typeProduit, nombre, mois, annee);
 	}
 
 	public LogicielEmpCuisson getLogicielEmpCuisson() {

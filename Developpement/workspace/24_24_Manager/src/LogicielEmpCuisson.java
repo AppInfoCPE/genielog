@@ -75,7 +75,7 @@ public class LogicielEmpCuisson {
 		}
 	}
 
-	public void mettreEnRayon(String typeProduit, String nombre) {	
+	public void mettreEnRayon(String typeProduit, String nombre, String mois, String annee) {	
 		int reste = Integer.parseInt(nombre);
 		int [] idEtMin;
 		while(reste > 0) {
@@ -89,11 +89,8 @@ public class LogicielEmpCuisson {
 			reste -= idEtMin[1];
 		}
 
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.YEAR,1);
-		Date date = cal.getTime();
 		for (int i = 0; i < Integer.parseInt(nombre); i++) {
-			dc.creerProduit("\""+(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(date)+"\"", "envente", typeProduit);
+			dc.creerProduit("\""+annee+"-"+mois+"-20 10:00:00\"", "envente", typeProduit);
 		}		
 	}
 }
