@@ -28,7 +28,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 
 public class InterfaceVente extends JFrame {
 
@@ -141,6 +140,7 @@ public class InterfaceVente extends JFrame {
 		//ajouter bouton de suppression
 		tableVente.getColumn("Supprimer").setCellRenderer(new ButtonRenderer());
 		tableVente.getColumn("Supprimer").setCellEditor(new ButtonEditor(new JCheckBox(), this, donneesEnVente));
+		
 		tableVente.repaint();
 	}
 	//J4AI RAJOUTER LE CODE CI-DESSOUs
@@ -187,7 +187,7 @@ public class TabModelVente extends AbstractTableModel {
 		
 		MAJTableVente();
 		//alternance de couleurs entre ligne
-		tableVente.setDefaultRenderer(Object.class, new MyTableCellRenderer());
+		tableVente.setDefaultRenderer(Object.class, new MyTableCellRenderer());		
 		
 		//ajout d'une scrollbare au tableau
 		JScrollPane scrollPane = new JScrollPane(tableVente);
@@ -260,13 +260,7 @@ public class TabModelVente extends AbstractTableModel {
 		leuro_1.setBounds(483, 29, 37, 17);
 		panelResumVente.add(leuro_1);
 		
-		JLabel leuro_2 = new JLabel("\u20AC");
-		leuro_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		leuro_2.setBounds(235, 32, 37, 17);
-		panelResumVente.add(leuro_2);
-		
 		contentPane.add(panelResumVente);
-		
 	}
 	
 	class supprimerVenteEnCour implements ActionListener {
@@ -478,8 +472,8 @@ public class TabModelVente extends AbstractTableModel {
 	    	//String message = ((JButton)e.getSource()).getName()+" "+tfMontantDonne.getText();
 	    	System.out.println(paiement);
 	    	mc.terminerVente(numVente, paiement);
-	    	String message = "Nous venons d'encaisser : "+tfMontantDonne.getText()+"Û\nMontant à rendre : "+tfValeur.getText();
-	    	JOptionPane.showMessageDialog(null,message);
+	    	/*String message = "Nous venons d'encaisser : "+tfMontantDonne.getText()+"Û\nMontant à rendre : "+tfValeur.getText();
+	    	JOptionPane.showMessageDialog(null,message);*/
 	    	
 	    	for (int i=0;i<tab_button_Mpaiement.length;i++){	    		
 	    			tab_button_Mpaiement[i].setEnabled(true);	    		
@@ -494,7 +488,9 @@ public class TabModelVente extends AbstractTableModel {
 	    	
 	    	MAJTableVente();
 	    	completeResumeVente();
-	    	
+	    	venteEnCour = new Vente(actif.getLogin());
+	    	numVente = venteEnCour.getNumVente();
+	    	System.out.println(numVente);
 	    }
 	}
 	
@@ -624,12 +620,13 @@ public class TabModelVente extends AbstractTableModel {
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Utilisateur ut=new Utilisateur("Jean", "jean", "manager", "Dupond", "Jean");
-					InterfaceVente frame = new InterfaceVente(new LogicielVendeur(),ut);
+					InterfaceVente frame = new InterfaceVente(new LogicielVendeur(ut),ut);
 					frame.setSize(1280, 720);
 					frame.setVisible(true);
 					
@@ -639,7 +636,7 @@ public class TabModelVente extends AbstractTableModel {
 				}
 			}
 		});
-	}
+	}*/
 	public LogicielVendeur getLogicielVente() {
 		// TODO Auto-generated method stub
 		return this.mc;

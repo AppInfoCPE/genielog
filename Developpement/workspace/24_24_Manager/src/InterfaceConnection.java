@@ -110,7 +110,7 @@ public class InterfaceConnection extends JFrame {
 				new InterfaceEmpCuisson(new LogicielEmpCuisson(actif));
 				break;
 			case "Vendeur":
-				new InterfaceVente(new LogicielVendeur(),actif);
+				new InterfaceVente(new LogicielVendeur(actif),actif);
 				break;
 			default:
 				break;

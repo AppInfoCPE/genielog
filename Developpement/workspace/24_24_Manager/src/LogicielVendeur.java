@@ -9,11 +9,11 @@ public class LogicielVendeur {
 
 	Dao dv;
 	ArrayList<String> listProduitBoison;
-	Utilisateur utilisateurActif=new Utilisateur("Jean", "jean", "manager", "Dupond", "Jean");
+	Utilisateur utilisateurActif;
 	
-	public LogicielVendeur(){
+	public LogicielVendeur(Utilisateur actif){
 		dv = new Dao();
-		//utilisateurActif = actif;
+		utilisateurActif = actif;
 	}
 	
 	
