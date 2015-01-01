@@ -97,9 +97,7 @@ public class Utilisateur {
         if (role == null) {
             if (other.role != null)
                 return false;
-        } else if (role.equals("Manager"))
-            return true;
-        else if (!role.equals(other.role))
+        } else if (!role.equals(other.role))
             return false;
         return true;
     }

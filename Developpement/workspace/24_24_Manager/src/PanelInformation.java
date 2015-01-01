@@ -18,7 +18,7 @@ import javax.swing.border.EmptyBorder;
 public class PanelInformation extends JPanel{
 	private InterfaceEmpCuisson iec;
 	private InterfaceVente iv;
-	private InterfaceManager im;
+//	private InterfaceManager im;
 	private JLabel utilisateurInfo;
 	private JLabel dateCourante;
 	private AbstractButton boutonDeco;
@@ -45,7 +45,7 @@ public class PanelInformation extends JPanel{
 		this.iv = intVente;
 
 		setBackground(new Color(241, 246, 190));
-		setLayout((LayoutManager) new FlowLayout(FlowLayout.RIGHT));
+		//setLayout((LayoutManager) new FlowLayout(FlowLayout.RIGHT));
 		
 		utilisateurInfo = new JLabel(iv.getLogicielVente().getPrenomNomUtilisateur()+"     |   ");
 		add(utilisateurInfo);
