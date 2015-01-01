@@ -67,6 +67,9 @@ public class InterfaceManager extends javax.swing.JFrame {
         
         initComponents();
     }
+    public LogicielManager getLogicielManager(){
+    	return this.manager;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

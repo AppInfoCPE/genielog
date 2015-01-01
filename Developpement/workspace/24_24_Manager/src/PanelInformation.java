@@ -18,7 +18,7 @@ import javax.swing.border.EmptyBorder;
 public class PanelInformation extends JPanel{
 	private InterfaceEmpCuisson iec;
 	private InterfaceVente iv;
-//	private InterfaceManager im;
+	private InterfaceManager im;
 	private JLabel utilisateurInfo;
 	private JLabel dateCourante;
 	private AbstractButton boutonDeco;
