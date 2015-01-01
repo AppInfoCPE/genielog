@@ -1,27 +1,50 @@
 import java.util.*;
+import java.sql.SQLException;
+import java.util.Vector;
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JTable;
 
-public class LogicielManager {//Classe qui gere les fonctions de l'utilisateur Manager
+/**
+ *
+ * @author PC
+ */
+public class LogicielManager {
+    DAOManager dm;
+    Utilisateur utilisateurActif;
     
-    Hashtable<Integer,TypeProduit> tableStockFrigo = new Hashtable<Integer,TypeProduit>();
-   // Table dans laquelle seront stockés les quantités et le type de produit pour l'affichage
-    InterfaceBaseDonnees interfaceBDD;
-    
-    
-    public LogicielManager(){
-    	interfaceBDD = new InterfaceBaseDonnees();
-		initialisation();    	       
-    }
-    
-    private void initialisation() {
-    	tableStockFrigo = interfaceBDD.recupererStockFrigo();
-		
+    	
+	
+	public LogicielManager(Utilisateur actif){
+		dm = new DAOManager();
+		utilisateurActif = actif;
 	}
-	public Hashtable affichageStockFrigo(){
-        tableStockFrigo.put(10,new TypeProduit("PainChocolat", 18));
-        return tableStockFrigo;//Renvoie les stocks par type de produit
-    }
-    
-    
-    
-    
+	
+	public String  getPrenomNomUtilisateur(){
+		return utilisateurActif.getPrenom()+" "+utilisateurActif.getNom();
+	}
+	
+	public void recupererTableConfig(Vector<Object> columnNames,Vector<Object> data){
+            dm.recupererTableConfig(columnNames,data);
+        }
+        
+        public DefaultListModel recupererListHeurePointe(){
+            return dm.recupererListHeurePointe();
+        }
+        
+        public void ajoutHeurePointe(String debutTime,String finTime){
+            dm.ajoutHeurePointe(debutTime, finTime);
+        }
+        public void supprHeurePointe(String debut, String fin ){
+            dm.supprHeurePointe(debut, fin);
+        }
+        
+        public void updateTableConfig(JFrame jFrame,JTable jTable1) throws SQLException
+            {
+                dm.updateTableConfig(jFrame,jTable1);
+            }
+            
+        
+     
+   
 }
