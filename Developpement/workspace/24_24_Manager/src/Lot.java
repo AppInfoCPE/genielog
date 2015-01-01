@@ -1,39 +1,61 @@
 
 public class Lot {
-	
-	
-	
-private String typeLot;
-private int quantite;
-private int numLot;
- 
- 
-	Lot(String typeLot,int quantite, int numLot ){
-		this.typeLot=typeLot;
-		this.quantite=quantite;
-		this.numLot=numLot;
-	}
+		
 
+private int id;
+private Commande cmd;
+private int qte;
+private String typeProduit;
+private int status;
 
-	public String getTypeLot() {
-		return typeLot;
-	}
-	public void setTypeLot(String typeLot) {
-		this.typeLot = typeLot;
-	}
-	public int getQuantite() {
-		return quantite;
-	}
-	public void setQuantite(int quantite) {
-		this.quantite = quantite;
-	}
-	public int getNumLot() {
-		return numLot;
-	}
-	public void setNumLot(int numLot) {
-		this.numLot = numLot;
-	}
-	 
- 
+    public Lot(Commande cmd, int qte, String typeProduit, int status) {
+        this.cmd = cmd;
+        this.qte = qte;
+        this.typeProduit = typeProduit;
+        this.status = status;
+    }
+
+  /*  public int getId() {
+       
+    
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }*/
+
+    public Commande getCmd() {
+        return cmd;
+    }
+
+    public void setCmd(Commande cmd) {
+        this.cmd = cmd;
+    }
+
+    public int getQte() {
+        return qte;
+    }
+
+    public void setQte(int qte) {
+        this.qte = qte;
+    }
+
+    public String getTypeProduit() {
+        return typeProduit;
+    }
+
+    public void setTypeProduit(String typeProduit) {
+        this.typeProduit = typeProduit;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
  
 }
+
