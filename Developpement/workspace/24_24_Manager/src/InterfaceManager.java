@@ -59,10 +59,11 @@ public class InterfaceManager extends javax.swing.JFrame {
     /**
      * Creates new form IHM_Manager
      */
-    public InterfaceManager() {
+    public InterfaceManager(LogicielManager manager) {
         
-        Utilisateur us= new Utilisateur("Jean","jean","manager","Dupond","Jean");
-        manager= new LogicielManager(us);
+       // Utilisateur us= new Utilisateur("Jean","jean","manager","Dupond","Jean");
+    	this.manager=manager;
+      //  manager= new LogicielManager();
         
         initComponents();
     }
@@ -1976,7 +1977,8 @@ stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivrai
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InterfaceManager().setVisible(true);
+            	
+                new InterfaceManager(new LogicielManager(new Utilisateur("Jean","jean","manager","Dupond","Jean"))).setVisible(true);
             }
         });
     }
