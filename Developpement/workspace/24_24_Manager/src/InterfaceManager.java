@@ -33,8 +33,10 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -61,12 +63,13 @@ public class InterfaceManager extends javax.swing.JFrame {
      */
     public InterfaceManager(LogicielManager manager) {
         
-       // Utilisateur us= new Utilisateur("Jean","jean","manager","Dupond","Jean");
+        //Utilisateur us= new Utilisateur("Jean","jean","manager","Dupond","Jean");
     	this.manager=manager;
       //  manager= new LogicielManager();
-        
+    	setVisible(true);
         initComponents();
     }
+    
     public LogicielManager getLogicielManager(){
     	return this.manager;
     }
@@ -187,8 +190,8 @@ public class InterfaceManager extends javax.swing.JFrame {
         //Fullfill table
         Vector<Object> columnNames1 = new Vector<Object>();
         Vector<Object> data1 = new Vector<Object>();
-
-        try
+        manager.recupererTableStock(columnNames1, data1);
+        /*     try
         {
             //  Connect to an Access Database
 
@@ -232,6 +235,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         {
             System.out.println( e );
         }
+        */
 
         DefaultTableModel model1 = new DefaultTableModel(data1, columnNames1)
         {
@@ -706,6 +710,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 return l;
             }
         });
+        jTable1.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(new JComboBox<String>(new String[]{"Boisson","Viennoiserie"})));
         jScrollPane1.setViewportView(jTable1);
 
         jPanel3.setBackground(new java.awt.Color(223, 237, 214));
@@ -906,41 +911,45 @@ public class InterfaceManager extends javax.swing.JFrame {
         try
         {
             //  Connect to an Access Database
-            Class.forName( driver );
-            connection = DriverManager.getConnection( url, userid, password );
+            //   Class.forName( driver );
+            // connection = DriverManager.getConnection( url, userid, password );
             /////////////////////
             //////PROD VENDUS////
             /////////////////////
-            String sql = "SELECT COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND v.datevente = CURRENT_DATE AND p.id= l.idproduit AND p.status='vendu'";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery( sql );
+            // String sql = "SELECT COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND v.datevente = CURRENT_DATE AND p.id= l.idproduit AND p.status='vendu'";
+            // Statement stmt = connection.createStatement();
+            // ResultSet rs = stmt.executeQuery( sql );
+            ResultSet rs=manager.prodVendu1();
             //  Get row data
             while (rs.next())
             {
                 prodVendus=rs.getInt("nbrProd");
             }
 
-            sql = "SELECT COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND WEEK(v.datevente) = WEEK(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu'";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            // sql = "SELECT COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND WEEK(v.datevente) = WEEK(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu'";
+            //stmt = connection.createStatement();
+            //rs = stmt.executeQuery( sql );
+            rs=manager.prodVendu2();
             //  Get row data
             while (rs.next())
             {
                 prodVendusSem=rs.getInt("nbrProd");
             }
 
-            sql = "SELECT COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND MONTH(v.datevente) = MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu'";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            // sql = "SELECT COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND MONTH(v.datevente) = MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu'";
+            // stmt = connection.createStatement();
+            //rs = stmt.executeQuery( sql );
+            rs=manager.prodVendu3();
             //  Get row data
             while (rs.next())
             {
                 prodVendusMois=rs.getInt("nbrProd");
             }
 
-            sql = "SELECT COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu'";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            // sql = "SELECT COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu'";
+            //stmt = connection.createStatement();
+            //rs = stmt.executeQuery( sql );
+            rs=manager.prodVendu4();
             //  Get row data
             while (rs.next())
             {
@@ -950,9 +959,10 @@ public class InterfaceManager extends javax.swing.JFrame {
             ///////////////////
             /////PROD JETES////
             //////////////////
-            sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND v.datevente = CURRENT_DATE AND p.id= l.idproduit AND p.status='jete'";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            // sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND v.datevente = CURRENT_DATE AND p.id= l.idproduit AND p.status='jete'";
+            // stmt = connection.createStatement();
+            //rs = stmt.executeQuery( sql );
+            rs=manager.prodJet1();
             //  Get row data
             while (rs.next())
             {
@@ -960,27 +970,30 @@ public class InterfaceManager extends javax.swing.JFrame {
 
             }
 
-            sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND WEEK(v.datevente) = WEEK(CURRENT_DATE) AND p.id= l.idproduit AND p.status='jete'";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            //sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND WEEK(v.datevente) = WEEK(CURRENT_DATE) AND p.id= l.idproduit AND p.status='jete'";
+            //stmt = connection.createStatement();
+            //rs = stmt.executeQuery( sql );
+            rs=manager.prodJet2();
             //  Get row data
             while (rs.next())
             {
                 prodJetesSem=rs.getInt("nbrProdJet");
             }
 
-            sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND MONTH(v.datevente) = MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='jete'";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            // sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND MONTH(v.datevente) = MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='jete'";
+            //stmt = connection.createStatement();
+            // rs = stmt.executeQuery( sql );
+            rs=manager.prodJet3();
             //  Get row data
             while (rs.next())
             {
                 prodJetesMois=rs.getInt("nbrProdJet");
             }
 
-            sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='jete'";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            //   sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='jete'";
+            //  stmt = connection.createStatement();
+            // rs = stmt.executeQuery( sql );
+            rs=manager.prodJet4();
             //  Get row data
             while (rs.next())
             {
@@ -990,36 +1003,40 @@ public class InterfaceManager extends javax.swing.JFrame {
             ///////////////////
             /////PROD PERDUS////
             //////////////////
-            sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND v.datevente = CURRENT_DATE AND p.id= l.idproduit AND p.status='perime'";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            // sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND v.datevente = CURRENT_DATE AND p.id= l.idproduit AND p.status='perime'";
+            // stmt = connection.createStatement();
+            // rs = stmt.executeQuery( sql );
+            rs=manager.prodPerdu1();
             //  Get row data
             while (rs.next())
             {
                 prodPerdus=rs.getInt("nbrProdPerdus");
             }
 
-            sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND WEEK(v.datevente) = WEEK(CURRENT_DATE) AND p.id= l.idproduit AND p.status='perime'";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            //sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND WEEK(v.datevente) = WEEK(CURRENT_DATE) AND p.id= l.idproduit AND p.status='perime'";
+            //stmt = connection.createStatement();
+            //rs = stmt.executeQuery( sql );
+            rs=manager.prodPerdu2();
             //  Get row data
             while (rs.next())
             {
                 prodPerdusSem=rs.getInt("nbrProdPerdus");
             }
 
-            sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND MONTH(v.datevente) = MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='perime'";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            // sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND MONTH(v.datevente) = MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='perime'";
+            // stmt = connection.createStatement();
+            // rs = stmt.executeQuery( sql );
+            rs=manager.prodPerdu3();
             //  Get row data
             while (rs.next())
             {
                 prodPerdusMois=rs.getInt("nbrProdPerdus");
             }
 
-            sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='perime'";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            // sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='perime'";
+            // stmt = connection.createStatement();
+            // rs = stmt.executeQuery( sql );
+            rs=manager.prodPerdu4();
             //  Get row data
             while (rs.next())
             {
@@ -1043,8 +1060,6 @@ public class InterfaceManager extends javax.swing.JFrame {
             ((TableModelStat1)jTable5.getModel()).addRow(donnee3);
 
             rs.close();
-            stmt.close();
-            connection.close();
 
         }
         catch(Exception e)
@@ -1112,13 +1127,14 @@ public class InterfaceManager extends javax.swing.JFrame {
         try
         {
             //  Connect to an Access Database
-            Class.forName( driver );
-            connection = DriverManager.getConnection( url, userid, password );
+            //  Class.forName( driver );
+            // connection = DriverManager.getConnection( url, userid, password );
 
             //  Read data from a table
-            String sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND v.datevente =CURRENT_DATE AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery( sql );
+            // String sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND v.datevente =CURRENT_DATE AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
+            // Statement stmt = connection.createStatement();
+            // ResultSet rs = stmt.executeQuery( sql );
+            ResultSet rs=manager.UserVente1();
             //  Get row data
             while (rs.next())
             {
@@ -1127,9 +1143,10 @@ public class InterfaceManager extends javax.swing.JFrame {
                 hm1.put(user, nbrProd);
             }
 
-            sql ="SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND WEEK(v.datevente) = WEEK (CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant" ;
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            // sql ="SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND WEEK(v.datevente) = WEEK (CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant" ;
+            // stmt = connection.createStatement();
+            // rs = stmt.executeQuery( sql );
+            rs=manager.UserVente2();
             //  Get row data
             while (rs.next())
             {
@@ -1138,9 +1155,10 @@ public class InterfaceManager extends javax.swing.JFrame {
                 hm2.put(user, nbrProd);
             }
 
-            sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND MONTH(v.datevente) =MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            // sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND MONTH(v.datevente) =MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
+            // stmt = connection.createStatement();
+            // rs = stmt.executeQuery( sql );
+            rs=manager.UserVente3();
             //  Get row data
             while (rs.next())
             {
@@ -1149,9 +1167,10 @@ public class InterfaceManager extends javax.swing.JFrame {
                 hm3.put(user, nbrProd);
             }
 
-            sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery( sql );
+            //sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
+            // stmt = connection.createStatement();
+            // rs = stmt.executeQuery( sql );
+            rs=manager.UserVente4();
             //  Get row data
             while (rs.next())
             {
@@ -1161,8 +1180,8 @@ public class InterfaceManager extends javax.swing.JFrame {
             }
 
             rs.close();
-            stmt.close();
-            connection.close();
+            //stmt.close();
+            //connection.close();
         }
         catch(Exception e)
         {
@@ -1179,159 +1198,162 @@ public class InterfaceManager extends javax.swing.JFrame {
         try
         {
             //  Connect to an Access Database
-            Class.forName( driver );
-            connection = DriverManager.getConnection( url, userid, password );
+            // Class.forName( driver );
+            //connection = DriverManager.getConnection( url, userid, password );
 
             //  Read data from a table
 
-            String sql = "Select identifiant from UTILISATEUR where role='Vendeur'";
-            Statement  stmt = connection.createStatement();
-            ResultSet  rs = stmt.executeQuery( sql );
-            //  Get row data
+            // String sql = "Select identifiant from UTILISATEUR where role='Vendeur'";
+            // Statement  stmt = connection.createStatement();
+            // ResultSet  rs = stmt.executeQuery( sql
+                ResultSet  rs=manager.getVendeur();
+                //  Get row data
 
-            while (rs.next())
+                while (rs.next())
+                {
+                    String u=rs.getString("identifiant");
+                    listUser.add(u);
+                }
+
+                // rs.close();
+                //  stmt.close();
+                // connection.close();
+            }
+            catch(Exception e)
             {
-                String u=rs.getString("identifiant");
-                listUser.add(u);
+                System.out.println( e );
             }
 
-            rs.close();
-            stmt.close();
-            connection.close();
-        }
-        catch(Exception e)
-        {
-            System.out.println( e );
-        }
-
-        for(Iterator itUser=listUser.iterator(); itUser.hasNext();) {
-            String vendeur=(String)itUser.next();
-            if(hm1.containsKey(vendeur)==false){
-                hm1.put(vendeur, 0);
+            for(Iterator itUser=listUser.iterator(); itUser.hasNext();) {
+                String vendeur=(String)itUser.next();
+                if(hm1.containsKey(vendeur)==false){
+                    hm1.put(vendeur, 0);
+                }
+                if(hm2.containsKey(vendeur)==false){
+                    hm2.put(vendeur, 0);
+                }
+                if(hm3.containsKey(vendeur)==false){
+                    hm3.put(vendeur, 0);
+                }
+                if(hm4.containsKey(vendeur)==false){
+                    hm4.put(vendeur, 0);
+                }
+                Object[] donnee = new Object[]
+                {vendeur, hm1.get(vendeur), hm2.get(vendeur),hm3.get(vendeur),hm4.get(vendeur)};
+                ((TableModelStat2)jTable6.getModel()).addRow(donnee);
             }
-            if(hm2.containsKey(vendeur)==false){
-                hm2.put(vendeur, 0);
-            }
-            if(hm3.containsKey(vendeur)==false){
-                hm3.put(vendeur, 0);
-            }
-            if(hm4.containsKey(vendeur)==false){
-                hm4.put(vendeur, 0);
-            }
-            Object[] donnee = new Object[]
-            {vendeur, hm1.get(vendeur), hm2.get(vendeur),hm3.get(vendeur),hm4.get(vendeur)};
-            ((TableModelStat2)jTable6.getModel()).addRow(donnee);
-        }
 
-        jTable6.setDefaultRenderer(Object.class, new MyTableCellRenderer());
+            jTable6.setDefaultRenderer(Object.class, new MyTableCellRenderer());
 
-        jTable6.getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
+            jTable6.getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
 
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value,
-                boolean isSelected, boolean hasFocus, int row, int column) {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
 
-                JLabel l = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    JLabel l = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-                // l.setBorder(new LineBorder(Color.black, 1));
+                    // l.setBorder(new LineBorder(Color.black, 1));
 
-                l.setBackground(Color.decode("#C9F1FD"));
+                    l.setBackground(Color.decode("#C9F1FD"));
 
-                return l;
-            }
-        });
-        jScrollPane8.setViewportView(jTable6);
+                    return l;
+                }
+            });
+            jScrollPane8.setViewportView(jTable6);
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7)
-            .addComponent(jScrollPane8)
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
+            javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+            jPanel9.setLayout(jPanel9Layout);
+            jPanel9Layout.setHorizontalGroup(
+                jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 23, Short.MAX_VALUE))
-        );
+                .addComponent(jScrollPane8)
+            );
+            jPanel9Layout.setVerticalGroup(
+                jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel9Layout.createSequentialGroup()
+                    .addComponent(jLabel7)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 23, Short.MAX_VALUE))
+            );
 
-        jPanel10.setBackground(new java.awt.Color(223, 237, 214));
-        jPanel10.setForeground(new java.awt.Color(153, 153, 153));
-        jPanel10.setLayout(new java.awt.BorderLayout());
+            jPanel10.setBackground(new java.awt.Color(223, 237, 214));
+            jPanel10.setForeground(new java.awt.Color(153, 153, 153));
+            jPanel10.setLayout(new java.awt.BorderLayout());
 
-        jButton11.setText("Deconnexion");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
-            }
-        });
+            jButton11.setText("Deconnexion");
+            jButton11.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton11ActionPerformed(evt);
+                }
+            });
 
-        /*
-        jLabel12.setText(d.toString());
-        */
+            /*
+            jLabel12.setText(d.toString());
+            */
 
-        jLabel13.setText(manager.getPrenomNomUtilisateur());
+            jLabel13.setText(manager.getPrenomNomUtilisateur());
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel13)
-                        .addGap(18, 18, 18)
+            javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+            jPanel7.setLayout(jPanel7Layout);
+            jPanel7Layout.setHorizontalGroup(
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createSequentialGroup()
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel7Layout.createSequentialGroup()
+                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(jLabel13)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel12)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jButton11)))
+                    .addContainerGap())
+            );
+            jPanel7Layout.setVerticalGroup(
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel7Layout.createSequentialGroup()
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton11)
                         .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton11)))
-                .addContainerGap())
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton11)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel13))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
-        );
+                        .addComponent(jLabel13))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
+            );
 
-        miseAJourDateThread tdate2 = new miseAJourDateThread(jLabel12);
-        tdate2.start();
+            miseAJourDateThread tdate2 = new miseAJourDateThread(jLabel12);
+            tdate2.start();
 
-        jTabbedPane1.addTab("Statistiques", jPanel7);
+            jTabbedPane1.addTab("Statistiques", jPanel7);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 543, Short.MAX_VALUE)
-        );
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jTabbedPane1)
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 543, Short.MAX_VALUE)
+            );
 
-        pack();
-    }// </editor-fold>                        
+            pack();
+        }// </editor-fold>                        
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-     
+      int response=JOptionPane.showConfirmDialog(this, "Voulez-vous enregistrer la configuration ?");
+
+      if(response==0){
         try {
             // TODO add your handling code here:
             manager.updateTableConfig(this, jTable1);
@@ -1441,6 +1463,38 @@ public class InterfaceManager extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(this,
                   "DB est bien updated");
+      }
+      else{
+          Vector<Object> columnNames = new Vector<Object>();
+          Vector<Object> data = new Vector<Object>();
+          manager.recupererTableConfig(columnNames, data);
+          DefaultTableModel model = new DefaultTableModel(data, columnNames)
+        {
+            
+        	@Override
+            public Class getColumnClass(int column)
+            {
+                for (int row = 0; row < getRowCount(); row++)
+                {
+                    Object o = getValueAt(row, column);
+
+                    if (o != null)
+                    {
+                        return o.getClass();
+                    }
+                }
+
+                return Object.class;
+            }
+                public boolean isCellEditable(int row,int col){
+                        if(getValueAt(row, 7).toString().equals("Boisson") && col==2) return false;
+                                return true; 
+                        }
+
+
+                        };
+                        jTable1.setModel(model);
+      }
   
     }                                        
 
@@ -1595,10 +1649,12 @@ public class InterfaceManager extends javax.swing.JFrame {
     if(produit != null)   { 
      if(isNumeric(jTextField3.getText())){
           int quantite=Integer.parseInt(jTextField3.getText());
-          if(quantite!=0){ 
+        if(quantite!=0){ 
+         
+            float prixTotal=manager.prixTotal(produit, quantite);
+//Cacul prix total            
+/*            
         float prixTotal=0;
-        
-        //Cacul prix total
         try
         {
             //  Connect to an Access Database
@@ -1631,7 +1687,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         {
             System.out.println( e );
         }
-        
+      */  
         
         Object[] donnee = new Object[]
             {produit, quantite, prixTotal};
@@ -1679,9 +1735,9 @@ public class InterfaceManager extends javax.swing.JFrame {
         // TODO add your handling code here:
         Commande cmd= new Commande(new Date());
         int idcmd=cmd.getId();
-        System.out.println(cmd.getDateCmd());
         //Update Table COMMANDE
-           try {
+        manager.updateCommande(cmd);
+          /* try {
                     Class.forName( driver );
                     connection = DriverManager.getConnection( url, userid, password );
                     Statement stmt = connection.createStatement();
@@ -1696,14 +1752,14 @@ public class InterfaceManager extends javax.swing.JFrame {
                 } catch (MySQLIntegrityConstraintViolationException ex) {
                     ex.printStackTrace();
                 } catch (ClassNotFoundException ex) {
-                    
+                    Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
                     Logger.getLogger(InterfaceManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }*/
 
                 
         
-                    try {
+             try {
                 Thread.sleep(5000);                 //1000 milliseconds is one second.
             } catch(InterruptedException ex) {
                 Thread.currentThread().interrupt();
@@ -1733,12 +1789,13 @@ public class InterfaceManager extends javax.swing.JFrame {
                  
                 
                  //Update Table Lot
-                 try {
+                 manager.updateLot(cmd, status, typeProd, qte);
+                 /*try {
                     Class.forName( driver );
                     connection = DriverManager.getConnection( url, userid, password );
                     Statement stmt = connection.createStatement();
                     String sql = null;
-stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivraison) VALUES("+cmd.getId()+","+qte+",'"+typeProd+"',"+status+")");
+                    stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivraison) VALUES("+cmd.getId()+","+qte+",'"+typeProd+"',"+status+")");
 
                     stmt.close();
                     connection.close();
@@ -1747,10 +1804,10 @@ stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivrai
                 } catch (MySQLIntegrityConstraintViolationException ex) {
                     ex.printStackTrace();
                 } catch (ClassNotFoundException ex) {
-                  
+                    Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
                     Logger.getLogger(InterfaceManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }*/
                  
                  
                  
@@ -1776,11 +1833,11 @@ stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivrai
        int nbrLignes[]=jTable4.getSelectedRows();
 
       
-        try {
-            Class.forName( driver );
-            connection = DriverManager.getConnection( url, userid, password );
-            Statement stmt = connection.createStatement();
-            String sql = null;
+       // try {
+         //   Class.forName( driver );
+           // connection = DriverManager.getConnection( url, userid, password );
+            //Statement stmt = connection.createStatement();
+         //   String sql = null;
           
          if(jTable4.getRowCount() > 0){
            // ((TableModelGestion1)jTable4.getModel()).removeRow();
@@ -1790,9 +1847,10 @@ stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivrai
                 String nomType=jTable4.getValueAt(nbrLignes[i], 0).toString();
                 int numCmd=(int) jTable4.getValueAt(nbrLignes[i], 1);
                 int qte =(int) jTable4.getValueAt(nbrLignes[i],2 );
-  
+                
+                manager.annuleLivraison(nomType, numCmd, qte);
          
-                   sql = "DELETE FROM LOT "
+                 /*  sql = "DELETE FROM LOT "
                    
                     + " WHERE  typeproduit= '"+nomType+"' "
                     + " AND  idcommande= "+numCmd+" "
@@ -1800,20 +1858,20 @@ stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivrai
                     ;
               
                
-                stmt.executeUpdate(sql); 
+                stmt.executeUpdate(sql); */
            
                
             }
              }
 
-            stmt.close();
+         /*   stmt.close();
             connection.close();
         } catch (SQLException ex) {
-           
+            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            
+            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+       */
         
          
  
@@ -1831,12 +1889,12 @@ stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivrai
          int nbrLignes[]=jTable4.getSelectedRows();
 
       
-        try {
+        /*try {
             Class.forName( driver );
             connection = DriverManager.getConnection( url, userid, password );
             Statement stmt = connection.createStatement();
             String sql = null;
-          
+          */
          if(jTable4.getRowCount() > 0){
            // ((TableModelGestion1)jTable4.getModel()).removeRow();
             for(int i=0;i<nbrLignes.length;i++){
@@ -1844,15 +1902,13 @@ stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivrai
                 System.out.println(nbrLignes[i]);
                 String nomType=jTable4.getValueAt(nbrLignes[i], 0).toString();
                 int numCmd=(int) jTable4.getValueAt(nbrLignes[i], 1);
-                int qte =(int) jTable4.getValueAt(nbrLignes[i],2 );
-               
-          
-               
+                int qte =(int) jTable4.getValueAt(nbrLignes[i],2 );              
          System.out.println(nomType);
          System.out.println(numCmd);
          System.out.println(qte);
+         manager.valideLivraison(nomType, numCmd, qte);
          
-                   sql = "UPDATE LOT "
+          /*           sql = "UPDATE LOT "
                     + " SET statutlivraison=1 "
                     + " WHERE  typeproduit= '"+nomType+"' "
                     + " AND  idcommande= "+numCmd+" "
@@ -1860,19 +1916,19 @@ stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivrai
                     + " AND  statutlivraison= 0 ";
               
                
-                stmt.executeUpdate(sql); 
-           
-               
-            }
+              stmt.executeUpdate(sql); 
+          
+             */  
+            } 
              }
 
-            stmt.close();
+            /*stmt.close();
             connection.close();
         } catch (SQLException ex) {
-           
+            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-       
-        }
+            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
        
         
          
@@ -1980,9 +2036,8 @@ stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivrai
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            	
                 new InterfaceManager(new LogicielManager(new Utilisateur("Jean","jean","manager","Dupond","Jean"))).setVisible(true);
-            }
+           }
         });
     }
     
@@ -2007,15 +2062,12 @@ stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivrai
     return false;
 
 }
-    public int qteStockFrigo(String nomProduit){
+   /* public int qteStockFrigo(String nomProduit){
         
         int nbr=0;
-        
-        
-         try
+        try
         {
             //  Connect to an Access Database
-
             Class.forName( driver );
              connection = DriverManager.getConnection( url, userid, password );
 
@@ -2057,7 +2109,7 @@ stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivrai
         
         return nbr;
     }
-    
+    */
     
     
    /* public Object CleCommune(HashMap hm1,HashMap hm2){
