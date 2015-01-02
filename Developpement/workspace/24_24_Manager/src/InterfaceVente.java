@@ -124,7 +124,6 @@ public class InterfaceVente extends JFrame {
 	//J4AI RAJOUTER LE CODE CI-DESSOUs
 	public void MAJTableVente(){
 		//Recherche des produits ayant le statut en vente
-	//	numVente=1;
 		donneesEnVente = mc.rechercherProduitEnVente(numVente);
 		TabModelVente modelTabVente = new TabModelVente(donneesEnVente);
 		tableVente.setModel(modelTabVente);
@@ -140,35 +139,45 @@ public class InterfaceVente extends JFrame {
 		//ajouter bouton de suppression
 		tableVente.getColumn("Supprimer").setCellRenderer(new ButtonRenderer());
 		tableVente.getColumn("Supprimer").setCellEditor(new ButtonEditor(new JCheckBox(), this, donneesEnVente));
-		
 		tableVente.repaint();
+				
+		//activer les boutons d'encaissement
+		for (int i=0;i<tab_button_Mpaiement.length;i++){	    		
+			if(tableVente.getRowCount()>0){
+				tab_button_Mpaiement[i].setEnabled(true);
+				BAnnulerVente.setEnabled(true);
+			}else{
+				tab_button_Mpaiement[i].setEnabled(false);
+				BAnnulerVente.setEnabled(false);
+			}	    		
+		}
 	}
-	//J4AI RAJOUTER LE CODE CI-DESSOUs
-public class TabModelVente extends AbstractTableModel {
-	private final String title[] = {"Produit", "Quantite", "Prix unite", "Prix total", "Supprimer"};			
-	Object donnees[][];
 	
-	public TabModelVente(Object donnees[][]) { 
-	      this.donnees = donnees; 
-	   }
+	public class TabModelVente extends AbstractTableModel {
+		private final String title[] = {"Produit", "Quantite", "Prix unite", "Prix total", "Supprimer"};			
+		Object donnees[][];
+		
+		public TabModelVente(Object donnees[][]) { 
+		      this.donnees = donnees; 
+		   }
+		
+		public int getColumnCount() {
+			return title.length;
+		}
+		
+		public String getColumnName(int columnIndex) {
+			return title[columnIndex];
+		}
 	
-	public int getColumnCount() {
-		return title.length;
-	}
+		public int getRowCount() {
+			return donnees.length; 
+		}
 	
-	public String getColumnName(int columnIndex) {
-		return title[columnIndex];
+		@Override
+		public Object getValueAt(int param1, int param2) {
+			 return donnees[param1][param2];
+		}
 	}
-
-	public int getRowCount() {
-		return donnees.length; 
-	}
-
-	@Override
-	public Object getValueAt(int param1, int param2) {
-		 return donnees[param1][param2];
-	}
-}
 
 	public void initTableVente(){
 		//Desactivation de l'edition d'un cellule lors d'un double click
@@ -199,6 +208,7 @@ public class TabModelVente extends AbstractTableModel {
 	private void initResumVente() {
 		// TODO Auto-generated method stub
 		JPanel panelResumVente = new JPanel();
+		panelResumVente.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelResumVente.setBounds(336, 333, 525, 150);
 		panelResumVente.setBackground(new Color(201, 241, 250));	
 		panelResumVente.setLayout(null);
@@ -237,6 +247,7 @@ public class TabModelVente extends AbstractTableModel {
 		BAnnulerVente.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		BAnnulerVente.setBounds(162, 59, 200, 37);
 		BAnnulerVente.setText("Annuler la vente");
+		BAnnulerVente.setEnabled(false);
 		BAnnulerVente.addActionListener(new supprimerVenteEnCour());
 		panelResumVente.add(BAnnulerVente);
 		
@@ -261,13 +272,25 @@ public class TabModelVente extends AbstractTableModel {
 		panelResumVente.add(leuro_1);
 		
 		contentPane.add(panelResumVente);
+		
+		JLabel label = new JLabel("\u20AC");
+		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		label.setBounds(357, 118, 37, 17);
+		panelResumVente.add(label);
 	}
 	
 	class supprimerVenteEnCour implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			mc.annulerVente(numVente);
+			mc.annulerVente(numVente);			
 			MAJTableVente();
 			completeResumeVente();
+			bEncaisser.setEnabled(false);
+			btnChangerModePaiement.setEnabled(false);
+			tfValeur.setText("");
+			tfMontantDonne.setText("");
+			for (int i=0;i<=tab_button_Chiffre.length;i++){
+				tab_button_Chiffre[i].setEnabled(false);	
+			}
 		}
 	}
 			
@@ -302,10 +325,9 @@ public class TabModelVente extends AbstractTableModel {
 		
 		//affichage logo de la societee
 		JLabel Lsociete = new JLabel("test image");
-		ImageIcon logo = new ImageIcon("logo.jpg");
+		ImageIcon logo = new ImageIcon("images/logo.jpg");
 		Lsociete.setIcon(logo);
 		Lsociete.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		//revoir la position
 		Lsociete.setBounds(400, 500, logo.getIconWidth(), logo.getIconHeight());
 		contentPane.add(Lsociete);
 		
@@ -321,21 +343,15 @@ public class TabModelVente extends AbstractTableModel {
 		
 		JLabel LARendre = new JLabel("Montant \u00E0 rendre :");
 		LARendre.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		LARendre.setBounds(10, 105, 126, 17);
+		LARendre.setBounds(10, 111, 126, 17);
 		panelRendre.add(LARendre);
 		
-		tfMontantDonne = new JTextField();
-		tfMontantDonne.setText("0");
-		tfMontantDonne.setEditable(false);
-		tfMontantDonne.setBounds(146, 32, 86, 20);
-		panelRendre.add(tfMontantDonne);
-		tfMontantDonne.setColumns(0);
-		
 		tfValeur = new JTextField();
+		tfValeur.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		tfValeur.setText("0");
 		tfValeur.setEditable(false);
 		tfValeur.setColumns(0);
-		tfValeur.setBounds(146, 105, 86, 20);
+		tfValeur.setBounds(146, 105, 86, 32);
 		panelRendre.add(tfValeur);
 		
 		JLabel leuro = new JLabel("\u20AC");
@@ -345,12 +361,12 @@ public class TabModelVente extends AbstractTableModel {
 		
 		JLabel label = new JLabel("\u20AC");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label.setBounds(242, 105, 37, 17);
+		label.setBounds(242, 111, 37, 17);
 		panelRendre.add(label);
 				
 		bEncaisser.setName("Encaisser");
 		bEncaisser.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		bEncaisser.setBounds(205, 64, 140, 30);
+		bEncaisser.setBounds(205, 69, 140, 31);
 		bEncaisser.setEnabled(false);
 		bEncaisser.addActionListener(new encaisserListener());
 		panelRendre.add(bEncaisser);
@@ -363,9 +379,17 @@ public class TabModelVente extends AbstractTableModel {
 		btnChangerModePaiement.setName("bchangerModePaiement");
 		btnChangerModePaiement.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnChangerModePaiement.setEnabled(false);
-		btnChangerModePaiement.setBounds(35, 64, 140, 30);
+		btnChangerModePaiement.setBounds(35, 69, 140, 31);
 		btnChangerModePaiement.addActionListener(new changeModePaiement());
 		panelRendre.add(btnChangerModePaiement);
+		
+		tfMontantDonne = new JTextField();
+		tfMontantDonne.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tfMontantDonne.setBounds(146, 26, 86, 32);
+		panelRendre.add(tfMontantDonne);
+		tfMontantDonne.setText("0");
+		tfMontantDonne.setEditable(false);
+		tfMontantDonne.setColumns(0);
 	}
 	
 	private void initChiffrePaiement(JPanel panelChiffre) {
@@ -437,7 +461,7 @@ public class TabModelVente extends AbstractTableModel {
 			tab_button_Mpaiement[i] = new JButton(tab_stringMP[i]);
 			tab_button_Mpaiement[i].setName(tab_stringMP[i]);
 			tab_button_Mpaiement[i].setPreferredSize(dim2);
-
+			tab_button_Mpaiement[i].setEnabled(false);
 			panelModePaiement.add(tab_button_Mpaiement[i]);
 		    tab_button_Mpaiement[i].addActionListener(new AppuieBoutonModePaiement());
 		}
@@ -448,9 +472,10 @@ public class TabModelVente extends AbstractTableModel {
 		
 		JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
 		onglets.setBackground(new Color(218, 202, 251));
-		
+				
 		//Veinoisserie		
 		onglet1 = new JPanel();
+		onglet1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		onglet1.setBackground(new Color(218, 202, 251));
 		onglet1.setPreferredSize(new Dimension(300, 80));
 		onglets.addTab("Vienoisserie", onglet1);
@@ -458,6 +483,7 @@ public class TabModelVente extends AbstractTableModel {
 		
 		//Boisson
 		onglet2 = new JPanel();
+		onglet2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		onglet2.setBackground(new Color(218, 202, 251));
 		onglets.addTab("Boisson", onglet2);
 		listeBoisson(onglet2);
@@ -483,6 +509,7 @@ public class TabModelVente extends AbstractTableModel {
 	    		tab_button_Chiffre[i].setEnabled(false);		
 	    	}
 	    	tfMontantDonne.setText("");
+	    	tfValeur.setText("");
 	    	bEncaisser.setEnabled(false);
 	    	btnChangerModePaiement.setEnabled(false);
 	    	
@@ -595,7 +622,6 @@ public class TabModelVente extends AbstractTableModel {
 		TFNbProduit.setText("");
 		TFNTotal.setText("");
 		if (donneesEnVente != null ){
-			BAnnulerVente.setEnabled(true);
 			//le tableau contient des produits
 			//calculer le nombre total de produit et le prix total
 			int i=0,nbProduit=0; 
@@ -613,14 +639,12 @@ public class TabModelVente extends AbstractTableModel {
 			prixTotalJournee=mc.rechercherTotalVenteJournee(actif);
 			System.out.println(prixTotalJournee);
 			TFNTotalJournee.setText(String.valueOf(df.format(prixTotalJournee)));
-		}else{
-			BAnnulerVente.setEnabled(false);
 		}		
 	}
 	/**
 	 * Launch the application.
 	 */
-	/*
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -636,7 +660,7 @@ public class TabModelVente extends AbstractTableModel {
 				}
 			}
 		});
-	}*/
+	}
 	public LogicielVendeur getLogicielVente() {
 		// TODO Auto-generated method stub
 		return this.mc;

@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 public class LogicielVendeur {
 
 	Dao dv;
+	Dao dv2;
 	ArrayList<String> listProduitBoison;
 	Utilisateur utilisateurActif;
 	
@@ -16,7 +17,10 @@ public class LogicielVendeur {
 		utilisateurActif = actif;
 	}
 	
-	
+	public LogicielVendeur() {
+		dv2 = new Dao();
+	}
+
 	public String getPrenomNomUtilisateur() {
 		// TODO Auto-generated method stub
 		return utilisateurActif.getPrenom()+" "+utilisateurActif.getNom();
@@ -173,7 +177,7 @@ public class LogicielVendeur {
 			resultat.beforeFirst();
 			while (resultat.next()) {
 
-				System.out.println(resultat.getString(1));
+				//System.out.println(resultat.getString(1));
 				String id=resultat.getString(1);
 				dv.executeRequeteInsert("Update PRODUIT set status='courvente' where id="+id);
 				dv.executeRequeteInsert("INSERT INTO LIENPRODUITVENTE (`idproduit`, `numvente`) VALUES ("+id+","+numVente+")");
@@ -243,5 +247,36 @@ public class LogicielVendeur {
 		}
 	}
 
+	public ArrayList<String> produitPerime() {
+		ArrayList<String> liste = new ArrayList<String>();
+		ResultSet resultat;
+		liste = null;
+		try {
+			resultat=dv2.executeRequete("SELECT typeproduit, COUNT(typeproduit) as quantite FROM PRODUIT WHERE dateperemption IS NOT NULL AND dateperemption < NOW() AND status = 'envente' GROUP BY typeproduit");
+			resultat.last();
+			resultat.beforeFirst();
+			while (resultat.next()){
+				liste.add(resultat.getString(2)+" "+resultat.getString(1));
+			}
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}		
+		return liste;
+	}
 	
+	public void miseAJourProduitPerime() {
+		ResultSet resultat;
+		try {
+			resultat=dv2.executeRequete("SELECT id from PRODUIT WHERE dateperemption < NOW() AND dateperemption IS NOT NULL and status='envente'");
+			resultat.last();
+			resultat.beforeFirst();
+			while (resultat.next()) {
+			dv2.executeRequeteInsert("Update PRODUIT set status='perime' where id="+resultat.getString(1));
+			}
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 }

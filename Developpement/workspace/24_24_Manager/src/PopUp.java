@@ -32,7 +32,11 @@ public class PopUp {
 		return res;
 	}
 
-	public static void afficherPeremption(ArrayList<String> liste) {
+	public static void afficherPeremption() {
+		ArrayList<String> liste = new ArrayList<String>();
+		LogicielVendeur lv = new LogicielVendeur();
+		liste = null;
+		liste = lv.produitPerime();
 		Object panel = UIManager.get("Panel.background");
 		Object color = UIManager.get("Button.background");
 		
@@ -44,10 +48,11 @@ public class PopUp {
 		UIManager.put("OptionPane.okButtonText", "");	
 		UIManager.put("Button.background", new Color(220, 150, 95));
 		
-		Object[] t = new Object[]{"Les produits suivant sont périmés et doivent être jetés :\n", liste.toArray()};
-		
-		JOptionPane.showMessageDialog(null, t, "24/24 Manager",  JOptionPane.WARNING_MESSAGE, null);
-		
+		if (liste != null){			
+			Object[] t = new Object[]{"Les produits suivant sont périmés et doivent être jetés :\n", liste.toArray()};
+			JOptionPane.showMessageDialog(null, t, "24/24 Manager",  JOptionPane.WARNING_MESSAGE, null);			
+			lv.miseAJourProduitPerime();
+		}	
 		UIManager.put("Button.background", color);
 		UIManager.put("Panel.background", panel);
 	}	
@@ -67,9 +72,6 @@ public class PopUp {
         }
         		
 		PopUp.afficherConfirmation();
-		ArrayList<String> l = new ArrayList<String>();
-		l.add("Coca : 2");
-		l.add("Croissant : 8");		
-		PopUp.afficherPeremption(l);
+		PopUp.afficherPeremption();
 	}
 }

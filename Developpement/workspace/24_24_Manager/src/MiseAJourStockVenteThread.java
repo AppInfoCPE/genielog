@@ -17,6 +17,7 @@ public class MiseAJourStockVenteThread extends Thread {
 
     public void run() {
         while (running) {
+        	PopUp.afficherPeremption();
             try {
                 sleep(10000);
             } catch (InterruptedException e) {
@@ -25,8 +26,6 @@ public class MiseAJourStockVenteThread extends Thread {
             fenetreVente.listeVeinoisserie(fenetreVente.onglet1);
 			fenetreVente.listeBoisson(fenetreVente.onglet2);
 			fenetreVente.completeResumeVente();
-			
         }
-        
     }
 }
