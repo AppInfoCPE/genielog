@@ -26,9 +26,9 @@ class ButtonEditorFour extends DefaultCellEditor {
 		button.setOpaque(true);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (c==3){
+				if (c==4){
 					interfaceEmpCuisson.validerCuisson(r);
-				} else if (c==4){
+				} else if (c==5){
 					interfaceEmpCuisson.rejeterCuisson(r);
 				}
 			}

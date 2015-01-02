@@ -104,7 +104,7 @@ public class InterfaceConnection extends JFrame {
 		if (actif != null){
 			switch (comboBoxRole.getSelectedItem().toString()) {
 			case "Manager":
-				//new InterfaceManager(new LogicielManager(actif));
+				new InterfaceManager(new LogicielManager(actif));
 				break;
 			case "Cuisson":
 				new InterfaceEmpCuisson(new LogicielEmpCuisson(actif));

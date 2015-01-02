@@ -13,6 +13,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JProgressBar;
 import javax.swing.JTable;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -25,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.table.DefaultTableCellRenderer;
@@ -42,11 +44,11 @@ public class InterfaceEmpCuisson extends JFrame {
 	private JTable tableRayon;
 	private JTable tableFour;
 	private MiseAJourStockThread mt;
-	private JButton boutonValider_1;
-
+	private ArrayList<Timer> listeTimer;
 
 	public InterfaceEmpCuisson(LogicielEmpCuisson lec) {
 		this.lec = lec;
+		listeTimer = new ArrayList<Timer>();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setMinimumSize(new Dimension(1200, 500));
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -150,23 +152,24 @@ public class InterfaceEmpCuisson extends JFrame {
 		tableFour = new JTable();
 		tableFour.setShowGrid(false);
 		tableFour.setBackground(new Color(238, 238, 238));
-		tableFour.setModel(new DefaultTableModel(new String[] {"Produit", "Quantité", "Progression", "", ""}, 0){
+		tableFour.setModel(new DefaultTableModel(new String[] {"Produit", "Quantité", "Début cuisson", "Progression", "", ""}, 0){
 			public boolean isCellEditable(int row, int col){
-				if(col == 3 || col == 4)
+				if(col == 4 || col == 5)
 					return true;
 				return false; 
 			}
 		});
-		tableFour.getColumnModel().getColumn(0).setPreferredWidth(150);
-		tableFour.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tableFour.getColumnModel().getColumn(0).setPreferredWidth(125);
+		tableFour.getColumnModel().getColumn(1).setPreferredWidth(50);
 		tableFour.getColumnModel().getColumn(2).setPreferredWidth(50);
-		tableFour.getColumnModel().getColumn(2).setCellRenderer(new ProgressBarRenderer());
-		tableFour.getColumnModel().getColumn(3).setPreferredWidth(40);
-		tableFour.getColumnModel().getColumn(3).setCellRenderer(new ButtonRendererFour());
-		tableFour.getColumnModel().getColumn(3).setCellEditor(new ButtonEditorFour(new JCheckBox(), this));
+		tableFour.getColumnModel().getColumn(3).setPreferredWidth(50);
+		tableFour.getColumnModel().getColumn(3).setCellRenderer(new ProgressBarRenderer());
 		tableFour.getColumnModel().getColumn(4).setPreferredWidth(40);
 		tableFour.getColumnModel().getColumn(4).setCellRenderer(new ButtonRendererFour());
-		tableFour.getColumnModel().getColumn(4).setCellEditor(new ButtonEditorFour(new JCheckBox(), this));		
+		tableFour.getColumnModel().getColumn(4).setCellEditor(new ButtonEditorFour(new JCheckBox(), this));
+		tableFour.getColumnModel().getColumn(5).setPreferredWidth(40);
+		tableFour.getColumnModel().getColumn(5).setCellRenderer(new ButtonRendererFour());
+		tableFour.getColumnModel().getColumn(5).setCellEditor(new ButtonEditorFour(new JCheckBox(), this));		
 
 		JScrollPane scrollPane = new JScrollPane(tableFour);
 		scrollPane.getViewport().setBackground(new Color(238, 238, 238));	
@@ -216,7 +219,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		scrollPane.getViewport().setBackground(new Color(201, 241, 253));
 		panelRayon.add(scrollPane, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
 
-		boutonValider_1 = new JButton("Valider");
+		JButton boutonValider_1 = new JButton("Valider");
 		boutonValider_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				for (int i = 0; i < tableRayon.getRowCount(); i++) {
@@ -348,12 +351,19 @@ public class InterfaceEmpCuisson extends JFrame {
 	}
 
 	public void miseAJourTableFour(){
+		for (Timer t : listeTimer) {
+			 t.stop();
+		}
+		listeTimer.clear();
 		Object [][] donnees = lec.afficherProduitFour();
 		DefaultTableModel model = (DefaultTableModel) tableFour.getModel();
 		model.setRowCount(0);
 		for (int i = 0; i < donnees.length; i++) {
-			model.addRow(new Object[] {donnees[i][0].toString(), donnees[i][1].toString(), 0, "Valider", "Jeter"});
-			Timer t = new Timer(1000, new UpdateProgressBar(model, i, 2, 5, 10));
+			int debutMinute = Integer.parseInt((donnees[i][2].toString()).substring(3, 5));
+			int actuelMinute = Calendar.getInstance().get(Calendar.MINUTE);
+			model.addRow(new Object[] {donnees[i][0].toString(), donnees[i][1].toString(), donnees[i][2].toString(), 0, "Valider", "Jeter"});
+			Timer t = new Timer(1000, new UpdateProgressBar(model, i, 3, (((actuelMinute-debutMinute)%60+60)%60), 1));
+			listeTimer.add(t);
 			t.start();
 		}
 	}
@@ -361,7 +371,7 @@ public class InterfaceEmpCuisson extends JFrame {
 	public void validerCuisson(int row) {
 		int res = PopUp.afficherConfirmation();
 		if (res == 0) {
-			lec.validerCuisson(tableFour.getValueAt(row, 0).toString(), tableFour.getValueAt(row, 1).toString());
+			lec.validerCuisson(tableFour.getValueAt(row, 0).toString(), tableFour.getValueAt(row, 1).toString(), tableFour.getValueAt(row, 2).toString());
 			DefaultTableModel model = (DefaultTableModel) tableFour.getModel();
 			model.removeRow(row);
 		}
@@ -370,7 +380,7 @@ public class InterfaceEmpCuisson extends JFrame {
 	public void rejeterCuisson(int row) {
 		int res = PopUp.afficherConfirmation();
 		if (res == 0) {		
-			lec.rejeterCuisson(tableFour.getValueAt(row, 0).toString(), tableFour.getValueAt(row, 1).toString());
+			lec.rejeterCuisson(tableFour.getValueAt(row, 0).toString(), tableFour.getValueAt(row, 1).toString(), tableFour.getValueAt(row, 2).toString());
 			DefaultTableModel model = (DefaultTableModel) tableFour.getModel();
 			model.removeRow(row);
 		}
@@ -396,7 +406,7 @@ public class InterfaceEmpCuisson extends JFrame {
 				try {
 					for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 						if ("Nimbus".equals(info.getName())) {
-							javax.swing.UIManager.setLookAndFeel(info.getClassName());
+							UIManager.setLookAndFeel(info.getClassName());
 							break;
 						}
 					}
@@ -451,12 +461,23 @@ public class InterfaceEmpCuisson extends JFrame {
 			col = c;
 			debut = de;
 			duree = du;
-			model.setValueAt(10000/(duree/debut), row, col);
+			if (debut != 0 && (duree/debut != 0)){
+				model.setValueAt(10000/(duree/debut), row, col);
+			} else if (debut != 0 && (duree/debut == 0)){
+				model.setValueAt(10000, row, col);
+			} 
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			model.setValueAt(((int)model.getValueAt(row, col)+(10000/(duree))), row, col);
+			try {
+				model.setValueAt(((int)model.getValueAt(row, col)+(10000/(duree*60))), row, col);
+				if((int)model.getValueAt(row, col)>10000){
+					((Timer)e.getSource()).stop();
+				}
+			} catch (java.lang.ArrayIndexOutOfBoundsException ex) {
+				((Timer)e.getSource()).stop();
+			}
 		}
 		
 	}

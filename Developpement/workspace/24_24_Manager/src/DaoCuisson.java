@@ -23,10 +23,10 @@ public class DaoCuisson {
 		}	
 		return false;
 	}
-	
+
 	public Object [][] recupererProduitACuire(String optionHeure) {
 		Object [][] produitACuire = null;
-		
+
 		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, "+optionHeure+" FROM TYPEPRODUIT T WHERE qteminiheurestandard > (SELECT count(*) FROM PRODUIT where (status='envente' or status='four') and typeproduit = T.nomtype ) and (tempscuisson is not NULL and tempscuisson!=0)  and qtecuireheurestandard <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype and statutlivraison=1)");
 		try {
 			requete.last();
@@ -63,7 +63,7 @@ public class DaoCuisson {
 		} catch (Exception sqlExcept) {
 			System.out.println("Erreur execution requete: Recuperer produit a mettre en rayon.\n");
 		}
-		
+
 		return produitAMettreRayon;
 	}
 
@@ -71,86 +71,75 @@ public class DaoCuisson {
 		Object [][] produitAuFour = null;
 
 		ResultSet requete;
-		requete = DatabaseAccess.jdbcExecuteQuery("SELECT typeproduit, count(*) FROM PRODUIT WHERE status='four' GROUP BY typeproduit ");
+		requete = DatabaseAccess.jdbcExecuteQuery("SELECT typeproduit, count(*), debutcuisson FROM PRODUIT WHERE status='four' GROUP BY typeproduit, debutcuisson ");
 		try {
 			requete.last();
-			produitAuFour = new Object[requete.getRow()][2];
+			produitAuFour = new Object[requete.getRow()][3];
 			requete.beforeFirst();
 			int i = 0;
 			while (requete.next()) {
 				produitAuFour[i][0] = requete.getString(1); 
 				produitAuFour[i][1] = requete.getString(2);
+				produitAuFour[i][2] = requete.getString(3);
 				i++;
 			}
 			requete.close();
 		} catch (Exception sqlExcept) {
 			System.out.println("Erreur execution requete: Recuperer produit au four.\n");
 		}
-
 		return produitAuFour;
 	}
 
-	public Object[][] afficherProduitVente() {
-		ArrayList<String> nomTypeProduit = recupererNomTypeProduit();
+	public Object[][] recupererProduitVente() {
 		Object [][] produitVente = null;
 
-		ResultSet requete;
-		requete = DatabaseAccess.jdbcExecuteQuery("SELECT typeproduit, count(*) FROM PRODUIT WHERE status='envente' GROUP BY typeproduit ");
+		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT typeproduit, count(*) FROM PRODUIT WHERE status='envente' GROUP BY typeproduit ");
 		try {
-			produitVente = new Object[nomTypeProduit.size()][2];
-			for (int i = 0; i < nomTypeProduit.size(); i++) {
-				produitVente[i][0] = nomTypeProduit.get(i);
-				produitVente[i][1] = 0;
-			}
+			requete.last();
+			produitVente = new Object[requete.getRow()][3];
+			requete.beforeFirst();
+			int i = 0;
 			while (requete.next()) {
-				for (int j = 0; j < produitVente.length; j++) {
-					if (produitVente[j][0].equals(requete.getString(1)))
-							produitVente[j][1] = requete.getString(2);
-				}
+				produitVente[i][0] = requete.getString(1); 
+				produitVente[i][1] = requete.getString(2);
+				i++;
 			}
 			requete.close();
 		} catch (Exception sqlExcept) {
 			System.out.println("Erreur execution requete: Recuperer produit en vente.\n");
 		}
-		
+
 		return produitVente;
 	}
-	
-	public Object[][] afficherProduitFrigo() {
-		ArrayList<String> nomTypeProduit = recupererNomTypeProduit();
-		
+
+	public Object[][] recupererProduitFrigo() {
 		Object [][] produitFrigo = null;
 
-		ResultSet requete;
-		requete = DatabaseAccess.jdbcExecuteQuery("SELECT typeproduit, sum(quantite) FROM LOT WHERE statutlivraison=1 GROUP BY typeproduit ");
+		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT typeproduit, sum(quantite) FROM LOT WHERE statutlivraison=1 GROUP BY typeproduit ");
 		try {
-			produitFrigo = new Object[nomTypeProduit.size()][2];
-			for (int i = 0; i < nomTypeProduit.size(); i++) {
-				produitFrigo[i][0] = nomTypeProduit.get(i);
-				produitFrigo[i][1] = 0;
-			}
+			requete.last();
+			produitFrigo = new Object[requete.getRow()][3];
+			requete.beforeFirst();
+			int i = 0;
 			while (requete.next()) {
-				for (int j = 0; j < produitFrigo.length; j++) {
-					if (produitFrigo[j][0].equals(requete.getString(1)))
-						produitFrigo[j][1] = requete.getString(2);
-				}
+				produitFrigo[i][0] = requete.getString(1); 
+				produitFrigo[i][1] = requete.getString(2);
+				i++;
 			}
-			
 			requete.close();
 		} catch (Exception sqlExcept) {
 			System.out.println("Erreur execution requete: Recuperer produit au frigo.\n");
 		}
-		
 		return produitFrigo;
 	}		
 
-	private ArrayList<String> recupererNomTypeProduit() {
+	public ArrayList<String> recupererNomTypeProduit() {
 		ArrayList<String>  nomTypeProduit = new ArrayList<String>();
 
 		ResultSet requete;
 		requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype FROM TYPEPRODUIT");
 		try {
-			
+
 			while (requete.next()) {
 				nomTypeProduit.add(requete.getString(1));
 			}
@@ -158,16 +147,16 @@ public class DaoCuisson {
 		} catch (Exception sqlExcept) {
 			System.out.println("Erreur execution requete: Recuperer nom typeproduit.\n");
 		}
-		
+
 		return nomTypeProduit;
 	}
 
-	public void validerCuisson(String datePeremption, String typeProduit, String nombre) {
-		DatabaseAccess.jdbcExecute("UPDATE PRODUIT SET dateperemption=\""+datePeremption+"\",status=\"envente\" WHERE status=\"four\" and typeproduit=\""+typeProduit+"\"");
+	public void validerCuisson(String datePeremption, String typeProduit, String nombre, String debutCuisson) {
+		DatabaseAccess.jdbcExecute("UPDATE PRODUIT SET dateperemption=\""+datePeremption+"\",status=\"envente\" WHERE status=\"four\" and typeproduit=\""+typeProduit+"\" and debutcuisson=\""+debutCuisson+"\"");
 	}
 
-	public void rejeterCuisson(String typeProduit, String nombre) {
-		DatabaseAccess.jdbcExecute("UPDATE PRODUIT SET status=\"jete\" WHERE status=\"four\" and typeproduit=\""+typeProduit+"\"");
+	public void rejeterCuisson(String typeProduit, String nombre, String debutCuisson) {
+		DatabaseAccess.jdbcExecute("UPDATE PRODUIT SET status=\"jete\" WHERE status=\"four\" and typeproduit=\""+typeProduit+"\" and debutcuisson=\""+debutCuisson+"\"");
 	}
 
 	public int[] minQteLotParTypeproduit(String typeProduit) {
@@ -186,8 +175,8 @@ public class DaoCuisson {
 		DatabaseAccess.jdbcExecute("UPDATE LOT SET quantite="+nouvelleQuantite+" WHERE id="+id);
 	}
 
-	public void creerProduit(String datePeremption, String status, String typeProduit) {
-		DatabaseAccess.jdbcExecute("INSERT INTO PRODUIT(dateperemption, status, typeproduit) VALUES ("+datePeremption+", \""+status+"\",\""+typeProduit+"\")");
+	public void creerProduit(String datePeremption, String status, String typeProduit, String debutCuisson) {
+		DatabaseAccess.jdbcExecute("INSERT INTO PRODUIT(dateperemption, status, typeproduit, debutcuisson) VALUES ("+datePeremption+", \""+status+"\",\""+typeProduit+"\","+debutCuisson+")");
 	}
 
 	public int recupererTempsValide(String typeProduit) {
