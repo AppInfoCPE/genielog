@@ -50,7 +50,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		this.lec = lec;
 		listeTimer = new ArrayList<Timer>();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setMinimumSize(new Dimension(1200, 500));
+		setMinimumSize(new Dimension(1280, 720));
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Interface employé de cuisson");
 		setVisible(true);
@@ -79,7 +79,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		JPanel panelStockVente = new JPanel();
 		panelStockVente.setBackground(new Color(218, 202, 251));
 		panelStockVente.setPreferredSize(new Dimension(300, getHeight()-20));
-		panelStockVente.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		panelStockVente.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		panelStockVente.setLayout(new GridBagLayout());
 
 		JLabel lblStockVente = new JLabel("Stock Vente");
@@ -104,7 +104,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		JPanel panelStockFrigo = new JPanel();
 		panelStockFrigo.setBackground(new Color(218, 202, 251));
 		panelStockFrigo.setPreferredSize(new Dimension(300, getHeight()-20));
-		panelStockFrigo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		panelStockFrigo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		panelStockFrigo.setLayout(new GridBagLayout());
 
 		JLabel lblStockFrigo = new JLabel("Stock Frigo");
@@ -141,7 +141,7 @@ public class InterfaceEmpCuisson extends JFrame {
 	private void initialisationPanelFour() {
 		JPanel panelFour = new JPanel();
 		panelFour.setBackground(new Color(238, 238, 238));
-		panelFour.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		panelFour.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		panelFour.setMinimumSize(new Dimension(500, getHeight()/2-20));
 		panelFour.setLayout(new GridBagLayout());
 
@@ -175,7 +175,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		scrollPane.getViewport().setBackground(new Color(238, 238, 238));	
 		panelFour.add(scrollPane, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
 
-		panelCentre.add(panelFour, new GridBagConstraints(0, 1, 2, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH,  new Insets(5, 5, 0, 5), 0, 0));		
+		panelCentre.add(panelFour, new GridBagConstraints(0, 1, 2, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH,  new Insets(5, 5, 1, 5), 0, 0));		
 		miseAJourTableFour();
 	}
 
@@ -183,7 +183,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		JPanel panelRayon = new JPanel();
 		panelRayon.setBackground(new Color(201, 241, 253));
 		panelRayon.setMinimumSize(new Dimension(250, getHeight()/2-20));
-		panelRayon.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		panelRayon.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		panelRayon.setLayout(new GridBagLayout());
 
 		JLabel lblRayon = new JLabel("Mettre en Rayon");
@@ -227,6 +227,7 @@ public class InterfaceEmpCuisson extends JFrame {
 						mettreEnRayon(tableRayon.getValueAt(i, 0).toString(), tableRayon.getValueAt(i, 1).toString(), tableRayon.getValueAt(i, 2).toString(), tableRayon.getValueAt(i, 3).toString());
 						DefaultTableModel model = (DefaultTableModel) tableRayon.getModel();
 						model.removeRow(i);
+						i--;
 					}
 				}				
 			}
@@ -240,7 +241,7 @@ public class InterfaceEmpCuisson extends JFrame {
 		JPanel panelCuire = new JPanel();
 		panelCuire.setBackground(new Color(201, 241, 253));
 		panelCuire.setMinimumSize(new Dimension(250, getHeight()/2-20));
-		panelCuire.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		panelCuire.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		panelCuire.setLayout(new GridBagLayout());
 
 		JLabel lblCuire = new JLabel("A Cuire");
@@ -276,6 +277,7 @@ public class InterfaceEmpCuisson extends JFrame {
 						mettreAuFour(tableCuire.getValueAt(i, 0).toString(), tableCuire.getValueAt(i, 1).toString());
 						DefaultTableModel model = (DefaultTableModel) tableCuire.getModel();
 						model.removeRow(i);
+						i--;
 					}
 				}
 			}
@@ -359,10 +361,9 @@ public class InterfaceEmpCuisson extends JFrame {
 		DefaultTableModel model = (DefaultTableModel) tableFour.getModel();
 		model.setRowCount(0);
 		for (int i = 0; i < donnees.length; i++) {
-			int debutMinute = Integer.parseInt((donnees[i][2].toString()).substring(3, 5));
-			int actuelMinute = Calendar.getInstance().get(Calendar.MINUTE);
+
 			model.addRow(new Object[] {donnees[i][0].toString(), donnees[i][1].toString(), donnees[i][2].toString(), 0, "Valider", "Jeter"});
-			Timer t = new Timer(1000, new UpdateProgressBar(model, i, 3, (((actuelMinute-debutMinute)%60+60)%60), 1));
+			Timer t = new Timer(1000, new UpdateProgressBar(model, i, 3, donnees[i][2].toString(), lec.recupererTempsCuisson(donnees[i][0].toString())));
 			listeTimer.add(t);
 			t.start();
 		}
@@ -455,19 +456,24 @@ public class InterfaceEmpCuisson extends JFrame {
 		private int row, col, debut, duree;
 		private DefaultTableModel model;
 		
-		public UpdateProgressBar(DefaultTableModel m, int r, int c, int de, int du) {
+		public UpdateProgressBar(DefaultTableModel m, int r, int c, String de, int du) {
 			model = m;
 			row = r;
 			col = c;
-			debut = de;
+			int debutMinute = Integer.parseInt(de.substring(3, 5));
+			int debutSeconde = Integer.parseInt(de.substring(6, 8));
+			int actuelMinute = Calendar.getInstance().get(Calendar.MINUTE);
+			int actuelSeconde = Calendar.getInstance().get(Calendar.SECOND);
+			debut = (((actuelMinute-debutMinute)%60+60)%60)*60+(((actuelSeconde-debutSeconde)%60+60)%60);
 			duree = du;
-			if (debut != 0 && (duree/debut != 0)){
-				model.setValueAt(10000/(duree/debut), row, col);
-			} else if (debut != 0 && (duree/debut == 0)){
+
+			if (debut != 0 && duree != 0 && ((duree*60.0)/debut != 0)){
+				model.setValueAt((int)(10000/((duree*60.0)/debut)), row, col);
+			} else if (debut != 0 && ((duree*60.0)/debut == 0)){
 				model.setValueAt(10000, row, col);
 			} 
 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {

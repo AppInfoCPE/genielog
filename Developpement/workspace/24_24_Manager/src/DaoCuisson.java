@@ -96,7 +96,7 @@ public class DaoCuisson {
 		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT typeproduit, count(*) FROM PRODUIT WHERE status='envente' GROUP BY typeproduit ");
 		try {
 			requete.last();
-			produitVente = new Object[requete.getRow()][3];
+			produitVente = new Object[requete.getRow()][2];
 			requete.beforeFirst();
 			int i = 0;
 			while (requete.next()) {
@@ -118,7 +118,7 @@ public class DaoCuisson {
 		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT typeproduit, sum(quantite) FROM LOT WHERE statutlivraison=1 GROUP BY typeproduit ");
 		try {
 			requete.last();
-			produitFrigo = new Object[requete.getRow()][3];
+			produitFrigo = new Object[requete.getRow()][2];
 			requete.beforeFirst();
 			int i = 0;
 			while (requete.next()) {
@@ -170,6 +170,27 @@ public class DaoCuisson {
 		}
 		return new int[]{-1, -1} ;
 	}
+	
+	public Object[][] qteLotParTypeproduit(String typeProduit) {
+		Object [][] quantiteLot = null;
+
+		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT id, quantite FROM LOT WHERE typeproduit=\""+typeProduit+"\" and quantite!=0 ORDER BY quantite ASC");
+		try {
+			requete.last();
+			quantiteLot = new Object[requete.getRow()][2];
+			requete.beforeFirst();
+			int i = 0;
+			while (requete.next()) {
+				quantiteLot[i][0] = requete.getInt(1); 
+				quantiteLot[i][1] = requete.getInt(2);
+				i++;
+			}
+			requete.close();
+		} catch (Exception sqlExcept) {
+			System.out.println("Erreur execution requete: Recuperer quantite lot par type produit.\n");
+		}
+		return quantiteLot;
+	}		
 
 	public void decrementerQteLot(int id, int nouvelleQuantite) {
 		DatabaseAccess.jdbcExecute("UPDATE LOT SET quantite="+nouvelleQuantite+" WHERE id="+id);
@@ -188,6 +209,18 @@ public class DaoCuisson {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return -1;
+		return 0;
+	}	
+	
+	public int recupererTempsCuisson(String typeProduit) {
+		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT tempscuisson FROM TYPEPRODUIT WHERE nomtype=\""+typeProduit+"\"");
+		try {
+			if (requete.next()) {
+				return requete.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

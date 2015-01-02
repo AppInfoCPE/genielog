@@ -88,37 +88,36 @@ public class LogicielEmpCuisson {
 	}
 
 	public void mettreAuFour(String typeProduit, String nombre) {
-		int reste = Integer.parseInt(nombre);
-		int [] idEtMin;
+		int reste = Integer.parseInt(nombre), j = 0;
+		Object [][] qteLot = dc.qteLotParTypeproduit(typeProduit);
 		while(reste > 0) {
-			idEtMin = dc.minQteLotParTypeproduit(typeProduit);
-
-			if (reste >= idEtMin[1]) {
-				dc.decrementerQteLot(idEtMin[0], 0);
+			if (reste >= (int)qteLot[j][1]) {
+				dc.decrementerQteLot((int)qteLot[j][0], 0);
 			} else {
-				dc.decrementerQteLot(idEtMin[0], idEtMin[1] - reste);
+				dc.decrementerQteLot((int)qteLot[j][0], (int)qteLot[j][1] - reste);
 			}
-			reste -= idEtMin[1];
+			reste -= (int)qteLot[j][1];
+			j++;
 		}
+		
 		Calendar c = Calendar.getInstance();
-		String debut = c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":00";
+		String debut = c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND);
 		for (int i = 0; i < Integer.parseInt(nombre); i++) {
 			dc.creerProduit("NULL", "four", typeProduit, "\""+debut+"\"");
 		}
 	}
 
 	public void mettreEnRayon(String typeProduit, String nombre, String mois, String annee) {	
-		int reste = Integer.parseInt(nombre);
-		int [] idEtMin;
+		int reste = Integer.parseInt(nombre), j = 0;
+		Object [][] qteLot = dc.qteLotParTypeproduit(typeProduit);
 		while(reste > 0) {
-			idEtMin = dc.minQteLotParTypeproduit(typeProduit);
-
-			if (reste >= idEtMin[1]) {
-				dc.decrementerQteLot(idEtMin[0], 0);
+			if (reste >= (int)qteLot[j][1]) {
+				dc.decrementerQteLot((int)qteLot[j][0], 0);
 			} else {
-				dc.decrementerQteLot(idEtMin[0], idEtMin[1] - reste);
+				dc.decrementerQteLot((int)qteLot[j][0], (int)qteLot[j][1] - reste);
 			}
-			reste -= idEtMin[1];
+			reste -= (int)qteLot[j][1];
+			j++;
 		}
 
 		for (int i = 0; i < Integer.parseInt(nombre); i++) {
@@ -129,9 +128,13 @@ public class LogicielEmpCuisson {
 	public static void main(String[] args) {
 		LogicielEmpCuisson lec = new LogicielEmpCuisson(null);
 		DaoCuisson dc = new DaoCuisson();
-		Object[][] produit = lec.afficherProduitFrigo();
+		Object[][] produit = dc.qteLotParTypeproduit("Eau");
 		for (int i = 0; i < produit.length; i++) {
 			System.out.println(produit[i][0]+" "+produit[i][1]);
 		}
+	}
+
+	public int recupererTempsCuisson(String typeProduit) {
+		return dc.recupererTempsCuisson(typeProduit);
 	}
 }
