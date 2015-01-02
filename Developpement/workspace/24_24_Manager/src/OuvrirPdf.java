@@ -10,7 +10,7 @@ public class OuvrirPdf {
 	public static void ouvrirAide(){
 		Desktop d = Desktop.getDesktop();
 		try {
-			d.open(new File("aide.pdf"));
+			d.open(new File("aide/aide.pdf"));
 		} catch (IOException e1) {
 			System.out.println("Erreur ouverture aide format PDF.\n");
 		}
