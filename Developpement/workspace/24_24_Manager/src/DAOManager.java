@@ -4,7 +4,6 @@
          * and open the template in the editor.
          */
      
-
     import java.sql.DriverManager;
         import java.sql.ResultSet;
         import java.sql.ResultSetMetaData;
@@ -463,7 +462,48 @@
 
 
 
+         public void recupererTableLivraison(JTable jTable4){
+             try
+        {
+            
 
+            //  Read data from a table
+
+            String sql="Select typeproduit,idcommande,quantite,prixtype,TYPEPRODUIT.prixtype * LOT.quantite as prixtotal from TYPEPRODUIT,LOT where TYPEPRODUIT.nomtype=LOT.typeproduit AND LOT.statutlivraison=0";
+           
+            ResultSet rs = DatabaseAccess.jdbcExecuteQuery(sql );
+            ResultSetMetaData md = rs.getMetaData();  
+            //  Get row data
+
+            while (rs.next())
+            {          
+ 
+                    String typeproduit= rs.getString("typeproduit");
+                    int numCmd=rs.getInt("idcommande");
+                    int qte=rs.getInt("quantite");
+                    float prix=rs.getFloat("prixtotal");
+                    Object[] donnee = new Object[]
+                    {typeproduit,numCmd , qte,prix};
+                    ((TableModelGestion2)jTable4.getModel()).addRow(donnee);
+
+              
+            }
+
+            rs.close();  
+        }
+        catch(Exception e)
+        {
+            System.out.println( e );
+        }
+         }
+         
+         
+         
+         public ResultSet getTypeProduit(){
+             String sql = "Select nomtype from TYPEPRODUIT";
+           ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
+                  return rs;
+         }
 
 
 

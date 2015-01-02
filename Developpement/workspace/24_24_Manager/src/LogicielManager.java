@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -130,7 +129,12 @@ public class LogicielManager {
               return dm.getVendeur();
           }   
           
-          
+         public void recupererTableLivraison(JTable jTable4){
+             dm.recupererTableLivraison(jTable4);
+         }
+        public ResultSet getTypeProduit(){
+            return dm.getTypeProduit();
+        } 
           
    
 }

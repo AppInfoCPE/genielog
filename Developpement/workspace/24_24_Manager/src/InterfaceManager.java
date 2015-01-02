@@ -329,7 +329,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         try
         {
             //  Connect to an Access Database
-            Class.forName( driver );
+            /*  Class.forName( driver );
             connection = DriverManager.getConnection( url, userid, password );
 
             //  Read data from a table
@@ -339,9 +339,9 @@ public class InterfaceManager extends javax.swing.JFrame {
             ResultSet rs = stmt.executeQuery( sql );
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();
-
+            */
             //  Get row data
-
+            ResultSet rs=manager.getTypeProduit();
             while (rs.next())
             {
                 String typeProduit=rs.getString("nomtype");
@@ -349,9 +349,9 @@ public class InterfaceManager extends javax.swing.JFrame {
                 dlm2.addElement(typeProduit);
             }
 
-            rs.close();
+            /*   rs.close();
             stmt.close();
-            connection.close();
+            connection.close();*/
         }
         catch(Exception e)
         {
@@ -428,7 +428,8 @@ public class InterfaceManager extends javax.swing.JFrame {
                 "Produit", "Numero Commande", "Quantite", "Prix Total"
             }
         ));
-        try
+        manager.recupererTableLivraison(jTable4);
+        /*try
         {
             //  Connect to an Access Database
             Class.forName( driver );
@@ -468,6 +469,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         {
             System.out.println( e );
         }
+        */
         jTable4.setDefaultRenderer(Object.class, new MyTableCellRenderer());
         jTable4.getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
 
