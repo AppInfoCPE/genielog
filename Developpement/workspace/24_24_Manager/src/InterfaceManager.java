@@ -2194,11 +2194,11 @@ public class InterfaceManager extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration                   
-    static String driver = "com.mysql.jdbc.Driver";  
+   /* static String driver = "com.mysql.jdbc.Driver";  
     static   String url ="jdbc:mysql://db4free.net:3306/managerappinfo";
     static    String userid = "julien";
     static    String password = "skateboard1";
-    
+    */
     
   /*static String driver = "org.apache.derby.jdbc.ClientDriver";
     static   String url ="jdbc:derby://localhost:1527/boulangerie";
