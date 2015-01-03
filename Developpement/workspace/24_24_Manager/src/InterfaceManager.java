@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -114,38 +113,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         DefaultListModel dlmBis= new DefaultListModel();
         dlmBis=manager.recupererListHeurePointe();
         this.dlm=dlmBis;
-        /*try
-        {
-            //  Connect to an Access Database
-            Class.forName( driver );
-            connection = DriverManager.getConnection( url, userid, password );
-            //  Read data from a table
-
-            String sql = "Select debut,fin from HEURES_POINTES";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery( sql );
-            ResultSetMetaData md = rs.getMetaData();
-            int columns = md.getColumnCount();
-
-            //  Get row data
-
-            while (rs.next())
-            {
-                String debut=rs.getString("debut");
-                String fin=rs.getString("fin");
-                HeurePointe hp= new HeurePointe(debut,fin);
-                dlm.addElement(hp);
-            }
-
-            rs.close();
-            stmt.close();
-            connection.close();
-        }
-        catch(Exception e)
-        {
-            System.out.println( e );
-        }
-        */
+       
         jList1 = new javax.swing.JList();
         jLabel4 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
@@ -164,7 +132,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(Color.YELLOW);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(960, 600));
+        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jTabbedPane1.setBackground(new java.awt.Color(241, 246, 190));
 
@@ -178,51 +146,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         Vector<Object> columnNames1 = new Vector<Object>();
         Vector<Object> data1 = new Vector<Object>();
         manager.recupererTableStock(columnNames1, data1);
-        /*     try
-        {
-            //  Connect to an Access Database
-
-            Class.forName( driver );
-            connection = DriverManager.getConnection( url, userid, password );
-
-            //  Read data from a table
-            String sql="Select LOT.typeproduit,SUM(LOT.quantite) as qte,TYPEPRODUIT.qteministock,TYPEPRODUIT.qtemaxstock from LOT,TYPEPRODUIT WHERE TYPEPRODUIT.nomtype=LOT.typeproduit  AND LOT.statutlivraison=1 GROUP BY LOT.typeproduit,TYPEPRODUIT.qteministock,TYPEPRODUIT.qtemaxstock ";
-            //String sql = "Select TYPEPRODUIT.nomtype,SUM(quantite),qteministock,qtemaxstock from TYPEPRODUIT,LOT where TYPEPRODUIT.nomtype=LOT.typeproduit AND LOT.statutlivraison=1 GROUP BY LOT.typeproduit";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery( sql );
-            ResultSetMetaData md = rs.getMetaData();
-            int columns = md.getColumnCount();
-
-            //  Get column names
-
-            for (int i = 1; i <= columns; i++)
-            {
-                columnNames1.addElement( md.getColumnName(i) );
-            }
-
-            //  Get row data
-
-            while (rs.next())
-            {
-                Vector<Object> row = new Vector<Object>(columns);
-
-                for (int i = 1; i <= columns; i++)
-                {
-                    row.addElement( rs.getObject(i) );
-                }
-
-                data1.addElement( row );
-            }
-
-            rs.close();
-            stmt.close();
-            connection.close();
-        }
-        catch(Exception e)
-        {
-            System.out.println( e );
-        }
-        */
+      
 
         DefaultTableModel model1 = new DefaultTableModel(data1, columnNames1)
         {
@@ -281,8 +205,8 @@ public class InterfaceManager extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel5.setBackground(new java.awt.Color(223, 237, 214));
@@ -315,19 +239,6 @@ public class InterfaceManager extends javax.swing.JFrame {
 
         try
         {
-            //  Connect to an Access Database
-            /*  Class.forName( driver );
-            connection = DriverManager.getConnection( url, userid, password );
-
-            //  Read data from a table
-
-            String sql = "Select nomtype from TYPEPRODUIT";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery( sql );
-            ResultSetMetaData md = rs.getMetaData();
-            int columns = md.getColumnCount();
-            */
-            //  Get row data
             ResultSet rs=manager.getTypeProduit();
             while (rs.next())
             {
@@ -387,8 +298,8 @@ public class InterfaceManager extends javax.swing.JFrame {
                             .addComponent(jLabel5)
                             .addComponent(jButton4))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                .addGap(18, 18, 18))
         );
 
         jButton5.setText("Commander");
@@ -416,47 +327,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             }
         ));
         manager.recupererTableLivraison(jTable4);
-        /*try
-        {
-            //  Connect to an Access Database
-            Class.forName( driver );
-            connection = DriverManager.getConnection( url, userid, password );
-
-            //  Read data from a table
-
-            String sql="Select typeproduit,idcommande,quantite,prixtype,TYPEPRODUIT.prixtype * LOT.quantite as prixtotal from TYPEPRODUIT,LOT where TYPEPRODUIT.nomtype=LOT.typeproduit AND LOT.statutlivraison=0";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery( sql );
-            ResultSetMetaData md = rs.getMetaData();
-            int columns = md.getColumnCount();
-
-            //  Get row data
-
-            while (rs.next())
-            {
-                //for (int i = 1; i <= columns; i++)
-                //{
-                    String typeproduit= rs.getString("typeproduit");
-                    int numCmd=rs.getInt("idcommande");
-                    int qte=rs.getInt("quantite");
-                    float prix=rs.getFloat("prixtotal");
-                    Object[] donnee = new Object[]
-                    {typeproduit,numCmd , qte,prix};
-                    ((TableModelGestion2)jTable4.getModel()).addRow(donnee);
-
-                    //}
-
-            }
-
-            rs.close();
-            stmt.close();
-            connection.close();
-        }
-        catch(Exception e)
-        {
-            System.out.println( e );
-        }
-        */
+      
         jTable4.setDefaultRenderer(Object.class, new MyTableCellRenderer());
         jTable4.getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
 
@@ -504,8 +375,8 @@ public class InterfaceManager extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7)
@@ -521,7 +392,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(17, 17, 17)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -533,25 +404,25 @@ public class InterfaceManager extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(43, 43, 43)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jButton5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton6)
                                 .addGap(57, 57, 57))
-                            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
         JPanel panelHaut = new PanelInformation(this);
-        panelHaut.setBounds(500, 10, 400, 30);
+        panelHaut.setBounds(750, 10, 400, 30);
         jPanel2.add(panelHaut);
 
         jTabbedPane1.addTab("Gestion des stocks", jPanel2);
@@ -569,51 +440,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         Vector<Object> columnNames = new Vector<Object>();
         Vector<Object> data = new Vector<Object>();
         manager.recupererTableConfig(columnNames, data);
-        /* try
-        {
-            //  Connect to an Access Database
-
-            Class.forName( driver );
-            connection = DriverManager.getConnection( url, userid, password );
-
-            //  Read data from a table
-
-            String sql = "Select nomtype,prixtype,tempscuisson,qteminiheurepleine,qteminiheurestandard,qtecuireheurepleine,qtecuireheurestandard,categorie,qteministock,qtemaxstock from TYPEPRODUIT";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery( sql );
-            ResultSetMetaData md = rs.getMetaData();
-            int columns = md.getColumnCount();
-
-            //  Get column names
-
-            for (int i = 1; i <= columns; i++)
-            {
-                columnNames.addElement( md.getColumnName(i) );
-            }
-
-            //  Get row data
-
-            while (rs.next())
-            {
-                Vector<Object> row = new Vector<Object>(columns);
-
-                for (int i = 1; i <= columns; i++)
-                {
-                    row.addElement( rs.getObject(i) );
-                }
-
-                data.addElement( row );
-            }
-
-            rs.close();
-            stmt.close();
-            connection.close();
-        }
-        catch(Exception e)
-        {
-            System.out.println( e );
-        }
-        */
+        
         DefaultTableModel model = new DefaultTableModel(data, columnNames)
         {
 
@@ -755,7 +582,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 .addGap(185, 185, 185)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                         .addGap(243, 243, 243))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -780,15 +607,14 @@ public class InterfaceManager extends javax.swing.JFrame {
                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(31, 31, 31)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
                 .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addGap(78, 78, 78)
                         .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jButton2.setBackground(new java.awt.Color(218, 202, 251));
@@ -809,7 +635,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(208, 208, 208)
+                        .addGap(198, 198, 198)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -820,16 +646,17 @@ public class InterfaceManager extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(197, 197, 197)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(1167, 1167, 1167))
         );
 
         JPanel panelHaut1 = new PanelInformation(this);
-        panelHaut1.setBounds(500, 10, 400, 30);
+        panelHaut1.setBounds(750, 10, 400, 30);
         jPanel1.add(panelHaut1);
 
         jTabbedPane1.addTab("Configuration", jPanel1);
@@ -854,15 +681,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         int prodVendusAn=0,prodJetesAn=0,prodPerdusAn=0;
         try
         {
-            //  Connect to an Access Database
-            //   Class.forName( driver );
-            // connection = DriverManager.getConnection( url, userid, password );
-            /////////////////////
-            //////PROD VENDUS////
-            /////////////////////
-            // String sql = "SELECT COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND v.datevente = CURRENT_DATE AND p.id= l.idproduit AND p.status='vendu'";
-            // Statement stmt = connection.createStatement();
-            // ResultSet rs = stmt.executeQuery( sql );
+            
             ResultSet rs=manager.prodVendu1();
             //  Get row data
             while (rs.next())
@@ -870,19 +689,15 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodVendus=rs.getInt("nbrProd");
             }
 
-            // sql = "SELECT COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND WEEK(v.datevente) = WEEK(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu'";
-            //stmt = connection.createStatement();
-            //rs = stmt.executeQuery( sql );
+            
             rs=manager.prodVendu2();
-            //  Get row data
+            
             while (rs.next())
             {
                 prodVendusSem=rs.getInt("nbrProd");
             }
 
-            // sql = "SELECT COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND MONTH(v.datevente) = MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu'";
-            // stmt = connection.createStatement();
-            //rs = stmt.executeQuery( sql );
+            
             rs=manager.prodVendu3();
             //  Get row data
             while (rs.next())
@@ -890,9 +705,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodVendusMois=rs.getInt("nbrProd");
             }
 
-            // sql = "SELECT COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu'";
-            //stmt = connection.createStatement();
-            //rs = stmt.executeQuery( sql );
+           
             rs=manager.prodVendu4();
             //  Get row data
             while (rs.next())
@@ -903,9 +716,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             ///////////////////
             /////PROD JETES////
             //////////////////
-            // sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND v.datevente = CURRENT_DATE AND p.id= l.idproduit AND p.status='jete'";
-            // stmt = connection.createStatement();
-            //rs = stmt.executeQuery( sql );
+            
             rs=manager.prodJet1();
             //  Get row data
             while (rs.next())
@@ -914,9 +725,7 @@ public class InterfaceManager extends javax.swing.JFrame {
 
             }
 
-            //sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND WEEK(v.datevente) = WEEK(CURRENT_DATE) AND p.id= l.idproduit AND p.status='jete'";
-            //stmt = connection.createStatement();
-            //rs = stmt.executeQuery( sql );
+            
             rs=manager.prodJet2();
             //  Get row data
             while (rs.next())
@@ -924,9 +733,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodJetesSem=rs.getInt("nbrProdJet");
             }
 
-            // sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND MONTH(v.datevente) = MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='jete'";
-            //stmt = connection.createStatement();
-            // rs = stmt.executeQuery( sql );
+            
             rs=manager.prodJet3();
             //  Get row data
             while (rs.next())
@@ -934,9 +741,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodJetesMois=rs.getInt("nbrProdJet");
             }
 
-            //   sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='jete'";
-            //  stmt = connection.createStatement();
-            // rs = stmt.executeQuery( sql );
+            
             rs=manager.prodJet4();
             //  Get row data
             while (rs.next())
@@ -947,9 +752,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             ///////////////////
             /////PROD PERDUS////
             //////////////////
-            // sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND v.datevente = CURRENT_DATE AND p.id= l.idproduit AND p.status='perime'";
-            // stmt = connection.createStatement();
-            // rs = stmt.executeQuery( sql );
+           
             rs=manager.prodPerdu1();
             //  Get row data
             while (rs.next())
@@ -957,9 +760,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodPerdus=rs.getInt("nbrProdPerdus");
             }
 
-            //sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND WEEK(v.datevente) = WEEK(CURRENT_DATE) AND p.id= l.idproduit AND p.status='perime'";
-            //stmt = connection.createStatement();
-            //rs = stmt.executeQuery( sql );
+           
             rs=manager.prodPerdu2();
             //  Get row data
             while (rs.next())
@@ -967,9 +768,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodPerdusSem=rs.getInt("nbrProdPerdus");
             }
 
-            // sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND MONTH(v.datevente) = MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='perime'";
-            // stmt = connection.createStatement();
-            // rs = stmt.executeQuery( sql );
+          
             rs=manager.prodPerdu3();
             //  Get row data
             while (rs.next())
@@ -977,9 +776,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodPerdusMois=rs.getInt("nbrProdPerdus");
             }
 
-            // sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='perime'";
-            // stmt = connection.createStatement();
-            // rs = stmt.executeQuery( sql );
+            
             rs=manager.prodPerdu4();
             //  Get row data
             while (rs.next())
@@ -1047,8 +844,8 @@ public class InterfaceManager extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1070,14 +867,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         HashMap<String,Integer> hm4= new HashMap<String,Integer>();
         try
         {
-            //  Connect to an Access Database
-            //  Class.forName( driver );
-            // connection = DriverManager.getConnection( url, userid, password );
-
-            //  Read data from a table
-            // String sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND v.datevente =CURRENT_DATE AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
-            // Statement stmt = connection.createStatement();
-            // ResultSet rs = stmt.executeQuery( sql );
+            
             ResultSet rs=manager.UserVente1();
             //  Get row data
             while (rs.next())
@@ -1087,9 +877,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 hm1.put(user, nbrProd);
             }
 
-            // sql ="SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND WEEK(v.datevente) = WEEK (CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant" ;
-            // stmt = connection.createStatement();
-            // rs = stmt.executeQuery( sql );
+            
             rs=manager.UserVente2();
             //  Get row data
             while (rs.next())
@@ -1099,9 +887,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 hm2.put(user, nbrProd);
             }
 
-            // sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND MONTH(v.datevente) =MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
-            // stmt = connection.createStatement();
-            // rs = stmt.executeQuery( sql );
+           
             rs=manager.UserVente3();
             //  Get row data
             while (rs.next())
@@ -1111,9 +897,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 hm3.put(user, nbrProd);
             }
 
-            //sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
-            // stmt = connection.createStatement();
-            // rs = stmt.executeQuery( sql );
+          
             rs=manager.UserVente4();
             //  Get row data
             while (rs.next())
@@ -1124,32 +908,17 @@ public class InterfaceManager extends javax.swing.JFrame {
             }
 
             rs.close();
-            //stmt.close();
-            //connection.close();
+          
         }
         catch(Exception e)
         {
             System.out.println( e );
         }
-        /*
-        Set cles= hm2.keySet();
-        Iterator it = cles.iterator();
-        while (it.hasNext()){
-            String key=(String)it.next();
-            System.out.println(key + hm2.get(key));
-        }*/
+        
         ArrayList listUser=new ArrayList();
         try
         {
-            //  Connect to an Access Database
-            // Class.forName( driver );
-            //connection = DriverManager.getConnection( url, userid, password );
-
-            //  Read data from a table
-
-            // String sql = "Select identifiant from UTILISATEUR where role='Vendeur'";
-            // Statement  stmt = connection.createStatement();
-            // ResultSet  rs = stmt.executeQuery( sql
+            
                 ResultSet  rs=manager.getVendeur();
                 //  Get row data
 
@@ -1159,9 +928,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                     listUser.add(u);
                 }
 
-                // rs.close();
-                //  stmt.close();
-                // connection.close();
+                
             }
             catch(Exception e)
             {
@@ -1217,8 +984,8 @@ public class InterfaceManager extends javax.swing.JFrame {
                 jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
                     .addComponent(jLabel7)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(7, 7, 7)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
                     .addContainerGap())
             );
 
@@ -1232,10 +999,10 @@ public class InterfaceManager extends javax.swing.JFrame {
                 jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap())
             );
             jPanel7Layout.setVerticalGroup(
                 jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1249,7 +1016,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             );
 
             JPanel panelHaut2 = new PanelInformation(this);
-            panelHaut2.setBounds(500, 10, 400, 30);
+            panelHaut2.setBounds(750, 10, 400, 30);
             jPanel7.add(panelHaut2);
 
             jTabbedPane1.addTab("Statistiques", jPanel7);
@@ -1280,42 +1047,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         if(quantite!=0){ 
          
             float prixTotal=manager.prixTotal(produit, quantite);
-//Cacul prix total            
-/*            
-        float prixTotal=0;
-        try
-        {
-            //  Connect to an Access Database
-             Class.forName( driver );
-             connection = DriverManager.getConnection( url, userid, password );
-
-            //  Read data from a table
-
-            String sql = "Select prixtype from TYPEPRODUIT where nomtype='"+produit+"'";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery( sql );
-            ResultSetMetaData md = rs.getMetaData();
-            int columns = md.getColumnCount();            
-
-            //  Get row data
-
-            while (rs.next())
-            {
-             float prix=rs.getFloat("prixtype");
-             System.out.println(prix);
-            
-             prixTotal=prix * quantite;
-            }
-
-            rs.close();
-            stmt.close();
-            connection.close();
-        }
-        catch(Exception e)
-        {
-            System.out.println( e );
-        }
-      */  
+ 
         
         Object[] donnee = new Object[]
             {produit, quantite, prixTotal};
@@ -1365,25 +1097,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         int idcmd=cmd.getId();
         //Update Table COMMANDE
         manager.updateCommande(cmd);
-          /* try {
-                    Class.forName( driver );
-                    connection = DriverManager.getConnection( url, userid, password );
-                    Statement stmt = connection.createStatement();
-                    String sql = null;
-
-                    stmt.executeUpdate("INSERT INTO COMMANDE(date) VALUES('"+cmd.getDateCmd()+"')");
-
-                    stmt.close();
-                    connection.close();
-
-                 
-                } catch (MySQLIntegrityConstraintViolationException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(InterfaceManager.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
+         
 
                 
         
@@ -1418,24 +1132,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 
                  //Update Table Lot
                  manager.updateLot(cmd, status, typeProd, qte);
-                 /*try {
-                    Class.forName( driver );
-                    connection = DriverManager.getConnection( url, userid, password );
-                    Statement stmt = connection.createStatement();
-                    String sql = null;
-                    stmt.executeUpdate("INSERT INTO LOT(idcommande,quantite,typeproduit,statutlivraison) VALUES("+cmd.getId()+","+qte+",'"+typeProd+"',"+status+")");
-
-                    stmt.close();
-                    connection.close();
-
-                 
-                } catch (MySQLIntegrityConstraintViolationException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(InterfaceManager.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
+                
                  
                  
                  
@@ -1461,11 +1158,7 @@ public class InterfaceManager extends javax.swing.JFrame {
        int nbrLignes[]=jTable4.getSelectedRows();
 
       
-       // try {
-         //   Class.forName( driver );
-           // connection = DriverManager.getConnection( url, userid, password );
-            //Statement stmt = connection.createStatement();
-         //   String sql = null;
+      
           
          if(jTable4.getRowCount() > 0){
            // ((TableModelGestion1)jTable4.getModel()).removeRow();
@@ -1478,28 +1171,13 @@ public class InterfaceManager extends javax.swing.JFrame {
                 
                 manager.annuleLivraison(nomType, numCmd, qte);
          
-                 /*  sql = "DELETE FROM LOT "
-                   
-                    + " WHERE  typeproduit= '"+nomType+"' "
-                    + " AND  idcommande= "+numCmd+" "
-                    + " AND  quantite= "+qte+" "
-                    ;
-              
-               
-                stmt.executeUpdate(sql); */
+                
            
                
             }
              }
 
-         /*   stmt.close();
-            connection.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       */
+       
         
          
  
@@ -1517,12 +1195,7 @@ public class InterfaceManager extends javax.swing.JFrame {
          int nbrLignes[]=jTable4.getSelectedRows();
 
       
-        /*try {
-            Class.forName( driver );
-            connection = DriverManager.getConnection( url, userid, password );
-            Statement stmt = connection.createStatement();
-            String sql = null;
-          */
+       
          if(jTable4.getRowCount() > 0){
            // ((TableModelGestion1)jTable4.getModel()).removeRow();
             for(int i=0;i<nbrLignes.length;i++){
@@ -1536,27 +1209,11 @@ public class InterfaceManager extends javax.swing.JFrame {
          System.out.println(qte);
          manager.valideLivraison(nomType, numCmd, qte);
          
-          /*           sql = "UPDATE LOT "
-                    + " SET statutlivraison=1 "
-                    + " WHERE  typeproduit= '"+nomType+"' "
-                    + " AND  idcommande= "+numCmd+" "
-                    + " AND  quantite= "+qte+" "
-                    + " AND  statutlivraison= 0 ";
-              
-               
-              stmt.executeUpdate(sql); 
-          
-             */  
+        
             } 
              }
 
-            /*stmt.close();
-            connection.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+           
        
         
          
@@ -1612,106 +1269,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(InterfaceManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-            /* try {
-                Class.forName( driver );
-                connection = DriverManager.getConnection( url, userid, password );
-                Statement stmt = connection.createStatement();
-                String sql = null;
-                for(int i=0;i<jTable1.getRowCount();i++){
-                    // System.out.println(table.getRowCount());
-
-                    String nomType=jTable1.getValueAt(i, 0).toString();
-                    float prix=(float) jTable1.getValueAt(i,1 );
-
-                    float tempCuisson=0.0f;
-                    if(jTable1.getValueAt(i, 2)!=null){
-                        tempCuisson=(float) jTable1.getValueAt(i,2);
-                    }
-                    int qteMiniHeureP=(int) jTable1.getValueAt(i, 3);
-                    int qteMiniHeureS= (int) jTable1.getValueAt(i,4 );
-                    int qteCuireHeureP=(int) jTable1.getValueAt(i, 5);
-                    int qteCuireHeureS=(int) jTable1.getValueAt(i, 6);
-                    String Cat=jTable1.getValueAt(i, 7).toString();
-                    int qteMiniStock=(int) jTable1.getValueAt(i, 8);
-                    int qteMaxStock=(int) jTable1.getValueAt(i, 9);
-
-                    if(qteMaxStock>=qteMiniStock && qteCuireHeureP>=qteCuireHeureS && qteMiniHeureP>=qteMiniHeureS){
-
-                        if(Cat.equals("Boisson")){
-
-                            sql = "UPDATE TYPEPRODUIT "
-                            + "SET nomtype='"+nomType+"',"
-                            + "prixtype="+prix+","
-
-                            + "tempscuisson=NULL,"
-                            + "qteminiheurepleine="+qteMiniHeureP+","
-                            + "qteminiheurestandard="+qteMiniHeureS+","
-                            + "qtecuireheurepleine="+qteCuireHeureP+","
-                            + "qtecuireheurestandard="+qteCuireHeureS+","
-                            + "categorie='"+Cat+"',"
-                            + "qteministock="+qteMiniStock+","
-                            + "qtemaxstock="+qteMaxStock+" "
-
-                            + "WHERE  nomtype= '"+nomType+"'";
-
-                        }
-                        else{
-                            sql = "UPDATE TYPEPRODUIT "
-                            + "SET nomtype='"+nomType+"',"
-                            + "prixtype="+prix+","
-
-                            + "tempscuisson="+tempCuisson+","
-                            + "qteminiheurepleine="+qteMiniHeureP+","
-                            + "qteminiheurestandard="+qteMiniHeureS+","
-                            + "qtecuireheurepleine="+qteCuireHeureP+","
-                            + "qtecuireheurestandard="+qteCuireHeureS+","
-                            + "categorie='"+Cat+"',"
-                            + "qteministock="+qteMiniStock+","
-                            + "qtemaxstock="+qteMaxStock+" "
-
-                            + "WHERE  nomtype= '"+nomType+"'";
-                        }
-
-                        stmt.executeUpdate(sql);
-
-                    }
-                    else {//qteMaxStock<qteMiniStock && qteCuireHeureP<qteCuireHeureS && qteMiniHeureP<qteMiniHeureS
-
-                        sql = "Select * from TYPEPRODUIT";
-                        ResultSet rs = stmt.executeQuery( sql );
-                        ResultSetMetaData md = rs.getMetaData();
-
-                        //  Get row data
-
-                        while (rs.next())
-                        {
-                            System.out.println(rs.getRow());
-                            jTable1.setValueAt(rs.getInt("qtecuireheurepleine"), rs.getRow()-1,5);
-                            jTable1.setValueAt(rs.getInt("qtecuireheurestandard"),rs.getRow()-1,6);
-                            jTable1.setValueAt(rs.getInt("qteminiheurepleine"), rs.getRow()-1,3);
-                            jTable1.setValueAt(rs.getInt("qteminiheurestandard"),rs.getRow()-1,4);
-                            jTable1.setValueAt(rs.getInt("qteministock"),rs.getRow()-1,8);
-                            jTable1.setValueAt(rs.getInt("qtemaxstock"),rs.getRow()-1,9);
-
-                        }
-
-                        JOptionPane.showMessageDialog(this,
-                            "Qte(Cuire/Stock) Heure Pleine doit > Qte(Cuire/Stock) Heure Standard",
-                            "Insane error",JOptionPane.ERROR_MESSAGE); break;
-                    }
-                }
-
-                stmt.close();
-                connection.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            */
-
-            //JOptionPane.showMessageDialog(this,
-                //        "DB est bien updated");
+           
         }
         else{
             Vector<Object> columnNames = new Vector<Object>();
@@ -1760,26 +1318,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             String fin=hp1.getFin();
             ////DELETE DBB
             System.out.println(debut+" "+fin);
-            /* try
-            {
-                //  Connect to an Access Database
-                Class.forName( driver );
-                connection = DriverManager.getConnection( url, userid, password );
-
-                //  Read data from a table
-
-                String sql = "DELETE FROM HEURES_POINTES WHERE debut='"+debut+"' AND fin='"+fin+"'";
-                Statement stmt = connection.createStatement();
-                int rs=stmt.executeUpdate(sql );
-
-                //  Get row data
-                stmt.close();
-                connection.close();
-            }
-            catch(Exception e)
-            {
-                System.out.println( e );
-            }*/
+            
             manager.supprHeurePointe(debut, fin);
             dlm.removeElement(hp);
             jList1.setModel(dlm);
@@ -1846,32 +1385,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 dlm.addElement(hp);
                 jList1.setModel(dlm);
 
-                /*            try {
-                    Class.forName( driver );
-                    connection = DriverManager.getConnection( url, userid, password );
-                    Statement stmt = connection.createStatement();
-                    String sql = null;
-
-                    stmt.executeUpdate("INSERT INTO HEURES_POINTES(DEBUT,FIN) VALUES('"+debutTime+"','"+finTime+"')");
-
-                    stmt.close();
-                    connection.close();
-
-                    /////////////////
-                    //Update JLIST///
-                    ////////////////
-                    HeurePointe hp= new HeurePointe(debutTime,finTime);
-                    dlm.addElement(hp);
-                    jList1.setModel(dlm);
-                } catch (MySQLIntegrityConstraintViolationException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(IHM_Manager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                */
-
+             
                 JOptionPane.showMessageDialog(this,
                     "Success");
                 // HeurePointe hp=new HeurePointe();
@@ -1953,79 +1467,9 @@ public class InterfaceManager extends javax.swing.JFrame {
     return false;
 
 }
-   /* public int qteStockFrigo(String nomProduit){
-        
-        int nbr=0;
-        try
-        {
-            //  Connect to an Access Database
-            Class.forName( driver );
-             connection = DriverManager.getConnection( url, userid, password );
 
-            //  Read data from a table
-
-            String sql = "Select * from LOT";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery( sql );
-            ResultSetMetaData md = rs.getMetaData();
-            int columns = md.getColumnCount();
-
-
-            //  Get row data
-
-            while (rs.next())
-            {
-                Vector<Object> row = new Vector<Object>(columns);
-
-                //for (int i = 1; i <= columns; i++)
-                //{
-                   // row.addElement( rs.getObject(i) );
-                    if(rs.getObject("typeproduit").toString().equals(nomProduit) && rs.getObject("statutlivraison").toString().equals("true")){
-                        nbr= Integer.parseInt( rs.getObject("quantite").toString()) + nbr;
-                    }
-                  
-               // }
-
-           
-            }
-
-            rs.close();
-            stmt.close();
-            connection.close();
-        }
-        catch(Exception e)
-        {
-            System.out.println( e );
-        }
-        
-        return nbr;
-    }
-    */
     
     
-   /* public Object CleCommune(HashMap hm1,HashMap hm2){
-        Object obj=null;
-        
-        Set cles= hm1.keySet();
-        Iterator it = cles.iterator();
-        
-        Set cles1= hm2.keySet();
-        Iterator it1 = cles1.iterator();
-        
-        
-        while (it.hasNext()){
-            while (it1.hasNext()){
-                if(it.next().equals(it1.next())){ obj=it.next();break;}
-                
-            }
-            
-         }
-        return obj;
-    }
-    
-    */
-    
-
     // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -2074,16 +1518,7 @@ public class InterfaceManager extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration                   
-    static String driver = "com.mysql.jdbc.Driver";  
-    static   String url ="jdbc:mysql://db4free.net:3306/managerappinfo";
-    static    String userid = "julien";
-    static    String password = "skateboard1";
-    
-    
-  /*static String driver = "org.apache.derby.jdbc.ClientDriver";
-    static   String url ="jdbc:derby://localhost:1527/boulangerie";
-    static    String userid = "longledac";
-    static    String password = "ditmechungmay";*/
+   
     private LogicielManager manager;   
     private static Connection connection =null;
     private DefaultListModel dlm= new DefaultListModel();
