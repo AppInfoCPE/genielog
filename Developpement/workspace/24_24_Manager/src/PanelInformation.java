@@ -10,6 +10,7 @@ import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -54,6 +55,8 @@ public class PanelInformation extends JPanel{
 		
 		boutonDeco.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				iv.mc.annulerVente(iv.numVente);	
+				iv.mc.supprimerVenteBDD(iv.numVente);
 				new InterfaceConnection(new LogicielConnection());
 				iv.dispose();
 			}

@@ -1,6 +1,7 @@
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -12,6 +13,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 import javax.swing.BorderFactory;
+import javax.swing.CellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -28,12 +30,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 public class InterfaceVente extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel paneVente;
@@ -62,12 +62,16 @@ public class InterfaceVente extends JFrame {
 	JTextField TFNTotalJournee=new JTextField();
 	public Vente venteEnCour;
 	public String paiement;
+	
+	private GestionnaireFenetre gestionFenetre; 
 	/**
 	 * Create the frame.
 	 */
 	public InterfaceVente(LogicielVendeur mc,Utilisateur actif) {
 		this.mc = mc;
 		this.actif=actif;
+		gestionFenetre= new GestionnaireFenetre(this);
+		addWindowListener(gestionFenetre);
 		setTitle("24/24 Manager");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
@@ -75,16 +79,14 @@ public class InterfaceVente extends JFrame {
 		contentPane.setBackground(new Color(241, 246, 190));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);	
+		contentPane.setLayout(null);		
 		setVisible(true);
 		
 		//Panel info
 		JPanel panelHaut = new PanelInformation(this);
 		panelHaut.setBounds(900, 10, 400, 30);
-		
 		contentPane.add(panelHaut);		
-		
-		
+				
 		//création d'une vente
 		venteEnCour=new Vente(actif.getLogin());
 		numVente=venteEnCour.getNumVente();
@@ -126,21 +128,13 @@ public class InterfaceVente extends JFrame {
 		//Recherche des produits ayant le statut en vente
 		donneesEnVente = mc.rechercherProduitEnVente(numVente);
 		TabModelVente modelTabVente = new TabModelVente(donneesEnVente);
-		tableVente.setModel(modelTabVente);
-		//centrer le contenu d'une cellule	
-		DefaultTableCellRenderer alignDroit = new DefaultTableCellRenderer();
-		DefaultTableCellRenderer alignCentre = new DefaultTableCellRenderer();
-		alignDroit.setHorizontalAlignment(SwingConstants.RIGHT);		
-		alignCentre.setHorizontalAlignment(SwingConstants.CENTER);
-		tableVente.getColumn("Produit") .setCellRenderer(alignDroit);
-		tableVente.getColumn("Quantite") .setCellRenderer(alignCentre);
-		tableVente.getColumn("Prix unite") .setCellRenderer(alignCentre);
-		tableVente.getColumn("Prix total") .setCellRenderer(alignCentre);
+		tableVente.setModel(modelTabVente);				
+		tableVente.setDefaultRenderer(Object.class, new MyTableCellRenderer());		
 		//ajouter bouton de suppression
 		tableVente.getColumn("Supprimer").setCellRenderer(new ButtonRenderer());
 		tableVente.getColumn("Supprimer").setCellEditor(new ButtonEditor(new JCheckBox(), this, donneesEnVente));
 		tableVente.repaint();
-				
+					
 		//activer les boutons d'encaissement
 		for (int i=0;i<tab_button_Mpaiement.length;i++){	    		
 			if(tableVente.getRowCount()>0){
@@ -183,21 +177,19 @@ public class InterfaceVente extends JFrame {
 		//Desactivation de l'edition d'un cellule lors d'un double click
 		tableVente = new JTable(){		
 			public boolean isCellEditable(int row, int column) {
-				boolean temp = false;				
+				boolean temp = false;			
 				if(column == 4){
 					temp=true;
 				}
+				
 				return temp;
-			} 
+			}			
 		};
-		
+		tableVente.setName("tableVente");
 		tableVente.setBackground(new Color(201, 241, 253));
-		tableVente.setShowGrid(false);
-		
-		MAJTableVente();
-		//alternance de couleurs entre ligne
-		tableVente.setDefaultRenderer(Object.class, new MyTableCellRenderer());		
-		
+		tableVente.setShowGrid(false);	
+		MAJTableVente();	
+	
 		//ajout d'une scrollbare au tableau
 		JScrollPane scrollPane = new JScrollPane(tableVente);
 		scrollPane.getViewport().setBackground(new Color(201, 241, 253));
@@ -289,7 +281,9 @@ public class InterfaceVente extends JFrame {
 			tfValeur.setText("");
 			tfMontantDonne.setText("");
 			for (int i=0;i<=tab_button_Chiffre.length;i++){
-				tab_button_Chiffre[i].setEnabled(false);	
+				if(tab_button_Chiffre[i].isEnabled()){
+					tab_button_Chiffre[i].setEnabled(false);
+				}	
 			}
 		}
 	}
@@ -313,12 +307,14 @@ public class InterfaceVente extends JFrame {
 		
 		//Mode Paiement
 		JPanel panelModePaiement = new JPanel();
+		panelModePaiement.setBackground(new Color(218, 202, 251));
 		panelModePaiement.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelModePaiement.setBounds(875, 90, 375, 160);
 		initModePaiement(panelModePaiement);
 		
 		//Affichage pave numerique
 		JPanel panelChiffre = new JPanel();
+		panelChiffre.setBackground(new Color(218, 202, 251));
 		panelChiffre.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelChiffre.setBounds(875, 250, 375, 250);
 		initChiffrePaiement(panelChiffre);
@@ -333,6 +329,7 @@ public class InterfaceVente extends JFrame {
 		
 		//affichage donnees saisie / a rendre
 		JPanel panelRendre = new JPanel();
+		panelRendre.setBackground(new Color(218, 202, 251));
 		panelRendre.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelRendre.setBounds(875, 500, 375, 160);
 		
@@ -408,13 +405,21 @@ public class InterfaceVente extends JFrame {
 
 	class ChiffreListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-		//on affiche le chiffre dans la texte box : montant donne
+			DecimalFormat df = new DecimalFormat("#.##");
+			DecimalFormatSymbols dfs=new DecimalFormatSymbols();
+			dfs.setDecimalSeparator('.');
+			df.setDecimalFormatSymbols(dfs);
+			//on affiche le chiffre dans la texte box : montant donne
 			String Cliquer = ((JButton)e.getSource()).getText();
 			String Existant = tfMontantDonne.getText();
 			float montantDonnee, montantPrix, rendu;
 			
 			if (Cliquer == "<="){
-				tfMontantDonne.setText(Existant.substring(0,Existant.length()-1));
+				if(Existant.length()==1){
+					tfMontantDonne.setText("0");
+				}else{
+					tfMontantDonne.setText(Existant.substring(0,Existant.length()-1));
+				}
 			}else{
 				if (Existant.equals("0")){
 					tfMontantDonne.setText("");
@@ -431,9 +436,8 @@ public class InterfaceVente extends JFrame {
 			}
 			else
 				rendu=0;
-			 
-			
-			tfValeur.setText(Float.toString(rendu));
+
+			tfValeur.setText(String.valueOf(df.format(rendu)));
 			bEncaisser.setEnabled(true);
 		}
 	}
@@ -496,7 +500,7 @@ public class InterfaceVente extends JFrame {
 	class encaisserListener implements ActionListener {
 	    public void actionPerformed(ActionEvent e){
 	    	//String message = ((JButton)e.getSource()).getName()+" "+tfMontantDonne.getText();
-	    	System.out.println(paiement);
+	    	//System.out.println(paiement);
 	    	mc.terminerVente(numVente, paiement);
 	    	/*String message = "Nous venons d'encaisser : "+tfMontantDonne.getText()+"€\nMontant ‡ rendre : "+tfValeur.getText();
 	    	JOptionPane.showMessageDialog(null,message);*/
@@ -517,7 +521,7 @@ public class InterfaceVente extends JFrame {
 	    	completeResumeVente();
 	    	venteEnCour = new Vente(actif.getLogin());
 	    	numVente = venteEnCour.getNumVente();
-	    	System.out.println(numVente);
+	    	//System.out.println(numVente);
 	    }
 	}
 	
@@ -587,7 +591,7 @@ public class InterfaceVente extends JFrame {
 	    	String nomProduit = ((JButton)e.getSource()).getName();
 	    	//JOptionPane.showMessageDialog(null,nomProduit);
 	    	mc.ajoutProduitVente(nomProduit,numVente);
-	    	System.out.println(e.getSource());
+	    	//System.out.println(e.getSource());
 	    	//listeVeinoisserie(onglet1);
 			//listeBoisson(onglet2);
 	    	//JOptionPane.showMessageDialog(null, "fjkfn");
@@ -637,7 +641,7 @@ public class InterfaceVente extends JFrame {
 				TFNTotal.setText(String.valueOf(df.format(prixTotal)));
 			}
 			prixTotalJournee=mc.rechercherTotalVenteJournee(actif);
-			System.out.println(prixTotalJournee);
+			//System.out.println(prixTotalJournee);
 			TFNTotalJournee.setText(String.valueOf(df.format(prixTotalJournee)));
 		}		
 	}

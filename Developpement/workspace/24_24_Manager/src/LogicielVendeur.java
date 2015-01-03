@@ -167,7 +167,7 @@ public class LogicielVendeur {
 		//Affiche le produit
 		ResultSet resultat;
 		//System.out.println(nomProduit);
-		System.out.println(numVente);
+		//System.out.println(numVente);
 		//Va ajouter  une vente en cours
 		//dv.executeRequeteInsert("INSERT INTO `LIENPRODUITVENTE`(`idproduit`, `numvente`) VALUES ((SELECT PRODUIT.id FROM `PRODUIT` WHERE `dateperemption`= (SELECT min(`dateperemption`) FROM `PRODUIT` WHERE `typeproduit`='"+nomProduit+"' and `status` = 'envente') AND `typeproduit`='"+nomProduit+"' and `status` = 'envente' GROUP BY PRODUIT.typeProduit),"+numVente+")");
 		
@@ -278,5 +278,15 @@ public class LogicielVendeur {
 		catch (Exception e) {
 			System.out.println(e);
 		}
+	}
+	public void supprimerVenteBDD(Integer numVente) {
+		// TODO Auto-generated method stub
+		
+		try {
+			dv.executeRequeteInsert("DELETE FROM `VENTE` WHERE `numvente`="+numVente);			
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}		
 	}
 }
