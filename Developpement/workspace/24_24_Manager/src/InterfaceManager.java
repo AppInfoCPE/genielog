@@ -69,10 +69,6 @@ public class InterfaceManager extends javax.swing.JFrame {
     	setVisible(true);
         initComponents();
     }
-    
-    public LogicielManager getLogicielManager(){
-    	return this.manager;
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -103,9 +99,6 @@ public class InterfaceManager extends javax.swing.JFrame {
         jTable4 = new javax.swing.JTable();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(new Date()));
-        jButton9 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -157,9 +150,6 @@ public class InterfaceManager extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(new Date()));
-        jLabel11 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -170,9 +160,6 @@ public class InterfaceManager extends javax.swing.JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         jTable6 = new javax.swing.JTable();
         jPanel10 = new javax.swing.JPanel();
-        jButton11 = new javax.swing.JButton();
-        jLabel12 = new javax.swing.JLabel(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(new Date()));
-        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(Color.YELLOW);
@@ -401,7 +388,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                             .addComponent(jButton4))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jButton5.setText("Commander");
@@ -506,7 +493,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addComponent(jButton7)
@@ -525,19 +512,6 @@ public class InterfaceManager extends javax.swing.JFrame {
                     .addComponent(jButton8)))
         );
 
-        jLabel8.setText(manager.getPrenomNomUtilisateur());
-
-        /*
-        jLabel9.setText(null);
-        */
-
-        jButton9.setText("Deconnexion");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -548,54 +522,44 @@ public class InterfaceManager extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(17, 17, 17)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton9)))
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jButton9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(40, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton6)
-                        .addGap(57, 57, 57))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButton5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton6)
+                                .addGap(57, 57, 57))
+                            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
-        miseAJourDateThread tdate = new miseAJourDateThread(jLabel9);
-        tdate.start();
+        JPanel panelHaut = new PanelInformation(this);
+        panelHaut.setBounds(500, 10, 400, 30);
+        jPanel2.add(panelHaut);
 
         jTabbedPane1.addTab("Gestion des stocks", jPanel2);
 
         jPanel1.setBackground(new java.awt.Color(241, 246, 190));
+        /*
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
+        */
 
         //Object[][] data = {             };
         //String  title[] = {"Produit", "Seuil cuisson HP", "Seuil cuisson HN", "Nombre produit a cuire HP","Nombre produit a cuire HN","Prix"};
@@ -835,19 +799,6 @@ public class InterfaceManager extends javax.swing.JFrame {
             }
         });
 
-        jButton10.setText("Deconnexion");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-
-        /*
-        jLabel10.setText(d.toString());
-        */
-
-        jLabel11.setText(manager.getPrenomNomUtilisateur());
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -859,36 +810,27 @@ public class InterfaceManager extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(208, 208, 208)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel11)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton10)))
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton10)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(39, 39, 39)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)))
                 .addGap(1167, 1167, 1167))
         );
 
-        miseAJourDateThread tdate1 = new miseAJourDateThread(jLabel10);
-        tdate1.start();
+        JPanel panelHaut1 = new PanelInformation(this);
+        panelHaut1.setBounds(500, 10, 400, 30);
+        jPanel1.add(panelHaut1);
 
         jTabbedPane1.addTab("Configuration", jPanel1);
 
@@ -1105,9 +1047,9 @@ public class InterfaceManager extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel9.setBackground(new java.awt.Color(223, 237, 214));
@@ -1275,27 +1217,14 @@ public class InterfaceManager extends javax.swing.JFrame {
                 jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
                     .addComponent(jLabel7)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 23, Short.MAX_VALUE))
+                    .addContainerGap())
             );
 
             jPanel10.setBackground(new java.awt.Color(223, 237, 214));
             jPanel10.setForeground(new java.awt.Color(153, 153, 153));
             jPanel10.setLayout(new java.awt.BorderLayout());
-
-            jButton11.setText("Deconnexion");
-            jButton11.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jButton11ActionPerformed(evt);
-                }
-            });
-
-            /*
-            jLabel12.setText(d.toString());
-            */
-
-            jLabel13.setText(manager.getPrenomNomUtilisateur());
 
             javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
             jPanel7.setLayout(jPanel7Layout);
@@ -1303,38 +1232,25 @@ public class InterfaceManager extends javax.swing.JFrame {
                 jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel7Layout.createSequentialGroup()
-                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(jLabel13)
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabel12)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jButton11)))
-                    .addContainerGap())
+                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
             jPanel7Layout.setVerticalGroup(
                 jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton11)
-                        .addComponent(jLabel12)
-                        .addComponent(jLabel13))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGap(40, 40, 40)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
             );
 
-            miseAJourDateThread tdate2 = new miseAJourDateThread(jLabel12);
-            tdate2.start();
+            JPanel panelHaut2 = new PanelInformation(this);
+            panelHaut2.setBounds(500, 10, 400, 30);
+            jPanel7.add(panelHaut2);
 
             jTabbedPane1.addTab("Statistiques", jPanel7);
 
@@ -1351,296 +1267,6 @@ public class InterfaceManager extends javax.swing.JFrame {
 
             pack();
         }// </editor-fold>                        
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-      int response=JOptionPane.showConfirmDialog(this, "Voulez-vous enregistrer la configuration ?");
-
-      if(response==0){
-        try {
-            // TODO add your handling code here:
-            manager.updateTableConfig(this, jTable1);
-        } catch (SQLException ex) {
-            Logger.getLogger(InterfaceManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-           /* try {
-            Class.forName( driver );
-            connection = DriverManager.getConnection( url, userid, password );
-            Statement stmt = connection.createStatement();
-            String sql = null;
-            for(int i=0;i<jTable1.getRowCount();i++){
-            // System.out.println(table.getRowCount());
-            
-            String nomType=jTable1.getValueAt(i, 0).toString();
-            float prix=(float) jTable1.getValueAt(i,1 );
-            
-            float tempCuisson=0.0f;
-            if(jTable1.getValueAt(i, 2)!=null){
-            tempCuisson=(float) jTable1.getValueAt(i,2);
-            }
-            int qteMiniHeureP=(int) jTable1.getValueAt(i, 3);
-            int qteMiniHeureS= (int) jTable1.getValueAt(i,4 );
-            int qteCuireHeureP=(int) jTable1.getValueAt(i, 5);
-            int qteCuireHeureS=(int) jTable1.getValueAt(i, 6);
-            String Cat=jTable1.getValueAt(i, 7).toString();
-            int qteMiniStock=(int) jTable1.getValueAt(i, 8);
-            int qteMaxStock=(int) jTable1.getValueAt(i, 9);
-            
-            if(qteMaxStock>=qteMiniStock && qteCuireHeureP>=qteCuireHeureS && qteMiniHeureP>=qteMiniHeureS){
-            
-            if(Cat.equals("Boisson")){
-            
-            sql = "UPDATE TYPEPRODUIT "
-            + "SET nomtype='"+nomType+"',"
-            + "prixtype="+prix+","
-            
-            + "tempscuisson=NULL,"
-            + "qteminiheurepleine="+qteMiniHeureP+","
-            + "qteminiheurestandard="+qteMiniHeureS+","
-            + "qtecuireheurepleine="+qteCuireHeureP+","
-            + "qtecuireheurestandard="+qteCuireHeureS+","
-            + "categorie='"+Cat+"',"
-            + "qteministock="+qteMiniStock+","
-            + "qtemaxstock="+qteMaxStock+" "
-            
-            + "WHERE  nomtype= '"+nomType+"'";
-            
-            }
-            else{
-            sql = "UPDATE TYPEPRODUIT "
-            + "SET nomtype='"+nomType+"',"
-            + "prixtype="+prix+","
-            
-            + "tempscuisson="+tempCuisson+","
-            + "qteminiheurepleine="+qteMiniHeureP+","
-            + "qteminiheurestandard="+qteMiniHeureS+","
-            + "qtecuireheurepleine="+qteCuireHeureP+","
-            + "qtecuireheurestandard="+qteCuireHeureS+","
-            + "categorie='"+Cat+"',"
-            + "qteministock="+qteMiniStock+","
-            + "qtemaxstock="+qteMaxStock+" "
-            
-            + "WHERE  nomtype= '"+nomType+"'";
-            }
-            
-            stmt.executeUpdate(sql);
-            
-            }
-            else {//qteMaxStock<qteMiniStock && qteCuireHeureP<qteCuireHeureS && qteMiniHeureP<qteMiniHeureS
-            
-            sql = "Select * from TYPEPRODUIT";
-            ResultSet rs = stmt.executeQuery( sql );
-            ResultSetMetaData md = rs.getMetaData();
-            
-            //  Get row data
-            
-            while (rs.next())
-            {
-            System.out.println(rs.getRow());
-            jTable1.setValueAt(rs.getInt("qtecuireheurepleine"), rs.getRow()-1,5);
-            jTable1.setValueAt(rs.getInt("qtecuireheurestandard"),rs.getRow()-1,6);
-            jTable1.setValueAt(rs.getInt("qteminiheurepleine"), rs.getRow()-1,3);
-            jTable1.setValueAt(rs.getInt("qteminiheurestandard"),rs.getRow()-1,4);
-            jTable1.setValueAt(rs.getInt("qteministock"),rs.getRow()-1,8);
-            jTable1.setValueAt(rs.getInt("qtemaxstock"),rs.getRow()-1,9);
-            
-            
-            }
-            
-            JOptionPane.showMessageDialog(this,
-            "Qte(Cuire/Stock) Heure Pleine doit > Qte(Cuire/Stock) Heure Standard",
-            "Insane error",JOptionPane.ERROR_MESSAGE); break;
-            }
-            }
-            
-            stmt.close();
-            connection.close();
-            } catch (SQLException ex) {
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            */
-      
-           
-        
-        JOptionPane.showMessageDialog(this,
-                  "DB est bien updated");
-      }
-      else{
-          Vector<Object> columnNames = new Vector<Object>();
-          Vector<Object> data = new Vector<Object>();
-          manager.recupererTableConfig(columnNames, data);
-          DefaultTableModel model = new DefaultTableModel(data, columnNames)
-        {
-            
-        	@Override
-            public Class getColumnClass(int column)
-            {
-                for (int row = 0; row < getRowCount(); row++)
-                {
-                    Object o = getValueAt(row, column);
-
-                    if (o != null)
-                    {
-                        return o.getClass();
-                    }
-                }
-
-                return Object.class;
-            }
-                public boolean isCellEditable(int row,int col){
-                        if(getValueAt(row, 7).toString().equals("Boisson") && col==2) return false;
-                                return true; 
-                        }
-
-
-                        };
-                        jTable1.setModel(model);
-      }
-  
-    }                                        
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-
-        int response=JOptionPane.showConfirmDialog(this, "Are you sure?");
-
-        if(response==0){
-
-            HeurePointe hp;
-            hp=(HeurePointe) jList1.getSelectedValue();
-            HeurePointe hp1=new HeurePointe(hp);
-            String debut=hp1.getDebut();
-            String fin=hp1.getFin();
-            ////DELETE DBB
-            System.out.println(debut+" "+fin);
-           /* try
-            {
-                //  Connect to an Access Database
-                Class.forName( driver );
-                connection = DriverManager.getConnection( url, userid, password );
-
-                //  Read data from a table
-
-                String sql = "DELETE FROM HEURES_POINTES WHERE debut='"+debut+"' AND fin='"+fin+"'";
-                Statement stmt = connection.createStatement();
-                int rs=stmt.executeUpdate(sql );
-
-                //  Get row data
-                stmt.close();
-                connection.close();
-            }
-            catch(Exception e)
-            {
-                System.out.println( e );
-            }*/
-            manager.supprHeurePointe(debut, fin);
-            dlm.removeElement(hp);
-            jList1.setModel(dlm);
-            JOptionPane.showMessageDialog(this,
-                "DELETED");
-
-        }
-        else{
-            System.out.println("CANCEL");
-        }
-
-    }                                        
-
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {                                    
-        // TODO add your handling code here:
-        /*HeurePointe hp;
-        hp=(HeurePointe) jList1.getSelectedValue();
-        HeurePointe hp1=new HeurePointe(hp);
-        System.out.println(hp1);*/
-
-    }                                   
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-    private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {                                        
-        // TODO add your handling code here:
-
-    }                                       
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-        String debut=jTextField1.getText();
-        String fin=jTextField2.getText();
-
-        if(!isValidDate(debut) || !isValidDate(fin)){
-            JOptionPane.showMessageDialog(this,
-                "Incorrect Format",
-                "Insane error",
-                JOptionPane.ERROR_MESSAGE);
-        }
-        else
-        {
-            SimpleDateFormat sdf = new SimpleDateFormat("H:mm:ss");
-            Date dateDebut = null;
-            Date dateFin = null;
-            try {
-                dateDebut =  sdf.parse(debut);
-                dateFin =  sdf.parse(fin);
-            } catch (ParseException e) {
-
-            }
-
-            if(dateDebut.after(dateFin)){
-                JOptionPane.showMessageDialog(this,
-                    "date debut doit < date fin",
-                    "Insane error",
-                    JOptionPane.ERROR_MESSAGE);
-            }
-            else{
-                String debutTime = sdf.format(dateDebut);
-                String finTime = sdf.format(dateFin);
-              
-                 manager.ajoutHeurePointe(debutTime, finTime);
-                 HeurePointe hp= new HeurePointe(debutTime,finTime);
-                    dlm.addElement(hp);
-                    jList1.setModel(dlm);
-                
- /*            try {
-                    Class.forName( driver );
-                    connection = DriverManager.getConnection( url, userid, password );
-                    Statement stmt = connection.createStatement();
-                    String sql = null;
-
-                    stmt.executeUpdate("INSERT INTO HEURES_POINTES(DEBUT,FIN) VALUES('"+debutTime+"','"+finTime+"')");
-
-                    stmt.close();
-                    connection.close();
-
-                    /////////////////
-                    //Update JLIST///
-                    ////////////////
-                    HeurePointe hp= new HeurePointe(debutTime,finTime);
-                    dlm.addElement(hp);
-                    jList1.setModel(dlm);
-                } catch (MySQLIntegrityConstraintViolationException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(IHM_Manager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-*/
-               
-                JOptionPane.showMessageDialog(this,
-                    "Success");
-                // HeurePointe hp=new HeurePointe();
-            }
-
-        }
-
-    }                                        
-
-    private void jTable1PropertyChange(java.beans.PropertyChangeEvent evt) {                                       
-        // TODO add your handling code here:
-    }                                      
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
@@ -1976,37 +1602,300 @@ public class InterfaceManager extends javax.swing.JFrame {
       
     }                                    
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        int response=JOptionPane.showConfirmDialog(this, "Voulez-vous enregistrer la configuration ?");
+
+        if(response==0){
+            try {
+                // TODO add your handling code here:
+                manager.updateTableConfig(this, jTable1);
+            } catch (SQLException ex) {
+                Logger.getLogger(InterfaceManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            /* try {
+                Class.forName( driver );
+                connection = DriverManager.getConnection( url, userid, password );
+                Statement stmt = connection.createStatement();
+                String sql = null;
+                for(int i=0;i<jTable1.getRowCount();i++){
+                    // System.out.println(table.getRowCount());
+
+                    String nomType=jTable1.getValueAt(i, 0).toString();
+                    float prix=(float) jTable1.getValueAt(i,1 );
+
+                    float tempCuisson=0.0f;
+                    if(jTable1.getValueAt(i, 2)!=null){
+                        tempCuisson=(float) jTable1.getValueAt(i,2);
+                    }
+                    int qteMiniHeureP=(int) jTable1.getValueAt(i, 3);
+                    int qteMiniHeureS= (int) jTable1.getValueAt(i,4 );
+                    int qteCuireHeureP=(int) jTable1.getValueAt(i, 5);
+                    int qteCuireHeureS=(int) jTable1.getValueAt(i, 6);
+                    String Cat=jTable1.getValueAt(i, 7).toString();
+                    int qteMiniStock=(int) jTable1.getValueAt(i, 8);
+                    int qteMaxStock=(int) jTable1.getValueAt(i, 9);
+
+                    if(qteMaxStock>=qteMiniStock && qteCuireHeureP>=qteCuireHeureS && qteMiniHeureP>=qteMiniHeureS){
+
+                        if(Cat.equals("Boisson")){
+
+                            sql = "UPDATE TYPEPRODUIT "
+                            + "SET nomtype='"+nomType+"',"
+                            + "prixtype="+prix+","
+
+                            + "tempscuisson=NULL,"
+                            + "qteminiheurepleine="+qteMiniHeureP+","
+                            + "qteminiheurestandard="+qteMiniHeureS+","
+                            + "qtecuireheurepleine="+qteCuireHeureP+","
+                            + "qtecuireheurestandard="+qteCuireHeureS+","
+                            + "categorie='"+Cat+"',"
+                            + "qteministock="+qteMiniStock+","
+                            + "qtemaxstock="+qteMaxStock+" "
+
+                            + "WHERE  nomtype= '"+nomType+"'";
+
+                        }
+                        else{
+                            sql = "UPDATE TYPEPRODUIT "
+                            + "SET nomtype='"+nomType+"',"
+                            + "prixtype="+prix+","
+
+                            + "tempscuisson="+tempCuisson+","
+                            + "qteminiheurepleine="+qteMiniHeureP+","
+                            + "qteminiheurestandard="+qteMiniHeureS+","
+                            + "qtecuireheurepleine="+qteCuireHeureP+","
+                            + "qtecuireheurestandard="+qteCuireHeureS+","
+                            + "categorie='"+Cat+"',"
+                            + "qteministock="+qteMiniStock+","
+                            + "qtemaxstock="+qteMaxStock+" "
+
+                            + "WHERE  nomtype= '"+nomType+"'";
+                        }
+
+                        stmt.executeUpdate(sql);
+
+                    }
+                    else {//qteMaxStock<qteMiniStock && qteCuireHeureP<qteCuireHeureS && qteMiniHeureP<qteMiniHeureS
+
+                        sql = "Select * from TYPEPRODUIT";
+                        ResultSet rs = stmt.executeQuery( sql );
+                        ResultSetMetaData md = rs.getMetaData();
+
+                        //  Get row data
+
+                        while (rs.next())
+                        {
+                            System.out.println(rs.getRow());
+                            jTable1.setValueAt(rs.getInt("qtecuireheurepleine"), rs.getRow()-1,5);
+                            jTable1.setValueAt(rs.getInt("qtecuireheurestandard"),rs.getRow()-1,6);
+                            jTable1.setValueAt(rs.getInt("qteminiheurepleine"), rs.getRow()-1,3);
+                            jTable1.setValueAt(rs.getInt("qteminiheurestandard"),rs.getRow()-1,4);
+                            jTable1.setValueAt(rs.getInt("qteministock"),rs.getRow()-1,8);
+                            jTable1.setValueAt(rs.getInt("qtemaxstock"),rs.getRow()-1,9);
+
+                        }
+
+                        JOptionPane.showMessageDialog(this,
+                            "Qte(Cuire/Stock) Heure Pleine doit > Qte(Cuire/Stock) Heure Standard",
+                            "Insane error",JOptionPane.ERROR_MESSAGE); break;
+                    }
+                }
+
+                stmt.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            */
+
+            //JOptionPane.showMessageDialog(this,
+                //        "DB est bien updated");
+        }
+        else{
+            Vector<Object> columnNames = new Vector<Object>();
+            Vector<Object> data = new Vector<Object>();
+            manager.recupererTableConfig(columnNames, data);
+            DefaultTableModel model = new DefaultTableModel(data, columnNames)
+            {
+
+                @Override
+                public Class getColumnClass(int column)
+                {
+                    for (int row = 0; row < getRowCount(); row++)
+                    {
+                        Object o = getValueAt(row, column);
+
+                        if (o != null)
+                        {
+                            return o.getClass();
+                        }
+                    }
+
+                    return Object.class;
+                }
+                public boolean isCellEditable(int row,int col){
+                    if(getValueAt(row, 7).toString().equals("Boisson") && col==2) return false;
+                    return true;
+                }
+
+            };
+            jTable1.setModel(model);
+        }
+
+    }                                        
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+
+        int response=JOptionPane.showConfirmDialog(this, "Are you sure?");
+
+        if(response==0){
+
+            HeurePointe hp;
+            hp=(HeurePointe) jList1.getSelectedValue();
+            HeurePointe hp1=new HeurePointe(hp);
+            String debut=hp1.getDebut();
+            String fin=hp1.getFin();
+            ////DELETE DBB
+            System.out.println(debut+" "+fin);
+            /* try
+            {
+                //  Connect to an Access Database
+                Class.forName( driver );
+                connection = DriverManager.getConnection( url, userid, password );
+
+                //  Read data from a table
+
+                String sql = "DELETE FROM HEURES_POINTES WHERE debut='"+debut+"' AND fin='"+fin+"'";
+                Statement stmt = connection.createStatement();
+                int rs=stmt.executeUpdate(sql );
+
+                //  Get row data
+                stmt.close();
+                connection.close();
+            }
+            catch(Exception e)
+            {
+                System.out.println( e );
+            }*/
+            manager.supprHeurePointe(debut, fin);
+            dlm.removeElement(hp);
+            jList1.setModel(dlm);
+            JOptionPane.showMessageDialog(this,
+                "DELETED");
+
+        }
+        else{
+            System.out.println("CANCEL");
+        }
+    }                                        
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {                                    
+        // TODO add your handling code here:
+        /*HeurePointe hp;
+        hp=(HeurePointe) jList1.getSelectedValue();
+        HeurePointe hp1=new HeurePointe(hp);
+        System.out.println(hp1);*/
+    }                                   
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+    }                                           
+
+    private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {                                        
+        // TODO add your handling code here:
+    }                                       
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        String debut=jTextField1.getText();
+        String fin=jTextField2.getText();
+
+        if(!isValidDate(debut) || !isValidDate(fin)){
+            JOptionPane.showMessageDialog(this,
+                "Incorrect Format",
+                "Insane error",
+                JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("H:mm:ss");
+            Date dateDebut = null;
+            Date dateFin = null;
+            try {
+                dateDebut =  sdf.parse(debut);
+                dateFin =  sdf.parse(fin);
+            } catch (ParseException e) {
+
+            }
+
+            if(dateDebut.after(dateFin)){
+                JOptionPane.showMessageDialog(this,
+                    "date debut doit < date fin",
+                    "Insane error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                String debutTime = sdf.format(dateDebut);
+                String finTime = sdf.format(dateFin);
+
+                manager.ajoutHeurePointe(debutTime, finTime);
+                HeurePointe hp= new HeurePointe(debutTime,finTime);
+                dlm.addElement(hp);
+                jList1.setModel(dlm);
+
+                /*            try {
+                    Class.forName( driver );
+                    connection = DriverManager.getConnection( url, userid, password );
+                    Statement stmt = connection.createStatement();
+                    String sql = null;
+
+                    stmt.executeUpdate("INSERT INTO HEURES_POINTES(DEBUT,FIN) VALUES('"+debutTime+"','"+finTime+"')");
+
+                    stmt.close();
+                    connection.close();
+
+                    /////////////////
+                    //Update JLIST///
+                    ////////////////
+                    HeurePointe hp= new HeurePointe(debutTime,finTime);
+                    dlm.addElement(hp);
+                    jList1.setModel(dlm);
+                } catch (MySQLIntegrityConstraintViolationException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(IHM_Manager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                */
+
+                JOptionPane.showMessageDialog(this,
+                    "Success");
+                // HeurePointe hp=new HeurePointe();
+            }
+
+        }
+    }                                        
+
     private void jTable1VetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {                                       
         // TODO add your handling code here:
-       
-    }                                      
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {                                     
-        
-                
-    }                                    
+    }                                      
 
     private void jTable1KeyPressed(java.awt.event.KeyEvent evt) {                                   
         // TODO add your handling code here:
     }                                  
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jTable1PropertyChange(java.beans.PropertyChangeEvent evt) {                                       
         // TODO add your handling code here:
-        this.dispose();
-       // this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-    }                                        
+    }                                      
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
-         this.dispose();
-     //   this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-    }                                         
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {                                     
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
-         this.dispose();
-      //  this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-    }                                         
+    }                                    
 
     /**
      * @param args the command line arguments
@@ -2139,8 +2028,6 @@ public class InterfaceManager extends javax.swing.JFrame {
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -2148,20 +2035,13 @@ public class InterfaceManager extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList1;
     private javax.swing.JList jList2;
     private javax.swing.JPanel jPanel1;
@@ -2194,11 +2074,11 @@ public class InterfaceManager extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration                   
-   /* static String driver = "com.mysql.jdbc.Driver";  
+    static String driver = "com.mysql.jdbc.Driver";  
     static   String url ="jdbc:mysql://db4free.net:3306/managerappinfo";
     static    String userid = "julien";
     static    String password = "skateboard1";
-    */
+    
     
   /*static String driver = "org.apache.derby.jdbc.ClientDriver";
     static   String url ="jdbc:derby://localhost:1527/boulangerie";
@@ -2228,7 +2108,9 @@ public class InterfaceManager extends javax.swing.JFrame {
           }  
           return true;  
         }
-    
+    public LogicielManager getLogicielManager(){
+    	return this.manager;
+    }
     public class miseAJourDateThread extends Thread {
     private JLabel label;
     boolean running;
@@ -2252,6 +2134,7 @@ public class InterfaceManager extends javax.swing.JFrame {
            label.setText(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(new Date()));		
         }
     }
+    
 }
 
 }
