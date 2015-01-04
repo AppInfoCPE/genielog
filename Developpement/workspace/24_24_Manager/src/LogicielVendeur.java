@@ -1,5 +1,7 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -112,7 +114,11 @@ public class LogicielVendeur {
 	public Object[][] rechercherProduitEnVente(int numVente){
 		Object[][] produits = null;
 		ResultSet resultat;
-		float prixtotal;
+		float prixtotal,prixUnite;
+		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormatSymbols dfs=new DecimalFormatSymbols();
+		dfs.setDecimalSeparator('.');
+		df.setDecimalFormatSymbols(dfs);
 		
 		//liste des tous les types de produits
 		try {
@@ -122,12 +128,14 @@ public class LogicielVendeur {
 			produits = new Object[resultat.getRow()][5];
 			resultat.beforeFirst();
 			while (resultat.next()) {
-				prixtotal=0.2f;
+				prixtotal=0;
+				prixUnite=0;
 				produits[i][0]=resultat.getString(3);//type produit		
 				produits[i][1]=resultat.getString(6);//quantite
-				produits[i][2]=resultat.getString(5);//prix unite
-				prixtotal=(Float.valueOf(resultat.getString(5)).floatValue())*(Float.valueOf(resultat.getString(6)).floatValue());
-				produits[i][3]=String.valueOf(prixtotal);//prix total
+				prixUnite=(Float.valueOf(resultat.getString(5)).floatValue());//prix unite
+				produits[i][2]=String.valueOf(df.format(prixUnite));
+				prixtotal=(Float.valueOf(resultat.getString(5)).floatValue())*(Float.valueOf(resultat.getString(6)).floatValue());//calcule prix total
+				produits[i][3]=String.valueOf(df.format(prixtotal));//prix total
 				produits[i][4]="X";
 				i++;
 			}
@@ -166,11 +174,7 @@ public class LogicielVendeur {
 		// TODO Auto-generated method stub
 		//Affiche le produit
 		ResultSet resultat;
-		//System.out.println(nomProduit);
-		//System.out.println(numVente);
-		//Va ajouter  une vente en cours
-		//dv.executeRequeteInsert("INSERT INTO `LIENPRODUITVENTE`(`idproduit`, `numvente`) VALUES ((SELECT PRODUIT.id FROM `PRODUIT` WHERE `dateperemption`= (SELECT min(`dateperemption`) FROM `PRODUIT` WHERE `typeproduit`='"+nomProduit+"' and `status` = 'envente') AND `typeproduit`='"+nomProduit+"' and `status` = 'envente' GROUP BY PRODUIT.typeProduit),"+numVente+")");
-		
+		//Va ajouter  une vente en cours		
 		try {
 			resultat=dv.executeRequete("SELECT PRODUIT.id FROM `PRODUIT` WHERE `dateperemption`= (SELECT min(`dateperemption`) FROM `PRODUIT` WHERE `typeproduit`='"+nomProduit+"' and `status` = 'envente') AND `typeproduit`='"+nomProduit+"' and `status` = 'envente' GROUP BY PRODUIT.typeProduit" );
 			resultat.last();

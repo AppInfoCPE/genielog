@@ -33,6 +33,8 @@ class ButtonEditor extends DefaultCellEditor {
 						interfaceVente.mc.annulerPrduitVente(interfaceVente.numVente, (String) donneesEnVente[r][0]);
 						interfaceVente.MAJTableVente();
 						interfaceVente.completeResumeVente();
+						interfaceVente.listeBoisson(interfaceVente.onglet2);
+						interfaceVente.listeVeinoisserie(interfaceVente.onglet1);
 					}
 					
 				}

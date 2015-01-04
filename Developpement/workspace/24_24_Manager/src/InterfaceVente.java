@@ -54,6 +54,7 @@ public class InterfaceVente extends JFrame {
 	private JButton[] tab_button_Chiffre = new JButton[tab_stringChiffre.length];	
 	private MiseAJourStockVenteThread mt;
 	private Object[][] donneesEnVente;
+	private JTabbedPane onglets;
 	public Integer numVente;
 	public JPanel onglet1;
 	public JPanel onglet2;
@@ -113,7 +114,7 @@ public class InterfaceVente extends JFrame {
 				public void windowActivated(WindowEvent e) {}
 			});	
 	}
-	//J4AI RAJOUTER LE CODE CI-DESSOUs
+
 	public void initPaneVente(){
 		paneVente = new JPanel();
 		//netoyage du panel avant raffraichissement du tableau gérer par le thread
@@ -123,7 +124,7 @@ public class InterfaceVente extends JFrame {
 		paneVente.setLayout(new BorderLayout());
 		contentPane.add(paneVente);		
 	}
-	//J4AI RAJOUTER LE CODE CI-DESSOUs
+	
 	public void MAJTableVente(){
 		//Recherche des produits ayant le statut en vente
 		donneesEnVente = mc.rechercherProduitEnVente(numVente);
@@ -293,7 +294,7 @@ public class InterfaceVente extends JFrame {
 		//titre vente
 		JLabel lvente = new JLabel();
 		lvente.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lvente.setText("Vente");
+		lvente.setText("Vente n∞ "+numVente);
 		lvente.setBounds(336, 66, 120, 17);
 		contentPane.add(lvente);
 		
@@ -474,9 +475,9 @@ public class InterfaceVente extends JFrame {
 	private void initJTabbedPane(){
 		//JTablePanel
 		
-		JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
+		onglets = new JTabbedPane(SwingConstants.TOP);
 		onglets.setBackground(new Color(218, 202, 251));
-				
+
 		//Veinoisserie		
 		onglet1 = new JPanel();
 		onglet1.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -587,16 +588,17 @@ public class InterfaceVente extends JFrame {
 	//Permet de stocker les chiffres et de les afficher
 	class AjoutProduitVente implements ActionListener {
 	    public void actionPerformed(ActionEvent e){
-	    	//numVente=1;
 	    	String nomProduit = ((JButton)e.getSource()).getName();
-	    	//JOptionPane.showMessageDialog(null,nomProduit);
 	    	mc.ajoutProduitVente(nomProduit,numVente);
-	    	//System.out.println(e.getSource());
-	    	//listeVeinoisserie(onglet1);
-			//listeBoisson(onglet2);
-	    	//JOptionPane.showMessageDialog(null, "fjkfn");
-	    	
-//J'ai modifier la fonction
+	    	//actualisation de l'onglet actif uniquement
+	    	if(onglets.getSelectedComponent().equals(onglet1)){
+	    		listeVeinoisserie(onglet1);
+	    		System.out.println("onglet 1 actualiser");
+	    	}
+	    	if(onglets.getSelectedComponent().equals(onglet2)){
+	    		listeBoisson(onglet2);
+	    		System.out.println("onglet 2 actualiser");
+	    	}
 	    	MAJTableVente();
 	    	completeResumeVente();
 	    }
