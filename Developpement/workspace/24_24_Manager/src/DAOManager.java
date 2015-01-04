@@ -433,7 +433,7 @@
                   return rs;   
               }
               public ResultSet UserVente1(){
-                    String      sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND v.datevente =CURRENT_DATE AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
+                    String      sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND DAY(v.datevente) =DAY(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
                       ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                   return rs;   
               }
@@ -454,7 +454,7 @@
               }
 
          public ResultSet getVendeur(){
-             String  sql = "Select identifiant from UTILISATEUR where role='Vendeur'";           
+             String  sql = "Select identifiant from UTILISATEUR where role='Vendeur' OR role='Manager'";           
              ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                   return rs;
          }

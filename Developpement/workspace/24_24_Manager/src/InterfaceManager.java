@@ -1810,7 +1810,8 @@ public class InterfaceManager extends javax.swing.JFrame {
         try
         {
             ResultSet rs=manager.UserVente1();
-      
+            rs.last();
+            rs.beforeFirst();
             while (rs.next())
             {
              String user=rs.getString("user");
@@ -1874,7 +1875,11 @@ public class InterfaceManager extends javax.swing.JFrame {
             {
                 System.out.println( e );
             }
-
+            	
+            	while ( ((TableModelStat2)jTable6.getModel()).getRowCount()>0)
+                {
+                    ((TableModelStat2)jTable6.getModel()).removeRow(0);
+                }
             for(Iterator itUser=listUser.iterator(); itUser.hasNext();) {
                 String vendeur=(String)itUser.next();
                 if(hm1.containsKey(vendeur)==false){
@@ -1889,17 +1894,12 @@ public class InterfaceManager extends javax.swing.JFrame {
                 if(hm4.containsKey(vendeur)==false){
                     hm4.put(vendeur, 0);
                 }
-            Object[] donnee = new Object[]
-             {vendeur, hm1.get(vendeur), hm2.get(vendeur),hm3.get(vendeur),hm4.get(vendeur)};
+                Object[] donnee = new Object[]
+                		{vendeur, hm1.get(vendeur), hm2.get(vendeur),hm3.get(vendeur),hm4.get(vendeur)};
             
-           
-            
-            while ( ((TableModelStat2)jTable6.getModel()).getRowCount()>0)
-                {
-                    ((TableModelStat2)jTable6.getModel()).removeRow(0);
-                }
-            ((TableModelStat2)jTable6.getModel()).addRow(donnee);
-      }
+                
+            	((TableModelStat2)jTable6.getModel()).addRow(donnee);
+            }
     } 
 
 }
