@@ -3,7 +3,7 @@
          * To change this template file, choose Tools | Templates
          * and open the template in the editor.
          */
-     
+
     import java.sql.DriverManager;
         import java.sql.ResultSet;
         import java.sql.ResultSetMetaData;
@@ -30,7 +30,7 @@
             public void recupererTableConfig(Vector<Object> columnNames,Vector<Object> data){
                 try
                 {
-                    String sql = "Select nomtype,prixtype,tempscuisson,qteminiheurepleine,qteminiheurestandard,qtecuireheurepleine,qtecuireheurestandard,categorie,qteministock,qtemaxstock from TYPEPRODUIT";
+                    String sql = "Select nomtype ,prixtype,tempscuisson ,qteminiheurepleine,qteminiheurestandard,qtecuireheurepleine,qtecuireheurestandard,categorie,qteministock,qtemaxstock from TYPEPRODUIT";
                     ResultSet rs = DatabaseAccess.jdbcExecuteQuery(sql);
                     ResultSetMetaData md = rs.getMetaData();
                     int columns = md.getColumnCount();
@@ -225,7 +225,7 @@
                         try
                         {
 
-                             String sql="Select LOT.typeproduit,SUM(LOT.quantite) as qte,TYPEPRODUIT.qteministock,TYPEPRODUIT.qtemaxstock from LOT,TYPEPRODUIT WHERE TYPEPRODUIT.nomtype=LOT.typeproduit  AND LOT.statutlivraison=1 GROUP BY LOT.typeproduit,TYPEPRODUIT.qteministock,TYPEPRODUIT.qtemaxstock ";
+                             String sql="Select LOT.typeproduit,SUM(LOT.quantite) ,TYPEPRODUIT.qteministock ,TYPEPRODUIT.qtemaxstock  FROM LOT,TYPEPRODUIT WHERE TYPEPRODUIT.nomtype=LOT.typeproduit  AND LOT.statutlivraison=1 GROUP BY LOT.typeproduit,TYPEPRODUIT.qteministock,TYPEPRODUIT.qtemaxstock ";
                        // Statement stmt = connection.createStatement();
                             ResultSet rs = DatabaseAccess.jdbcExecuteQuery(sql);
                             ResultSetMetaData md = rs.getMetaData();
@@ -391,7 +391,7 @@
              return rs;       
             }
 
-              public ResultSet prodJet1(){
+               public ResultSet prodJet1(){
             	  String    sql = "SELECT COUNT(id) as nbrProdJet FROM PRODUIT p WHERE  DAY(p.dateperemption) = DAY(NOW()) AND p.status='jete'";
                  ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                  return rs;   
@@ -432,7 +432,6 @@
                        ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                   return rs;   
               }
-
               public ResultSet UserVente1(){
                     String      sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND v.datevente =CURRENT_DATE AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
                       ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );

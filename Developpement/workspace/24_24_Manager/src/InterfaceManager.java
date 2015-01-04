@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,6 +13,7 @@ import java.awt.GridBagLayout;
 import java.awt.List;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.beans.PropertyVetoException;
 import static java.lang.Thread.sleep;
 import java.sql.Connection;
@@ -36,6 +38,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -64,10 +67,32 @@ public class InterfaceManager extends javax.swing.JFrame {
         
         //Utilisateur us= new Utilisateur("Jean","jean","manager","Dupond","Jean");
     	this.manager=manager;
+         initComponents();
+       initialisationThread();
       //  manager= new LogicielManager();
+       setMinimumSize(new Dimension(1280, 720));
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setTitle("Interface Manager");
     	setVisible(true);
-        initComponents();
+       
     }
+    private void initialisationThread() {
+
+		 mt= new MiseAJourStatThread(this);
+                mt.start();
+
+		addWindowListener(new WindowListener() {
+			public void windowOpened(WindowEvent e) {}
+			public void windowIconified(WindowEvent e) {}
+			public void windowDeiconified(WindowEvent e) {}
+			public void windowDeactivated(WindowEvent e) {}
+			public void windowClosing(WindowEvent e) {
+				mt.arret();
+			}
+			public void windowClosed(WindowEvent e) {}
+			public void windowActivated(WindowEvent e) {}
+		});				
+	}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -132,21 +157,18 @@ public class InterfaceManager extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(Color.YELLOW);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jTabbedPane1.setBackground(new java.awt.Color(241, 246, 190));
 
         jPanel2.setBackground(new java.awt.Color(241, 246, 190));
 
-        /*
-        jTable2.setModel(null);
-        */
+      
 
         //Fullfill table
         Vector<Object> columnNames1 = new Vector<Object>();
         Vector<Object> data1 = new Vector<Object>();
         manager.recupererTableStock(columnNames1, data1);
-      
+        
 
         DefaultTableModel model1 = new DefaultTableModel(data1, columnNames1)
         {
@@ -194,6 +216,13 @@ public class InterfaceManager extends javax.swing.JFrame {
                 return l;
             }
         });
+
+        jTable2.getColumnModel().getColumn(0).setHeaderValue("Produit");
+        jTable2.getColumnModel().getColumn(1).setHeaderValue("Quantite");
+        jTable2.getColumnModel().getColumn(2).setHeaderValue("Quantite minimum en stock");
+        jTable2.getColumnModel().getColumn(3).setHeaderValue("Quantite maximum en stock");
+        //et tu force le rechargement de la table pour effectuer la modification avec:
+        jTable2.getTableHeader().resizeAndRepaint();
         jScrollPane3.setViewportView(jTable2);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -216,7 +245,7 @@ public class InterfaceManager extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Produit", "Quantite", "Prix Total"
+                "Produit", "Quantite"/*, "Prix Total"*/
             }
         ));
         jTable3.setDefaultRenderer(Object.class, new MyTableCellRenderer());
@@ -239,6 +268,19 @@ public class InterfaceManager extends javax.swing.JFrame {
 
         try
         {
+            //  Connect to an Access Database
+            /*  Class.forName( driver );
+            connection = DriverManager.getConnection( url, userid, password );
+
+            //  Read data from a table
+
+            String sql = "Select nomtype from TYPEPRODUIT";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery( sql );
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+            */
+            //  Get row data
             ResultSet rs=manager.getTypeProduit();
             while (rs.next())
             {
@@ -247,9 +289,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 dlm2.addElement(typeProduit);
             }
 
-            /*   rs.close();
-            stmt.close();
-            connection.close();*/
+           
         }
         catch(Exception e)
         {
@@ -323,11 +363,11 @@ public class InterfaceManager extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Produit", "Numero Commande", "Quantite", "Prix Total"
+                "Produit", "Numero Commande", "Quantite"/*, "Prix Total"*/
             }
         ));
         manager.recupererTableLivraison(jTable4);
-      
+       
         jTable4.setDefaultRenderer(Object.class, new MyTableCellRenderer());
         jTable4.getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
 
@@ -428,19 +468,12 @@ public class InterfaceManager extends javax.swing.JFrame {
         jTabbedPane1.addTab("Gestion des stocks", jPanel2);
 
         jPanel1.setBackground(new java.awt.Color(241, 246, 190));
-        /*
-        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
-        */
-
-        //Object[][] data = {             };
-        //String  title[] = {"Produit", "Seuil cuisson HP", "Seuil cuisson HN", "Nombre produit a cuire HP","Nombre produit a cuire HN","Prix"};
-        //modelTable modelTableConfig = new modelTable(data, title);
-
+       
         //Fullfill table
         Vector<Object> columnNames = new Vector<Object>();
         Vector<Object> data = new Vector<Object>();
         manager.recupererTableConfig(columnNames, data);
-        
+       
         DefaultTableModel model = new DefaultTableModel(data, columnNames)
         {
 
@@ -503,6 +536,20 @@ public class InterfaceManager extends javax.swing.JFrame {
                 return l;
             }
         });
+
+        jTable1.getColumnModel().getColumn(0).setHeaderValue("Produit");
+        jTable1.getColumnModel().getColumn(1).setHeaderValue("Prix");
+        jTable1.getColumnModel().getColumn(2).setHeaderValue("Temps de cuisson");
+        jTable1.getColumnModel().getColumn(3).setHeaderValue("Quantité minimales en vente heure de pointe");
+        jTable1.getColumnModel().getColumn(4).setHeaderValue("Quantité minimales en vente heure de normale");
+        jTable1.getColumnModel().getColumn(5).setHeaderValue("Quantité à cuire en heure de pointe");
+        jTable1.getColumnModel().getColumn(6).setHeaderValue("Quantité à cuire en heure normale");
+        jTable1.getColumnModel().getColumn(7).setHeaderValue("Catégorie");
+        jTable1.getColumnModel().getColumn(8).setHeaderValue("Quantité minimum en stock");
+        jTable1.getColumnModel().getColumn(9).setHeaderValue("Quantité maximum en stock");
+
+        jTable1.getTableHeader().resizeAndRepaint();
+
         jTable1.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(new JComboBox<String>(new String[]{"Boisson","Viennoiserie"})));
         jScrollPane1.setViewportView(jTable1);
 
@@ -607,7 +654,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(31, 31, 31)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
                 .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -681,7 +728,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         int prodVendusAn=0,prodJetesAn=0,prodPerdusAn=0;
         try
         {
-            
+           
             ResultSet rs=manager.prodVendu1();
             //  Get row data
             while (rs.next())
@@ -689,15 +736,15 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodVendus=rs.getInt("nbrProd");
             }
 
-            
+           
             rs=manager.prodVendu2();
-            
+            //  Get row data
             while (rs.next())
             {
                 prodVendusSem=rs.getInt("nbrProd");
             }
 
-            
+         
             rs=manager.prodVendu3();
             //  Get row data
             while (rs.next())
@@ -705,7 +752,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodVendusMois=rs.getInt("nbrProd");
             }
 
-           
+            
             rs=manager.prodVendu4();
             //  Get row data
             while (rs.next())
@@ -716,7 +763,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             ///////////////////
             /////PROD JETES////
             //////////////////
-            
+           
             rs=manager.prodJet1();
             //  Get row data
             while (rs.next())
@@ -725,7 +772,7 @@ public class InterfaceManager extends javax.swing.JFrame {
 
             }
 
-            
+         
             rs=manager.prodJet2();
             //  Get row data
             while (rs.next())
@@ -733,7 +780,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodJetesSem=rs.getInt("nbrProdJet");
             }
 
-            
+          
             rs=manager.prodJet3();
             //  Get row data
             while (rs.next())
@@ -741,7 +788,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodJetesMois=rs.getInt("nbrProdJet");
             }
 
-            
+           
             rs=manager.prodJet4();
             //  Get row data
             while (rs.next())
@@ -768,7 +815,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodPerdusSem=rs.getInt("nbrProdPerdus");
             }
 
-          
+            
             rs=manager.prodPerdu3();
             //  Get row data
             while (rs.next())
@@ -776,7 +823,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 prodPerdusMois=rs.getInt("nbrProdPerdus");
             }
 
-            
+           
             rs=manager.prodPerdu4();
             //  Get row data
             while (rs.next())
@@ -867,7 +914,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         HashMap<String,Integer> hm4= new HashMap<String,Integer>();
         try
         {
-            
+           
             ResultSet rs=manager.UserVente1();
             //  Get row data
             while (rs.next())
@@ -887,7 +934,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 hm2.put(user, nbrProd);
             }
 
-           
+          
             rs=manager.UserVente3();
             //  Get row data
             while (rs.next())
@@ -898,6 +945,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             }
 
           
+     
             rs=manager.UserVente4();
             //  Get row data
             while (rs.next())
@@ -908,13 +956,13 @@ public class InterfaceManager extends javax.swing.JFrame {
             }
 
             rs.close();
-          
+            
         }
         catch(Exception e)
         {
             System.out.println( e );
         }
-        
+      
         ArrayList listUser=new ArrayList();
         try
         {
@@ -928,7 +976,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                     listUser.add(u);
                 }
 
-                
+               
             }
             catch(Exception e)
             {
@@ -1046,11 +1094,10 @@ public class InterfaceManager extends javax.swing.JFrame {
           int quantite=Integer.parseInt(jTextField3.getText());
         if(quantite!=0){ 
          
-            float prixTotal=manager.prixTotal(produit, quantite);
- 
+          
         
         Object[] donnee = new Object[]
-            {produit, quantite, prixTotal};
+            {produit, quantite/*, prixTotal*/};
         ((TableModelGestion1)jTable3.getModel()).addRow(donnee);
           }
           else{
@@ -1095,9 +1142,13 @@ public class InterfaceManager extends javax.swing.JFrame {
         // TODO add your handling code here:
         Commande cmd= new Commande(new Date());
         int idcmd=cmd.getId();
+        
+        
+        
         //Update Table COMMANDE
         manager.updateCommande(cmd);
-         
+        
+        
 
                 
         
@@ -1120,19 +1171,19 @@ public class InterfaceManager extends javax.swing.JFrame {
 
                  typeProd=jTable3.getValueAt(i, 0).toString();
                  qte=(int) jTable3.getValueAt(i,1 );
-                 prixTotal=(float) jTable3.getValueAt(i,2 );
+                 //prixTotal=(float) jTable3.getValueAt(i,2 );
                  
                  Lot l=new Lot( cmd, qte, typeProd,status);
                  listLot.add(l);
                  
                  Object[] donnee = new Object[]
-                {typeProd, cmd.getId(),qte, prixTotal};
+                {typeProd, cmd.getId(),qte/*, prixTotal*/};
                  ((TableModelGestion2)jTable4.getModel()).addRow(donnee);
                  
                 
                  //Update Table Lot
                  manager.updateLot(cmd, status, typeProd, qte);
-                
+                 
                  
                  
                  
@@ -1158,7 +1209,7 @@ public class InterfaceManager extends javax.swing.JFrame {
        int nbrLignes[]=jTable4.getSelectedRows();
 
       
-      
+       
           
          if(jTable4.getRowCount() > 0){
            // ((TableModelGestion1)jTable4.getModel()).removeRow();
@@ -1177,8 +1228,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             }
              }
 
-       
-        
+     
          
  
          Arrays.sort(nbrLignes);
@@ -1209,22 +1259,18 @@ public class InterfaceManager extends javax.swing.JFrame {
          System.out.println(qte);
          manager.valideLivraison(nomType, numCmd, qte);
          
-        
+         
             } 
+          
              }
 
            
-       
-        
-         
- 
          Arrays.sort(nbrLignes);
          for(int i = nbrLignes.length - 1; i >= 0; i--){
           ((TableModelGestion2)jTable4.getModel()).removeRow(nbrLignes[i]);
           ((TableModelGestion2)jTable4.getModel()).fireTableRowsDeleted(nbrLignes[i], nbrLignes[i]);
          }
-          JOptionPane.showMessageDialog(this,
-                    "Success");
+          
           
     }                                        
 
@@ -1269,9 +1315,11 @@ public class InterfaceManager extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(InterfaceManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-           
+            
         }
         else{
+            if(response==1){
+            
             Vector<Object> columnNames = new Vector<Object>();
             Vector<Object> data = new Vector<Object>();
             manager.recupererTableConfig(columnNames, data);
@@ -1301,6 +1349,8 @@ public class InterfaceManager extends javax.swing.JFrame {
             };
             jTable1.setModel(model);
         }
+        
+       }
 
     }                                        
 
@@ -1385,7 +1435,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 dlm.addElement(hp);
                 jList1.setModel(dlm);
 
-             
+              
                 JOptionPane.showMessageDialog(this,
                     "Success");
                 // HeurePointe hp=new HeurePointe();
@@ -1467,9 +1517,9 @@ public class InterfaceManager extends javax.swing.JFrame {
     return false;
 
 }
+   
+    
 
-    
-    
     // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -1518,12 +1568,23 @@ public class InterfaceManager extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration                   
-   
+    static String driver = "com.mysql.jdbc.Driver";  
+    static   String url ="jdbc:mysql://db4free.net:3306/managerappinfo";
+    static    String userid = "julien";
+    static    String password = "skateboard1";
+    
+    
+  /*static String driver = "org.apache.derby.jdbc.ClientDriver";
+    static   String url ="jdbc:derby://localhost:1527/boulangerie";
+    static    String userid = "longledac";
+    static    String password = "ditmechungmay";*/
     private LogicielManager manager;   
     private static Connection connection =null;
     private DefaultListModel dlm= new DefaultListModel();
     private DefaultListModel dlm2= new DefaultListModel();
-    
+    private MiseAJourStatThread mt;
+            
+            
     private int getColumnByName(JTable table, String name) {
                 for (int i = 0; i < table.getColumnCount(); ++i)
                     if (table.getColumnName(i).equals(name))
@@ -1550,7 +1611,7 @@ public class InterfaceManager extends javax.swing.JFrame {
     private JLabel label;
     boolean running;
 
-    public miseAJourDateThread(JLabel label) {
+    public void miseAJourDateThread(JLabel label) {
         this.label = label;
         running = true;
     }
@@ -1558,6 +1619,7 @@ public class InterfaceManager extends javax.swing.JFrame {
 	public void arret() {
         running = false;
     }
+          
 
     public void run() {
         while (running) {
@@ -1570,6 +1632,242 @@ public class InterfaceManager extends javax.swing.JFrame {
         }
     }
     
-}
+    }
+    
+    public void miseAJourTableStat1(){
+        int prodVendus=0,prodJetes=0,prodPerdus=0;
+        int prodVendusSem=0,prodJetesSem=0,prodPerdusSem=0;
+        int prodVendusMois=0,prodJetesMois=0,prodPerdusMois=0;
+        int prodVendusAn=0,prodJetesAn=0,prodPerdusAn=0;
+         try
+                {
+           
+            ResultSet rs=manager.prodVendu1();
+            //  Get row data
+            while (rs.next())
+            {
+             prodVendus=rs.getInt("nbrProd");
+            }
+
+  
+            rs=manager.prodVendu2();
+            
+            while (rs.next())
+            {
+             prodVendusSem=rs.getInt("nbrProd");
+            }
+
+           
+            rs=manager.prodVendu3();
+            //  Get row data
+            while (rs.next())
+            {
+             prodVendusMois=rs.getInt("nbrProd");
+            }
+           
+               
+             rs=manager.prodVendu4();
+            //  Get row data
+            while (rs.next())
+            {
+             prodVendusAn=rs.getInt("nbrProd");
+            }
+            
+            rs=manager.prodJet1();
+            //  Get row data
+            while (rs.next())
+            {
+             prodJetes=rs.getInt("nbrProdJet");
+            
+            }
+
+            
+            rs=manager.prodJet2();
+            //  Get row data
+            while (rs.next())
+            {
+             prodJetesSem=rs.getInt("nbrProdJet");
+            }
+
+           rs=manager.prodJet3();
+            //  Get row data
+            while (rs.next())
+            {
+             prodJetesMois=rs.getInt("nbrProdJet");
+            }
+
+
+            
+           rs=manager.prodJet4();
+            //  Get row data
+            while (rs.next())
+            {
+             prodJetesAn=rs.getInt("nbrProdJet");
+            }
+
+            rs=manager.prodPerdu1();
+            //  Get row data
+            while (rs.next())
+            {
+             prodPerdus=rs.getInt("nbrProdPerdus");
+            }
+
+       
+            rs=manager.prodPerdu2();
+            //  Get row data
+            while (rs.next())
+            {
+             prodPerdusSem=rs.getInt("nbrProdPerdus");
+            }
+
+    
+             rs=manager.prodPerdu3();
+            //  Get row data
+            while (rs.next())
+            {
+             prodPerdusMois=rs.getInt("nbrProdPerdus");
+            }
+
+        
+            rs=manager.prodPerdu4();
+            //  Get row data
+            while (rs.next())
+            {
+             prodPerdusAn=rs.getInt("nbrProdPerdus");
+            }
+            
+            while ( ((TableModelStat1)jTable5.getModel()).getRowCount()>0)
+                {
+                    ((TableModelStat1)jTable5.getModel()).removeRow(0);
+                }
+            
+
+            Object[] donnee = new Object[]
+            {"Aujourd'hui", prodVendus ,prodJetes,prodPerdus };
+           ((TableModelStat1)jTable5.getModel()).addRow(donnee);
+
+
+            Object[] donnee1 = new Object[]
+            {"Semaine", prodVendusSem ,prodJetesSem,prodPerdusSem };
+           ((TableModelStat1)jTable5.getModel()).addRow(donnee1);
+
+           Object[] donnee2 = new Object[]
+            {"Mois", prodVendusMois ,prodJetesMois,prodPerdusMois };
+           ((TableModelStat1)jTable5.getModel()).addRow(donnee2);
+
+           Object[] donnee3 = new Object[]
+            {"Annee", prodVendusAn ,prodJetesAn,prodPerdusAn};
+          
+           ((TableModelStat1)jTable5.getModel()).addRow(donnee3);
+
+            rs.close();
+          
+
+            }
+            catch(Exception e)
+            {
+                System.out.println( e );
+            }
+    }
+     public void miseAJourTableStat2(){
+      
+        HashMap<String,Integer> hm1= new HashMap<String,Integer>();
+        HashMap<String,Integer> hm2= new HashMap<String,Integer>();
+        HashMap<String,Integer> hm3= new HashMap<String,Integer>();
+        HashMap<String,Integer> hm4= new HashMap<String,Integer>();
+        try
+        {
+            ResultSet rs=manager.UserVente1();
+      
+            while (rs.next())
+            {
+             String user=rs.getString("user");
+             int nbrProd=rs.getInt("nbrProd");
+             hm1.put(user, nbrProd);
+            }
+  
+             rs=manager.UserVente2();
+            //  Get row data
+             while (rs.next())
+            {
+             String user=rs.getString("user");
+             int nbrProd=rs.getInt("nbrProd");
+             hm2.put(user, nbrProd);
+            }
+
+          
+             rs=manager.UserVente3();
+            //  Get row data
+            while (rs.next())
+            {
+             String user=rs.getString("user");
+             int nbrProd=rs.getInt("nbrProd");
+             hm3.put(user, nbrProd);
+            }
+            
+             rs=manager.UserVente4();
+            //  Get row data
+            while (rs.next())
+            {
+             String user=rs.getString("user");
+             int nbrProd=rs.getInt("nbrProd");
+             hm4.put(user, nbrProd);
+            }
+
+
+            rs.close();
+            //stmt.close();
+            //connection.close();
+            }
+            catch(Exception e)
+            {
+                System.out.println( e );
+            }
+
+            ArrayList listUser=new ArrayList();
+            try
+            {
+            
+            ResultSet  rs=manager.getVendeur();
+         
+            
+            while (rs.next())
+            {
+             String u=rs.getString("identifiant");
+             listUser.add(u);
+            }
+
+            }
+            catch(Exception e)
+            {
+                System.out.println( e );
+            }
+
+            for(Iterator itUser=listUser.iterator(); itUser.hasNext();) {
+                String vendeur=(String)itUser.next();
+                if(hm1.containsKey(vendeur)==false){
+                    hm1.put(vendeur, 0);
+                } 
+                if(hm2.containsKey(vendeur)==false){
+                    hm2.put(vendeur, 0);
+                }
+                if(hm3.containsKey(vendeur)==false){
+                    hm3.put(vendeur, 0);
+                }
+                if(hm4.containsKey(vendeur)==false){
+                    hm4.put(vendeur, 0);
+                }
+            Object[] donnee = new Object[]
+             {vendeur, hm1.get(vendeur), hm2.get(vendeur),hm3.get(vendeur),hm4.get(vendeur)};
+            
+           
+            
+            while ( ((TableModelStat2)jTable6.getModel()).getRowCount()>0)
+                {
+                    ((TableModelStat2)jTable6.getModel()).removeRow(0);
+                }
+            ((TableModelStat2)jTable6.getModel()).addRow(donnee);
+      }
+    } 
 
 }
