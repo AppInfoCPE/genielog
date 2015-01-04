@@ -540,15 +540,29 @@ public class InterfaceManager extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(0).setHeaderValue("Produit");
         jTable1.getColumnModel().getColumn(1).setHeaderValue("Prix");
         jTable1.getColumnModel().getColumn(2).setHeaderValue("Temps de cuisson");
-        jTable1.getColumnModel().getColumn(3).setHeaderValue("Quantité minimales en vente heure de pointe");
-        jTable1.getColumnModel().getColumn(4).setHeaderValue("Quantité minimales en vente heure de normale");
-        jTable1.getColumnModel().getColumn(5).setHeaderValue("Quantité à cuire en heure de pointe");
-        jTable1.getColumnModel().getColumn(6).setHeaderValue("Quantité à cuire en heure normale");
+        jTable1.getColumnModel().getColumn(3).setHeaderValue("QteMiniVente heurePointe");
+        jTable1.getColumnModel().getColumn(4).setHeaderValue("QteMiniVente heureNormale");
+        jTable1.getColumnModel().getColumn(5).setHeaderValue("QteCuire heurePointe");
+        jTable1.getColumnModel().getColumn(6).setHeaderValue("QteCuire heureNormale");
         jTable1.getColumnModel().getColumn(7).setHeaderValue("Catégorie");
-        jTable1.getColumnModel().getColumn(8).setHeaderValue("Quantité minimum en stock");
-        jTable1.getColumnModel().getColumn(9).setHeaderValue("Quantité maximum en stock");
+        jTable1.getColumnModel().getColumn(8).setHeaderValue("QteMini stock");
+        jTable1.getColumnModel().getColumn(9).setHeaderValue("QteMaxi stock");
+
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTable1.getColumnModel().getColumn(3).setPreferredWidth(150);
+        jTable1.getColumnModel().getColumn(4).setPreferredWidth(150);
+        jTable1.getColumnModel().getColumn(5).setPreferredWidth(150);
+        jTable1.getColumnModel().getColumn(6).setPreferredWidth(150);
 
         jTable1.getTableHeader().resizeAndRepaint();
+        
+        String[] toolTipStr = 
+        	{ "Produit", "Prix", "Temps de cuisson", "Quantité minimales en vente heure de pointe", "Quantité minimales en vente heure normale","Quantité à cuire en heure de pointe","Quantité à cuire en heure normale","Catégorie","Quantité minimum en stock","Quantité maximum en stock"};
+        	ToolTipHeader header = new ToolTipHeader(jTable1.getColumnModel());
+        	    header.setToolTipStrings(toolTipStr);
+        	    header.setToolTipText("Default ToolTip TEXT");
+        	    jTable1.setTableHeader(header);
+        
 
         jTable1.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(new JComboBox<String>(new String[]{"Boisson","Viennoiserie"})));
         jScrollPane1.setViewportView(jTable1);
@@ -1347,17 +1361,22 @@ public class InterfaceManager extends javax.swing.JFrame {
                 }
 
             };
-            jTable1.setModel(model);
             jTable1.getColumnModel().getColumn(0).setHeaderValue("Produit");
             jTable1.getColumnModel().getColumn(1).setHeaderValue("Prix");
             jTable1.getColumnModel().getColumn(2).setHeaderValue("Temps de cuisson");
-            jTable1.getColumnModel().getColumn(3).setHeaderValue("Quantité minimales en vente heure de pointe");
-            jTable1.getColumnModel().getColumn(4).setHeaderValue("Quantité minimales en vente heure de normale");
-            jTable1.getColumnModel().getColumn(5).setHeaderValue("Quantité à cuire en heure de pointe");
-            jTable1.getColumnModel().getColumn(6).setHeaderValue("Quantité à cuire en heure normale");
+            jTable1.getColumnModel().getColumn(3).setHeaderValue("QteMiniVente heurePointe");
+            jTable1.getColumnModel().getColumn(4).setHeaderValue("QteMiniVente heureNormale");
+            jTable1.getColumnModel().getColumn(5).setHeaderValue("QteCuire heurePointe");
+            jTable1.getColumnModel().getColumn(6).setHeaderValue("QteCuire heureNormale");
             jTable1.getColumnModel().getColumn(7).setHeaderValue("Catégorie");
-            jTable1.getColumnModel().getColumn(8).setHeaderValue("Quantité minimum en stock");
-            jTable1.getColumnModel().getColumn(9).setHeaderValue("Quantité maximum en stock");
+            jTable1.getColumnModel().getColumn(8).setHeaderValue("QteMini stock");
+            jTable1.getColumnModel().getColumn(9).setHeaderValue("QteMaxi stock");
+
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(150);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(150);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(150);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(150);
 
             jTable1.getTableHeader().resizeAndRepaint();
         }
