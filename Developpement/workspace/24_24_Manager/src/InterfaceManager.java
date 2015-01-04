@@ -1348,6 +1348,18 @@ public class InterfaceManager extends javax.swing.JFrame {
 
             };
             jTable1.setModel(model);
+            jTable1.getColumnModel().getColumn(0).setHeaderValue("Produit");
+            jTable1.getColumnModel().getColumn(1).setHeaderValue("Prix");
+            jTable1.getColumnModel().getColumn(2).setHeaderValue("Temps de cuisson");
+            jTable1.getColumnModel().getColumn(3).setHeaderValue("Quantité minimales en vente heure de pointe");
+            jTable1.getColumnModel().getColumn(4).setHeaderValue("Quantité minimales en vente heure de normale");
+            jTable1.getColumnModel().getColumn(5).setHeaderValue("Quantité à cuire en heure de pointe");
+            jTable1.getColumnModel().getColumn(6).setHeaderValue("Quantité à cuire en heure normale");
+            jTable1.getColumnModel().getColumn(7).setHeaderValue("Catégorie");
+            jTable1.getColumnModel().getColumn(8).setHeaderValue("Quantité minimum en stock");
+            jTable1.getColumnModel().getColumn(9).setHeaderValue("Quantité maximum en stock");
+
+            jTable1.getTableHeader().resizeAndRepaint();
         }
         
        }
