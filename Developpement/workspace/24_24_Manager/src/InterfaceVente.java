@@ -43,6 +43,7 @@ public class InterfaceVente extends JFrame {
 	private JTable tableVente;
 	private JTextField tfMontantDonne;
 	private JTextField tfValeur;
+	private JLabel lvente;
 	LogicielVendeur mc;
 	Utilisateur actif;
 	private String[] tab_stringMP = {"CB","Cheque","Espece"};
@@ -91,7 +92,7 @@ public class InterfaceVente extends JFrame {
 		//création d'une vente
 		venteEnCour=new Vente(actif.getLogin());
 		numVente=venteEnCour.getNumVente();
-				
+		
 		initComposant();
 		initJTabbedPane();
 		initPaneVente();
@@ -281,20 +282,21 @@ public class InterfaceVente extends JFrame {
 			btnChangerModePaiement.setEnabled(false);
 			tfValeur.setText("");
 			tfMontantDonne.setText("");
-			for (int i=0;i<=tab_button_Chiffre.length;i++){
+			for (int i=0;i<tab_button_Chiffre.length;i++){
 				if(tab_button_Chiffre[i].isEnabled()){
 					tab_button_Chiffre[i].setEnabled(false);
 				}	
 			}
 		}
 	}
-			
-		private void initComposant(){
-		
+		private void majTitreVente(){
+			lvente.setText("Vente n∞ "+numVente);
+		}
+		private void initComposant(){		
 		//titre vente
-		JLabel lvente = new JLabel();
+		lvente = new JLabel();
 		lvente.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lvente.setText("Vente n∞ "+numVente);
+		majTitreVente();
 		lvente.setBounds(336, 66, 120, 17);
 		contentPane.add(lvente);
 		
@@ -413,13 +415,17 @@ public class InterfaceVente extends JFrame {
 			//on affiche le chiffre dans la texte box : montant donne
 			String Cliquer = ((JButton)e.getSource()).getText();
 			String Existant = tfMontantDonne.getText();
-			float montantDonnee, montantPrix, rendu;
+			float montantDonnee=0, montantPrix=0, rendu=0, prixTotalVente = 0;
 			
 			if (Cliquer == "<="){
 				if(Existant.length()==1){
 					tfMontantDonne.setText("0");
 				}else{
 					tfMontantDonne.setText(Existant.substring(0,Existant.length()-1));
+				}
+			}else if (Cliquer == "."){
+				if(! Existant.contains(".")){
+						tfMontantDonne.setText(Existant+Cliquer);
 				}
 			}else{
 				if (Existant.equals("0")){
@@ -429,9 +435,9 @@ public class InterfaceVente extends JFrame {
 					tfMontantDonne.setText(Existant+Cliquer);					
 				}
 			}
+			montantDonnee = Float.valueOf(tfMontantDonne.getText());
 			//si espece selectionne on calcul le rendu
-			if(tab_button_Mpaiement[2].isEnabled()){
-				montantDonnee = Float.valueOf(tfMontantDonne.getText());
+			if(tab_button_Mpaiement[2].isEnabled()){				
 				montantPrix = Float.valueOf(TFNTotal.getText());
 				rendu = montantDonnee-montantPrix;
 			}
@@ -439,7 +445,11 @@ public class InterfaceVente extends JFrame {
 				rendu=0;
 
 			tfValeur.setText(String.valueOf(df.format(rendu)));
-			bEncaisser.setEnabled(true);
+			prixTotalVente = Float.valueOf(TFNTotal.getText());
+			if (montantDonnee >= prixTotalVente){
+				bEncaisser.setEnabled(true);
+			}else 
+				bEncaisser.setEnabled(false);
 		}
 	}
 	class changeModePaiement implements ActionListener {
@@ -452,8 +462,8 @@ public class InterfaceVente extends JFrame {
 			for(int i = 0; i < tab_stringChiffre.length; i++){
 				tab_button_Chiffre[i].setEnabled(false);	    
 			}
-			tfMontantDonne.setText("");
-			tfValeur.setText("");
+			tfMontantDonne.setText("0");
+			tfValeur.setText("0");
 			bEncaisser.setEnabled(false);
 			btnChangerModePaiement.setEnabled(false);
 		}
@@ -500,15 +510,10 @@ public class InterfaceVente extends JFrame {
 	
 	class encaisserListener implements ActionListener {
 	    public void actionPerformed(ActionEvent e){
-	    	//String message = ((JButton)e.getSource()).getName()+" "+tfMontantDonne.getText();
-	    	//System.out.println(paiement);
-	    	mc.terminerVente(numVente, paiement);
-	    	/*String message = "Nous venons d'encaisser : "+tfMontantDonne.getText()+"€\nMontant ‡ rendre : "+tfValeur.getText();
-	    	JOptionPane.showMessageDialog(null,message);*/
-	    	
-	    	for (int i=0;i<tab_button_Mpaiement.length;i++){	    		
+	    	mc.terminerVente(numVente, paiement);	    	
+	    	/*for (int i=0;i<tab_button_Mpaiement.length;i++){	    		
 	    			tab_button_Mpaiement[i].setEnabled(true);	    		
-	    	}
+	    	}*/
 	    	
 	    	for (int i=0;i<tab_button_Chiffre.length;i++){
 	    		tab_button_Chiffre[i].setEnabled(false);		
@@ -522,7 +527,7 @@ public class InterfaceVente extends JFrame {
 	    	completeResumeVente();
 	    	venteEnCour = new Vente(actif.getLogin());
 	    	numVente = venteEnCour.getNumVente();
-	    	//System.out.println(numVente);
+	    	majTitreVente();
 	    }
 	}
 	
@@ -593,11 +598,11 @@ public class InterfaceVente extends JFrame {
 	    	//actualisation de l'onglet actif uniquement
 	    	if(onglets.getSelectedComponent().equals(onglet1)){
 	    		listeVeinoisserie(onglet1);
-	    		System.out.println("onglet 1 actualiser");
+	    		//System.out.println("onglet 1 actualiser");
 	    	}
 	    	if(onglets.getSelectedComponent().equals(onglet2)){
 	    		listeBoisson(onglet2);
-	    		System.out.println("onglet 2 actualiser");
+	    		//System.out.println("onglet 2 actualiser");
 	    	}
 	    	MAJTableVente();
 	    	completeResumeVente();
@@ -607,19 +612,23 @@ public class InterfaceVente extends JFrame {
 	//Permet de stocker les chiffres et de les afficher
 	class AppuieBoutonModePaiement implements ActionListener {
 	    public void actionPerformed(ActionEvent e){
-	    	String str = ((JButton)e.getSource()).getName();
-	    	paiement=str;
-	    	//JOptionPane.showMessageDialog(null,str);
+	    	paiement=((JButton)e.getSource()).getName();
 	    	
 	    	for (int i=0;i<tab_button_Mpaiement.length;i++){
-	    		if (!str.equals(tab_button_Mpaiement[i].getName())){
+	    		if (!paiement.equals(tab_button_Mpaiement[i].getName())){
 	    			tab_button_Mpaiement[i].setEnabled(false);
 	    		}
+	    	}
+	    	
+	    	if (paiement != "Espece"){
+	    		tfMontantDonne.setText(TFNTotal.getText());	
+	    		bEncaisser.setEnabled(true);
 	    	}
 	    	
 	    	for (int i=0;i<tab_button_Chiffre.length;i++){
 	    		tab_button_Chiffre[i].setEnabled(true);		
 	    	}
+	    	
 	    	btnChangerModePaiement.setEnabled(true);
 	    }
 	}
