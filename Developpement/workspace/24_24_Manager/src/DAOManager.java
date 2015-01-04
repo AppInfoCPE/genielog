@@ -392,43 +392,43 @@
             }
 
               public ResultSet prodJet1(){
-                 String   sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND v.datevente = CURRENT_DATE AND p.id= l.idproduit AND p.status='jete'";
+            	  String    sql = "SELECT COUNT(id) as nbrProdJet FROM PRODUIT p WHERE  DAY(p.dateperemption) = DAY(NOW()) AND p.status='jete'";
                  ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                  return rs;   
               }
               public ResultSet prodJet2(){
-                    String   sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND WEEK(v.datevente) = WEEK(CURRENT_DATE) AND p.id= l.idproduit AND p.status='jete'";
+            	  String    sql = "SELECT COUNT(id) as nbrProdJet FROM PRODUIT p WHERE  WEEK(p.dateperemption) = WEEK(NOW()) AND p.status='jete'";
                    ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                   return rs;   
               }
               public ResultSet prodJet3(){
-                    String  sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND MONTH(v.datevente) = MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='jete'";
+            	  String    sql = "SELECT COUNT(id) as nbrProdJet FROM PRODUIT p WHERE  MONTH(p.dateperemption) = MONTH(NOW()) AND p.status='jete'";
                      ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                   return rs;   
               }
               public ResultSet prodJet4(){
-                    String    sql = "SELECT COUNT(idproduit) as nbrProdJet FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='jete'";
+            	  String    sql = "SELECT COUNT(id) as nbrProdJet FROM PRODUIT p WHERE  YEAR(p.dateperemption) = YEAR(NOW()) AND p.status='jete'";
                 ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                   return rs;   
               }
 
               public ResultSet prodPerdu1(){
-                 String    sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND v.datevente = CURRENT_DATE AND p.id= l.idproduit AND p.status='perime'";
+            	  String    sql = "SELECT COUNT(id) as nbrProdPerdus FROM PRODUIT p WHERE  DAY(p.dateperemption) = DAY(NOW()) AND p.status='perime'";
              ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                  return rs;   
               }
               public ResultSet prodPerdu2(){
-                    String     sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND WEEK(v.datevente) = WEEK(CURRENT_DATE) AND p.id= l.idproduit AND p.status='perime'";
+            	  String    sql = "SELECT COUNT(id) as nbrProdPerdus FROM PRODUIT p WHERE  WEEK(p.dateperemption) = WEEK(NOW()) AND p.status='perime'";
                   ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                   return rs;   
               }
               public ResultSet prodPerdu3(){
-                    String   sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND MONTH(v.datevente) = MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='perime'";
+            	  String    sql = "SELECT COUNT(id) as nbrProdPerdus FROM PRODUIT p WHERE  MONTH(p.dateperemption) = MONTH(NOW()) AND p.status='perime'";
                 ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                   return rs;   
               }
               public ResultSet prodPerdu4(){
-                    String      sql = "SELECT COUNT(idproduit) as nbrProdPerdus FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p WHERE l.numvente=v.numvente AND YEAR(v.datevente) = YEAR(CURRENT_DATE) AND p.id= l.idproduit AND p.status='perime'";
+            	  String    sql = "SELECT COUNT(id) as nbrProdPerdus FROM PRODUIT p WHERE  YEAR(p.dateperemption) = YEAR(NOW()) AND p.status='perime'";
                        ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                   return rs;   
               }

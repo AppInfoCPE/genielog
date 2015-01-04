@@ -156,7 +156,7 @@ public class DaoCuisson {
 	}
 
 	public void rejeterCuisson(String typeProduit, String nombre, String debutCuisson) {
-		DatabaseAccess.jdbcExecute("UPDATE PRODUIT SET status=\"jete\" WHERE status=\"four\" and typeproduit=\""+typeProduit+"\" and debutcuisson=\""+debutCuisson+"\"");
+		DatabaseAccess.jdbcExecute("UPDATE PRODUIT SET status=\"jete\", dateperemption=NOW() WHERE status=\"four\" and typeproduit=\""+typeProduit+"\" and debutcuisson=\""+debutCuisson+"\"");
 	}
 
 	public int[] minQteLotParTypeproduit(String typeProduit) {
