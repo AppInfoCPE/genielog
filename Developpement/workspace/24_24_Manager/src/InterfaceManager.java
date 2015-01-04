@@ -494,6 +494,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             }
             public boolean isCellEditable(int row,int col){
                 if(getValueAt(row, 7).toString().equals("Boisson") && col==2) return false;
+                if(col==0 || col==7) return false;
                 return true;
             }
 
