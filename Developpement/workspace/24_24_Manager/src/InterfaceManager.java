@@ -1103,7 +1103,7 @@ public class InterfaceManager extends javax.swing.JFrame {
           else{
               
               JOptionPane.showMessageDialog(this,
-            "Quantite doit > 0",
+            "Quantite doit etre superieur a 0",
             "Insane error",
             JOptionPane.ERROR_MESSAGE);
               
@@ -1114,7 +1114,7 @@ public class InterfaceManager extends javax.swing.JFrame {
     
     else{
         JOptionPane.showMessageDialog(this,
-    "Not a numeric",
+    "Ce n'est pas un nombre",
     "Insane error",
     JOptionPane.ERROR_MESSAGE);
     }}
@@ -1197,7 +1197,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         }
           
           JOptionPane.showMessageDialog(this,
-                    "Success");
+                    "Reussite");
           
           
          
@@ -1237,7 +1237,7 @@ public class InterfaceManager extends javax.swing.JFrame {
           ((TableModelGestion2)jTable4.getModel()).fireTableRowsDeleted(nbrLignes[i], nbrLignes[i]);
          }
           JOptionPane.showMessageDialog(this,
-                    "DELETED");
+                    "Supprime");
     }                                        
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -1369,7 +1369,7 @@ public class InterfaceManager extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
 
-        int response=JOptionPane.showConfirmDialog(this, "Are you sure?");
+        int response=JOptionPane.showConfirmDialog(this, "Vous etes sur?");
 
         if(response==0){
 
@@ -1385,7 +1385,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             dlm.removeElement(hp);
             jList1.setModel(dlm);
             JOptionPane.showMessageDialog(this,
-                "DELETED");
+                "Supprime");
 
         }
         else{
@@ -1416,7 +1416,7 @@ public class InterfaceManager extends javax.swing.JFrame {
 
         if(!isValidDate(debut) || !isValidDate(fin)){
             JOptionPane.showMessageDialog(this,
-                "Incorrect Format",
+                "Format incorrect",
                 "Insane error",
                 JOptionPane.ERROR_MESSAGE);
         }
@@ -1434,7 +1434,7 @@ public class InterfaceManager extends javax.swing.JFrame {
 
             if(dateDebut.after(dateFin)){
                 JOptionPane.showMessageDialog(this,
-                    "date debut doit < date fin",
+                    "date debut doit etre anterieur a date fin",
                     "Insane error",
                     JOptionPane.ERROR_MESSAGE);
             }
@@ -1449,7 +1449,7 @@ public class InterfaceManager extends javax.swing.JFrame {
 
               
                 JOptionPane.showMessageDialog(this,
-                    "Success");
+                    "Reussite");
                 // HeurePointe hp=new HeurePointe();
             }
 
