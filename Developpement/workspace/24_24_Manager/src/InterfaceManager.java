@@ -464,8 +464,9 @@ public class InterfaceManager extends javax.swing.JFrame {
         );
 
         JPanel panelHaut = new PanelInformation(this);
-        panelHaut.setBounds(750, 10, 400, 30);
-        jPanel2.add(panelHaut);
+        panelHaut.setBounds(860, 10, 400, 30);
+        jPanel2.add(panelHaut, BorderLayout.NORTH);		
+       // jPanel2.add(panelHaut);
 
         jTabbedPane1.addTab("Gestion des stocks", jPanel2);
 
@@ -720,8 +721,9 @@ public class InterfaceManager extends javax.swing.JFrame {
         );
 
         JPanel panelHaut1 = new PanelInformation(this);
-        panelHaut1.setBounds(750, 10, 400, 30);
-        jPanel1.add(panelHaut1);
+        panelHaut1.setBounds(860, 10, 400, 30);
+       // jPanel1.add(panelHaut1);
+        jPanel1.add(panelHaut1, BorderLayout.NORTH);		
 
         jTabbedPane1.addTab("Configuration", jPanel1);
 
@@ -1081,8 +1083,9 @@ public class InterfaceManager extends javax.swing.JFrame {
             );
 
             JPanel panelHaut2 = new PanelInformation(this);
-            panelHaut2.setBounds(750, 10, 400, 30);
-            jPanel7.add(panelHaut2);
+            panelHaut2.setBounds(860, 10, 400, 30);
+            //jPanel7.add(panelHaut2);
+            jPanel7.add(panelHaut2, BorderLayout.NORTH);		
 
             jTabbedPane1.addTab("Statistiques", jPanel7);
 
