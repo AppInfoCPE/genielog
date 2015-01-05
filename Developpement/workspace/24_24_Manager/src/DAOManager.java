@@ -212,7 +212,7 @@
 
 
                 } catch (SQLException ex) {
-               // Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
                 } 
             } 
 
@@ -246,7 +246,7 @@
                                 data.addElement( row );
                             }
 
-                            rs.close();
+                           rs.close();
 
                         }
                         catch(Exception e)
@@ -289,7 +289,7 @@
                     data1.addElement( row );
                 }
 
-                rs.close();
+              //  rs.close();
 
             }
             catch(Exception e)
@@ -323,7 +323,7 @@
                  prixTotal=prix * quantite;
                 }
 
-                rs.close();
+               rs.close();
 
             }
             catch(Exception e)
@@ -433,7 +433,7 @@
                   return rs;   
               }
               public ResultSet UserVente1(){
-                    String      sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND DAY(v.datevente) =DAY(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
+                    String      sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND v.datevente =CURRENT_DATE AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
                       ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                   return rs;   
               }
@@ -444,7 +444,7 @@
               }
               public ResultSet UserVente3(){
                     String  sql = "SELECT u.identifiant as user, COUNT(idproduit) as nbrProd FROM VENTE v, LIENPRODUITVENTE l, PRODUIT p , UTILISATEUR u WHERE u.identifiant = v.identifiant AND l.numvente=v.numvente AND MONTH(v.datevente) =MONTH(CURRENT_DATE) AND p.id= l.idproduit AND p.status='vendu' GROUP BY u.identifiant";
-        ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
+                    ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                   return rs;   
               }
               public ResultSet UserVente4(){
@@ -454,7 +454,7 @@
               }
 
          public ResultSet getVendeur(){
-             String  sql = "Select identifiant from UTILISATEUR where role='Vendeur' OR role='Manager'";           
+             String  sql = "Select identifiant from UTILISATEUR where role='Vendeur' OR 'Manager'";           
              ResultSet rs =DatabaseAccess.jdbcExecuteQuery(sql );
                   return rs;
          }
@@ -488,7 +488,7 @@
               
             }
 
-            rs.close();  
+          rs.close();  
         }
         catch(Exception e)
         {

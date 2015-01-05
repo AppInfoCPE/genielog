@@ -78,8 +78,10 @@ public class InterfaceManager extends javax.swing.JFrame {
     }
     private void initialisationThread() {
 
-		 mt= new MiseAJourStatThread(this);
-                mt.start();
+			 mt= new MiseAJourStatThread(this);
+			 mt1= new MiseAJourManager(this);
+	          mt.start();
+	          mt1.start();
 
 		addWindowListener(new WindowListener() {
 			public void windowOpened(WindowEvent e) {}
@@ -462,8 +464,9 @@ public class InterfaceManager extends javax.swing.JFrame {
         );
 
         JPanel panelHaut = new PanelInformation(this);
-        panelHaut.setBounds(750, 10, 400, 30);
-        jPanel2.add(panelHaut);
+        panelHaut.setBounds(860, 10, 400, 30);
+        jPanel2.add(panelHaut, BorderLayout.NORTH);		
+       // jPanel2.add(panelHaut);
 
         jTabbedPane1.addTab("Gestion des stocks", jPanel2);
 
@@ -718,8 +721,9 @@ public class InterfaceManager extends javax.swing.JFrame {
         );
 
         JPanel panelHaut1 = new PanelInformation(this);
-        panelHaut1.setBounds(750, 10, 400, 30);
-        jPanel1.add(panelHaut1);
+        panelHaut1.setBounds(860, 10, 400, 30);
+       // jPanel1.add(panelHaut1);
+        jPanel1.add(panelHaut1, BorderLayout.NORTH);		
 
         jTabbedPane1.addTab("Configuration", jPanel1);
 
@@ -1079,8 +1083,9 @@ public class InterfaceManager extends javax.swing.JFrame {
             );
 
             JPanel panelHaut2 = new PanelInformation(this);
-            panelHaut2.setBounds(750, 10, 400, 30);
-            jPanel7.add(panelHaut2);
+            panelHaut2.setBounds(860, 10, 400, 30);
+            //jPanel7.add(panelHaut2);
+            jPanel7.add(panelHaut2, BorderLayout.NORTH);		
 
             jTabbedPane1.addTab("Statistiques", jPanel7);
 
@@ -1119,7 +1124,7 @@ public class InterfaceManager extends javax.swing.JFrame {
               
               JOptionPane.showMessageDialog(this,
             "Quantite doit etre superieur a 0",
-            "Insane error",
+            "24/24 Manager",
             JOptionPane.ERROR_MESSAGE);
               
           }
@@ -1130,13 +1135,13 @@ public class InterfaceManager extends javax.swing.JFrame {
     else{
         JOptionPane.showMessageDialog(this,
     "Ce n'est pas un nombre",
-    "Insane error",
+    "24/24 Manage",
     JOptionPane.ERROR_MESSAGE);
     }}
     else {
          JOptionPane.showMessageDialog(this,
     "Veuillez choisir un produit",
-    "Insane error",
+    "24/24 Manage",
     JOptionPane.ERROR_MESSAGE);
     }
     
@@ -1211,8 +1216,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             }
         }
           
-          JOptionPane.showMessageDialog(this,
-                    "Reussite");
+       
           
           
          
@@ -1251,8 +1255,7 @@ public class InterfaceManager extends javax.swing.JFrame {
           ((TableModelGestion2)jTable4.getModel()).removeRow(nbrLignes[i]);
           ((TableModelGestion2)jTable4.getModel()).fireTableRowsDeleted(nbrLignes[i], nbrLignes[i]);
          }
-          JOptionPane.showMessageDialog(this,
-                    "Supprime");
+        
     }                                        
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -1321,8 +1324,9 @@ public class InterfaceManager extends javax.swing.JFrame {
     }                                    
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        int response=JOptionPane.showConfirmDialog(this, "Voulez-vous enregistrer la configuration ?");
-
+       // int response=JOptionPane.showConfirmDialog(this, "Voulez-vous enregistrer la configuration ?");
+        int response=PopUp.afficherConfirmation();
+ 
         if(response==0){
             try {
                 // TODO add your handling code here:
@@ -1437,7 +1441,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         if(!isValidDate(debut) || !isValidDate(fin)){
             JOptionPane.showMessageDialog(this,
                 "Format incorrect",
-                "Insane error",
+                "24/24 Manager ",
                 JOptionPane.ERROR_MESSAGE);
         }
         else
@@ -1455,7 +1459,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             if(dateDebut.after(dateFin)){
                 JOptionPane.showMessageDialog(this,
                     "date debut doit etre anterieur a date fin",
-                    "Insane error",
+                    "24/24 Manage",
                     JOptionPane.ERROR_MESSAGE);
             }
             else{
@@ -1468,8 +1472,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 jList1.setModel(dlm);
 
               
-                JOptionPane.showMessageDialog(this,
-                    "Reussite");
+            
                 // HeurePointe hp=new HeurePointe();
             }
 
@@ -1615,7 +1618,7 @@ public class InterfaceManager extends javax.swing.JFrame {
     private DefaultListModel dlm= new DefaultListModel();
     private DefaultListModel dlm2= new DefaultListModel();
     private MiseAJourStatThread mt;
-            
+    private MiseAJourManager mt1;       
             
     private int getColumnByName(JTable table, String name) {
                 for (int i = 0; i < table.getColumnCount(); ++i)
@@ -1900,6 +1903,42 @@ public class InterfaceManager extends javax.swing.JFrame {
                 
             	((TableModelStat2)jTable6.getModel()).addRow(donnee);
             }
-    } 
+    }
+     
+     
+     public void miseAJourManager(){
+         
+         
+         
+         Vector<Object> columnNames1 = new Vector<Object>();
+         Vector<Object> data1 = new Vector<Object>();
+         manager.recupererTableStock(columnNames1, data1);
+         DefaultTableModel model1 = new DefaultTableModel(data1, columnNames1)
+         {
+         
+     	@Override
+         public Class getColumnClass(int column)
+         {
+             for (int row = 0; row < getRowCount(); row++)
+             {
+                 Object o = getValueAt(row, column);
+
+                 if (o != null)
+                 {
+                     return o.getClass();
+                 }
+             }
+
+             return Object.class;
+         }
+         public boolean isCellEditable(int row,int col){
+                 return false;
+         }
+
+          };
+         jTable2.setModel(model1);
+       
+       
+   }
 
 }
