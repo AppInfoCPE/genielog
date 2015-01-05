@@ -78,8 +78,10 @@ public class InterfaceManager extends javax.swing.JFrame {
     }
     private void initialisationThread() {
 
-		 mt= new MiseAJourStatThread(this);
-                mt.start();
+			 mt= new MiseAJourStatThread(this);
+			 mt1= new MiseAJourManager(this);
+	          mt.start();
+	          mt1.start();
 
 		addWindowListener(new WindowListener() {
 			public void windowOpened(WindowEvent e) {}
@@ -1211,8 +1213,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             }
         }
           
-          JOptionPane.showMessageDialog(this,
-                    "Reussite");
+       
           
           
          
@@ -1251,8 +1252,7 @@ public class InterfaceManager extends javax.swing.JFrame {
           ((TableModelGestion2)jTable4.getModel()).removeRow(nbrLignes[i]);
           ((TableModelGestion2)jTable4.getModel()).fireTableRowsDeleted(nbrLignes[i], nbrLignes[i]);
          }
-          JOptionPane.showMessageDialog(this,
-                    "Supprime");
+        
     }                                        
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -1468,8 +1468,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                 jList1.setModel(dlm);
 
               
-                JOptionPane.showMessageDialog(this,
-                    "Reussite");
+            
                 // HeurePointe hp=new HeurePointe();
             }
 
@@ -1615,7 +1614,7 @@ public class InterfaceManager extends javax.swing.JFrame {
     private DefaultListModel dlm= new DefaultListModel();
     private DefaultListModel dlm2= new DefaultListModel();
     private MiseAJourStatThread mt;
-            
+    private MiseAJourManager mt1;       
             
     private int getColumnByName(JTable table, String name) {
                 for (int i = 0; i < table.getColumnCount(); ++i)
@@ -1900,6 +1899,40 @@ public class InterfaceManager extends javax.swing.JFrame {
                 
             	((TableModelStat2)jTable6.getModel()).addRow(donnee);
             }
-    } 
+    }
+     public void miseAJourManager(){
+         
+         
+         
+         Vector<Object> columnNames1 = new Vector<Object>();
+         Vector<Object> data1 = new Vector<Object>();
+         manager.recupererTableStock(columnNames1, data1);
+         DefaultTableModel model1 = new DefaultTableModel(data1, columnNames1)
+         {
+         
+     	@Override
+         public Class getColumnClass(int column)
+         {
+             for (int row = 0; row < getRowCount(); row++)
+             {
+                 Object o = getValueAt(row, column);
+
+                 if (o != null)
+                 {
+                     return o.getClass();
+                 }
+             }
+
+             return Object.class;
+         }
+         public boolean isCellEditable(int row,int col){
+                 return false;
+         }
+
+          };
+         jTable2.setModel(model1);
+       
+       
+   }
 
 }
