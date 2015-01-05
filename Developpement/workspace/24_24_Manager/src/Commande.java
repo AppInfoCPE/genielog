@@ -45,17 +45,20 @@ public class Commande {
         int id = 0;
          try
         {   
-            
+
             //  Connect to an Access Database
-             Class.forName("com.mysql.jdbc.Driver");
-             Connection connection = DriverManager.getConnection( "jdbc:mysql://db4free.net:3306/managerappinfo", "julien", "skateboard1" );
-             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-             String d=dateFormat.format(this.DateCmd);
+           /*  Class.forName("com.mysql.jdbc.Driver");
+             Connection connection = DriverManager.getConnection( "jdbc:mysql://127.0.0.1/managerappinfo", "root", "" );
+             
+             
             //  Read data from a table
 
             String sql = "Select id from COMMANDE where date='"+d+"'";
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery( sql );
+            ResultSet rs = stmt.executeQuery( sql );*/
+        	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+        	String d=dateFormat.format(this.DateCmd);
+        	ResultSet rs= DatabaseAccess.jdbcExecuteQuery("Select id from COMMANDE where date='"+d+"'");
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();            
 
@@ -68,8 +71,8 @@ public class Commande {
             }
 
             rs.close();
-            stmt.close();
-            connection.close();
+           // stmt.close();
+           // connection.close();
         }
         catch(Exception e)
         {

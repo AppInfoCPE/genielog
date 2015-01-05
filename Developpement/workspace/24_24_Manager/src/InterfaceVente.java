@@ -572,7 +572,8 @@ public class InterfaceVente extends JFrame {
 		for(int i = 0; i < donneesType.length; i++){
 			tab_button[i] = new JButton();
 		    tab_button[i].setName((String) donneesType[i][0]);
-		    tab_button[i].setPreferredSize(dim);	  
+		    tab_button[i].setPreferredSize(dim);	 
+		    tab_button[i].setEnabled(false);
 		    tab_button[i].setIcon(new ImageIcon("images/"+(String) donneesType[i][0]+" nd.jpg"));
 		
 			//Ajout des boutons sur le panel et ajout des listener
@@ -581,6 +582,7 @@ public class InterfaceVente extends JFrame {
 				if(donneesType[i][0].equals(donnees[j][0])){
 					//changer est mettre nouvelle image
 					tab_button[i].addActionListener(new AjoutProduitVente());
+					tab_button[i].setEnabled(true);
 					tab_button[i].setIcon(new ImageIcon("images/"+(String) donneesType[i][0]+".jpg"));
 					//System.out.println("PASSER");
 				}  

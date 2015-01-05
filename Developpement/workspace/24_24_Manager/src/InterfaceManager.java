@@ -5,6 +5,7 @@
  */
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -15,7 +16,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyVetoException;
+
 import static java.lang.Thread.sleep;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -34,6 +37,7 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -42,11 +46,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -105,7 +111,7 @@ public class InterfaceManager extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabbedPane1 = new JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -650,7 +656,7 @@ public class InterfaceManager extends javax.swing.JFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                         .addGap(243, 243, 243))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
@@ -1164,15 +1170,6 @@ public class InterfaceManager extends javax.swing.JFrame {
         manager.updateCommande(cmd);
         
         
-
-                
-        
-             try {
-                Thread.sleep(5000);                 //1000 milliseconds is one second.
-            } catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            };
-        
         int status=0;
         String typeProd;
         int qte;
@@ -1195,14 +1192,8 @@ public class InterfaceManager extends javax.swing.JFrame {
                 {typeProd, cmd.getId(),qte/*, prixTotal*/};
                  ((TableModelGestion2)jTable4.getModel()).addRow(donnee);
                  
-                
                  //Update Table Lot
                  manager.updateLot(cmd, status, typeProd, qte);
-                 
-                 
-                 
-                 
-                 
          }
          
           if(jTable3.getRowCount() > 0){
@@ -1649,11 +1640,11 @@ public class InterfaceManager extends javax.swing.JFrame {
 
     public void run() {
         while (running) {
-            try {
+         /*   try {
                 sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
            label.setText(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(new Date()));		
         }
     }
