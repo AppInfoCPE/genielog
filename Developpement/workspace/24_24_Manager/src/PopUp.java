@@ -56,6 +56,27 @@ public class PopUp {
 		UIManager.put("Button.background", color);
 		UIManager.put("Panel.background", panel);
 	}	
+	
+	
+	public static void afficherErreur(String t) {
+	
+		Object panel = UIManager.get("Panel.background");
+		Object color = UIManager.get("Button.background");
+		
+		UIManager.put("OptionPane.background", new Color(241, 246, 190));
+		UIManager.put("control", new Color(241, 246, 190));
+		UIManager.put("OptionPane.messageFont", new Font("Tahoma", Font.PLAIN, 14));
+		UIManager.put("OptionPane.messageAreaBorder", new EmptyBorder(20, 20, 20, 20));
+		UIManager.put("OptionPane.okIcon", new ImageIcon("images/valider.png"));
+		UIManager.put("OptionPane.okButtonText", "");	
+		UIManager.put("Button.background", new Color(220, 150, 95));
+		
+	
+   JOptionPane.showMessageDialog(null, t, "24/24 Manager",  JOptionPane.WARNING_MESSAGE, null);			
+		
+		UIManager.put("Button.background", color);
+		UIManager.put("Panel.background", panel);
+	}	
 
 	public static void main(String[] args) {
         try {
@@ -73,5 +94,6 @@ public class PopUp {
         		
 		PopUp.afficherConfirmation();
 		PopUp.afficherPeremption();
+		PopUp.afficherErreur("Erreur");
 	}
 }

@@ -64,7 +64,7 @@ public class InterfaceManager extends javax.swing.JFrame {
      * Creates new form IHM_Manager
      */
     public InterfaceManager(LogicielManager manager) {
-        
+       
         //Utilisateur us= new Utilisateur("Jean","jean","manager","Dupond","Jean");
     	this.manager=manager;
          initComponents();
@@ -1122,10 +1122,9 @@ public class InterfaceManager extends javax.swing.JFrame {
           }
           else{
               
-              JOptionPane.showMessageDialog(this,
-            "Quantite doit etre superieur a 0",
-            "24/24 Manager",
-            JOptionPane.ERROR_MESSAGE);
+         
+              
+              PopUp.afficherErreur("Quantite doit etre superieur a 0");
               
           }
           
@@ -1133,16 +1132,12 @@ public class InterfaceManager extends javax.swing.JFrame {
     }
     
     else{
-        JOptionPane.showMessageDialog(this,
-    "Ce n'est pas un nombre",
-    "24/24 Manage",
-    JOptionPane.ERROR_MESSAGE);
+        
+        PopUp.afficherErreur("Ce n'est pas un nombre");
     }}
     else {
-         JOptionPane.showMessageDialog(this,
-    "Veuillez choisir un produit",
-    "24/24 Manage",
-    JOptionPane.ERROR_MESSAGE);
+         
+         PopUp.afficherErreur("Veuillez choisir un produit");
     }
     
     }                                        
@@ -1393,8 +1388,8 @@ public class InterfaceManager extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
 
-        int response=JOptionPane.showConfirmDialog(this, "Vous etes sur?");
-
+        //int response=JOptionPane.showConfirmDialog(this, "Vous etes sur?");
+        int response=PopUp.afficherConfirmation();
         if(response==0){
 
             HeurePointe hp;
@@ -1408,8 +1403,8 @@ public class InterfaceManager extends javax.swing.JFrame {
             manager.supprHeurePointe(debut, fin);
             dlm.removeElement(hp);
             jList1.setModel(dlm);
-            JOptionPane.showMessageDialog(this,
-                "Supprime");
+            
+         
 
         }
         else{
@@ -1439,10 +1434,8 @@ public class InterfaceManager extends javax.swing.JFrame {
         String fin=jTextField2.getText();
 
         if(!isValidDate(debut) || !isValidDate(fin)){
-            JOptionPane.showMessageDialog(this,
-                "Format incorrect",
-                "24/24 Manager ",
-                JOptionPane.ERROR_MESSAGE);
+            
+            PopUp.afficherErreur("Format incorrect");
         }
         else
         {
@@ -1457,10 +1450,8 @@ public class InterfaceManager extends javax.swing.JFrame {
             }
 
             if(dateDebut.after(dateFin)){
-                JOptionPane.showMessageDialog(this,
-                    "date debut doit etre anterieur a date fin",
-                    "24/24 Manage",
-                    JOptionPane.ERROR_MESSAGE);
+                
+                PopUp.afficherErreur("date debut doit etre anterieur a date fin");
             }
             else{
                 String debutTime = sdf.format(dateDebut);
