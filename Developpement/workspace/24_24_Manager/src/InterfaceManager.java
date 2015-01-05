@@ -1108,7 +1108,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         //produit,quantite,prixToltal
         
        String produit=(String) jList2.getSelectedValue();
-       //System.out.println(produit);
+       System.out.println(produit);
     if(produit != null)   { 
      if(isNumeric(jTextField3.getText())){
           int quantite=Integer.parseInt(jTextField3.getText());
@@ -1234,7 +1234,7 @@ public class InterfaceManager extends javax.swing.JFrame {
            // ((TableModelGestion1)jTable4.getModel()).removeRow();
             for(int i=0;i<nbrLignes.length;i++){
                 // System.out.println(table.getRowCount());
-                //System.out.println(nbrLignes[i]);
+                System.out.println(nbrLignes[i]);
                 String nomType=jTable4.getValueAt(nbrLignes[i], 0).toString();
                 int numCmd=(int) jTable4.getValueAt(nbrLignes[i], 1);
                 int qte =(int) jTable4.getValueAt(nbrLignes[i],2 );
@@ -1268,13 +1268,13 @@ public class InterfaceManager extends javax.swing.JFrame {
            // ((TableModelGestion1)jTable4.getModel()).removeRow();
             for(int i=0;i<nbrLignes.length;i++){
                 // System.out.println(table.getRowCount());
-                //System.out.println(nbrLignes[i]);
+                System.out.println(nbrLignes[i]);
                 String nomType=jTable4.getValueAt(nbrLignes[i], 0).toString();
                 int numCmd=(int) jTable4.getValueAt(nbrLignes[i], 1);
                 int qte =(int) jTable4.getValueAt(nbrLignes[i],2 );              
-         //System.out.println(nomType);
-         //System.out.println(numCmd);
-         //System.out.println(qte);
+         System.out.println(nomType);
+         System.out.println(numCmd);
+         System.out.println(qte);
          manager.valideLivraison(nomType, numCmd, qte);
          
          
@@ -1403,7 +1403,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             String debut=hp1.getDebut();
             String fin=hp1.getFin();
             ////DELETE DBB
-            //System.out.println(debut+" "+fin);
+            System.out.println(debut+" "+fin);
             
             manager.supprHeurePointe(debut, fin);
             dlm.removeElement(hp);
