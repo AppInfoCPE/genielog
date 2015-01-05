@@ -1124,7 +1124,7 @@ public class InterfaceManager extends javax.swing.JFrame {
               
               JOptionPane.showMessageDialog(this,
             "Quantite doit etre superieur a 0",
-            "Insane error",
+            "24/24 Manager",
             JOptionPane.ERROR_MESSAGE);
               
           }
@@ -1135,13 +1135,13 @@ public class InterfaceManager extends javax.swing.JFrame {
     else{
         JOptionPane.showMessageDialog(this,
     "Ce n'est pas un nombre",
-    "Insane error",
+    "24/24 Manage",
     JOptionPane.ERROR_MESSAGE);
     }}
     else {
          JOptionPane.showMessageDialog(this,
     "Veuillez choisir un produit",
-    "Insane error",
+    "24/24 Manage",
     JOptionPane.ERROR_MESSAGE);
     }
     
@@ -1324,8 +1324,9 @@ public class InterfaceManager extends javax.swing.JFrame {
     }                                    
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        int response=JOptionPane.showConfirmDialog(this, "Voulez-vous enregistrer la configuration ?");
-
+       // int response=JOptionPane.showConfirmDialog(this, "Voulez-vous enregistrer la configuration ?");
+        int response=PopUp.afficherConfirmation();
+ 
         if(response==0){
             try {
                 // TODO add your handling code here:
@@ -1440,7 +1441,7 @@ public class InterfaceManager extends javax.swing.JFrame {
         if(!isValidDate(debut) || !isValidDate(fin)){
             JOptionPane.showMessageDialog(this,
                 "Format incorrect",
-                "Insane error",
+                "24/24 Manager ",
                 JOptionPane.ERROR_MESSAGE);
         }
         else
@@ -1458,7 +1459,7 @@ public class InterfaceManager extends javax.swing.JFrame {
             if(dateDebut.after(dateFin)){
                 JOptionPane.showMessageDialog(this,
                     "date debut doit etre anterieur a date fin",
-                    "Insane error",
+                    "24/24 Manage",
                     JOptionPane.ERROR_MESSAGE);
             }
             else{
@@ -1903,6 +1904,8 @@ public class InterfaceManager extends javax.swing.JFrame {
             	((TableModelStat2)jTable6.getModel()).addRow(donnee);
             }
     }
+     
+     
      public void miseAJourManager(){
          
          
