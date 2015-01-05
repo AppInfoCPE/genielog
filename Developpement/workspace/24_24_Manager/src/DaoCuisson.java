@@ -24,10 +24,10 @@ public class DaoCuisson {
 		return false;
 	}
 
-	public Object [][] recupererProduitACuire(String optionHeure) {
+	public Object [][] recupererProduitACuire(String qteCuire, String qteMin) {
 		Object [][] produitACuire = null;
 
-		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, "+optionHeure+" FROM TYPEPRODUIT T WHERE qteminiheurestandard > (SELECT count(*) FROM PRODUIT where (status='envente' or status='four') and typeproduit = T.nomtype ) and (tempscuisson is not NULL and tempscuisson!=0)  and qtecuireheurestandard <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype and statutlivraison=1)");
+		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, "+qteCuire+" FROM TYPEPRODUIT T WHERE "+qteMin+" > (SELECT count(*) FROM PRODUIT where (status='envente' or status='four') and typeproduit = T.nomtype ) and (tempscuisson is not NULL and tempscuisson!=0)  and "+qteCuire+" <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype and statutlivraison=1)");
 		try {
 			requete.last();
 			produitACuire = new Object[requete.getRow()][2];
@@ -45,10 +45,10 @@ public class DaoCuisson {
 		return produitACuire;
 	}
 
-	public Object[][] recupererProduitAMettreRayon(String optionHeure) {
+	public Object[][] recupererProduitAMettreRayon(String qteCuire, String qteMin) {
 		Object [][] produitAMettreRayon = null;
 
-		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, "+optionHeure+" FROM TYPEPRODUIT T WHERE qteminiheurestandard > (SELECT count(*) FROM PRODUIT where status='envente' and typeproduit = T.nomtype) and (tempscuisson is NULL or tempscuisson=0) and qtecuireheurestandard <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype and statutlivraison=1)");
+		ResultSet requete = DatabaseAccess.jdbcExecuteQuery("SELECT nomtype, "+qteCuire+" FROM TYPEPRODUIT T WHERE "+qteMin+" > (SELECT count(*) FROM PRODUIT where status='envente' and typeproduit = T.nomtype) and (tempscuisson is NULL or tempscuisson=0) and "+qteCuire+" <= (select sum(quantite) FROM LOT where typeproduit = T.nomtype and statutlivraison=1)");
 		try {
 			requete.last();
 			produitAMettreRayon = new Object[requete.getRow()][2];

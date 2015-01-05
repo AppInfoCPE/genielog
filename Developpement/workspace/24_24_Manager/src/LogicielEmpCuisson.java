@@ -21,16 +21,16 @@ public class LogicielEmpCuisson {
 
 	public Object [][] afficherProduitACuire(){
 		if(dc.heurePleine())
-			return dc.recupererProduitACuire("qtecuireheurepleine");
+			return dc.recupererProduitACuire("qtecuireheurepleine", "qteminiheurepleine");
 		else
-			return dc.recupererProduitACuire("qtecuireheurestandard");
+			return dc.recupererProduitACuire("qtecuireheurestandard", "qteminiheurestandard");
 	}
 
 	public Object[][] afficherProduitAMettreRayon() {
 		if(dc.heurePleine())
-			return dc.recupererProduitAMettreRayon("qtecuireheurepleine");
+			return dc.recupererProduitAMettreRayon("qtecuireheurepleine", "qteminiheurepleine");
 		else
-			return dc.recupererProduitAMettreRayon("qtecuireheurestandard");
+			return dc.recupererProduitAMettreRayon("qtecuireheurestandard", "qteminiheurestandard");
 	}
 
 	public Object[][] afficherProduitFour() {
@@ -128,7 +128,7 @@ public class LogicielEmpCuisson {
 	public static void main(String[] args) {
 		LogicielEmpCuisson lec = new LogicielEmpCuisson(null);
 		DaoCuisson dc = new DaoCuisson();
-		Object[][] produit = dc.qteLotParTypeproduit("Eau");
+		Object[][] produit = lec.afficherProduitACuire();
 		for (int i = 0; i < produit.length; i++) {
 			System.out.println(produit[i][0]+" "+produit[i][1]);
 		}
